@@ -6,33 +6,52 @@
 #    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 20:46:06 by codespace         #+#    #+#              #
-#    Updated: 2024/09/09 20:47:55 by codespace        ###   ########.fr        #
+#    Updated: 2024/09/10 14:44:52 by codespace        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS    =   main.c \
+NAME        =   minishell
 
-OBJS    =   $(SRCS:.c=.o)
+CC          =   cc
 
-CC  	=   cc
+LIBS        =   /inc
 
-RM 		=  	rm -f
+FLAG        =   -g3 -Wall -Wextra -Werror
 
-CFLAGS  =   -Wall -Wextra -Werror
+LDFLAGS     =   -lreadline
 
-NAME    =   minishell
+LIBFT_PATH  =   libft
 
-all: $(NAME)
+LIBFT_FILE  =   libft.a
 
-${NAME}: ${OBJS}
-	${CC} ${CFLAGS} $(OBJS) -o $(NAME)
+LIBFT_LIB   =   $(LIBFT_PATH)/$(LIBFT_FILE)
+
+C_FILES     =   main.c \
+				free.c \
+
+DEPS        =   $(OBJS:.o=.d)
+
+all:        $(NAME)
+
+#$(C_FILES)/%.o: %.c | $(C_FILES)
+#	$(CC) $(FLAG) -MP -c $< -o $@
+
+OBJS    =   $(C_FILES:.c=.o)
+
+$(LIBFT_LIB):
+	make -C $(LIBFT_PATH)
+
+$(NAME):    $(LIBFT_LIB) $(OBJS)
+	$(CC) $(OBJS) $(LDFLAGS) $(LIBFT_LIB) -o $(NAME)
 
 clean:
-	$(RM) $(OBJS)
+	make clean -C $(LIBFT_PATH)
+	rm -rf $(OBJ_DIR) $(DEPS)
 
-fclean: clean
-	$(RM) $(NAME)
+fclean:     clean
+	rm -rf $(NAME)
+	make fclean -C $(LIBFT_PATH)
 
-re: fclean all
+re:         fclean all
 
-.PHONY: all clean fclean re
+.PHONY:     all clean fclean re
