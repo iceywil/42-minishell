@@ -1,17 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: wscherre <wscherre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/09/09 20:44:49 by codespace        ###   ########.fr       */
+/*   Created: 2023/11/08 17:59:03 by wscherre          #+#    #+#             */
+/*   Updated: 2023/11/14 15:00:37 by wscherre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int main (void)
+#include "libft.h"
+
+char	*ft_strchr(const char *s, int c)
 {
-	
-	return (0);
+	int	i;
+
+	i = 0;
+	while (s[i] != (unsigned char)c)
+	{
+		if (s[i] == 0)
+			return (NULL);
+		i++;
+	}
+	return ((char *)(s + i));
 }
