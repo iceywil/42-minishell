@@ -6,16 +6,44 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/09/10 14:39:25 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/10 16:30:26 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static char	*create_buffer(void)
+{
+	char	*buffer;
+	char	*str;
+
+	buffer = ft_calloc(PATH_MAX, sizeof(char *));
+	buffer = getcwd(buffer, PATH_MAX);
+	str = ft_strjoin(buffer, "> ");
+	free(buffer);
+	return (str);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	parsing();
-	exec(argc, argv, envp);
+	char	*line;
+	t_shell	shell;
+
+	line = NULL;
+	while (1)
+	{
+		shell.cwd = create_buffer();
+		line = readline(shell.cwd);
+		if (!line)
+			break ;
+		parsing();
+		exec(argc, argv, envp);
+		add_history(line);
+		if (line)
+			free(line);
+	}
+	free_shell(&shell);
+	(fd_printf(1, "exit\n"), exit(shell.excode));
 	return (0);
 }
 
@@ -27,7 +55,7 @@ void	parsing(void)
 
 void	exec(int argc, char **argv, char **envp)
 {
-	t_main pipex;
+	t_main	pipex;
 
 	pipex.cmd_paths = NULL;
 	pipex.cmd_args = NULL;
@@ -35,14 +63,12 @@ void	exec(int argc, char **argv, char **envp)
 	pipex.fds = NULL;
 	pipex.pids = NULL;
 	pipex.argc = argc;
-	
-	//get_paths(&pipex, envp);
+	// get_paths(&pipex, envp);
 	envp = envp;
 	//(parse_args(&pipex, argv, argc, 3), parse_paths(&pipex));
 	//(here_doc(&pipex, envp, argv), free_all_exit(&pipex));
 	doc_pipe(&pipex, argv);
 }
-
 
 void	doc_pipe(t_main *pipex, char **argv)
 {
@@ -62,7 +88,7 @@ void	doc_pipe(t_main *pipex, char **argv)
 		{
 			if (ft_strncmp(line, argv[2], ft_strlen(argv[2])) == 0)
 				break ;
-			(ft_printf("pipe heredoc> "), ft_putstr_fd(line, fd[1]));
+			(ft_printf("minishell> "), ft_putstr_fd(line, fd[1]));
 			(free(line), line = NULL, line = get_next_line(0));
 		}
 		if (line)

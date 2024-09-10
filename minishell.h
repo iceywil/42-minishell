@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2024/09/10 14:23:50 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/10 16:30:41 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <errno.h>
 # include <fcntl.h>
 # include <pthread.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -42,9 +44,15 @@ typedef struct s_main
 	char	***cmd_args;
 }			t_main;
 
-void 	  parsing(void);
-void		exec(int argc, char **argv, char **envp);
+typedef struct s_shell
+{
+	char	*cwd;
+	int		excode;
+}			t_shell;
 
+static char	*create_buffer(void);
+void		parsing(void);
+void		exec(int argc, char **argv, char **envp);
 
 void		get_paths(t_main *pipex, char **envp);
 void		parse_args(t_main *pipex, char **argv, int argc, int i);
@@ -54,7 +62,7 @@ void		envp_check(t_main *pipex, char **argv);
 void		envp_loop(t_main *pipex, char **argv, int i, int y);
 // int			get_heredoc(t_main *pipex);
 
-//void		exec(t_main *pipex, char **envp, char **argv);
+// void		exec(t_main *pipex, char **envp, char **argv);
 void		here_doc(t_main *pipex, char **envp, char **argv);
 void		doc_pipe(t_main *pipex, char **argv);
 void		dup_fd(t_main *pipex, int fd1, int fd2);
