@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/09/10 16:30:26 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/12 12:59:10 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ int	main(int argc, char **argv, char **envp)
 		if (line)
 			free(line);
 	}
-	free_shell(&shell);
-	(fd_printf(1, "exit\n"), exit(shell.excode));
+	(ft_putstr_fd("exit\n", 1), free_shell(&shell));
 	return (0);
 }
 

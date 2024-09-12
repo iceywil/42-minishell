@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2024/09/10 16:30:41 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/12 12:56:47 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <sys/wait.h>
 # include <time.h>
 # include <unistd.h>
+# include <limits.h>
 
 typedef struct s_main
 {
@@ -53,6 +54,9 @@ typedef struct s_shell
 static char	*create_buffer(void);
 void		parsing(void);
 void		exec(int argc, char **argv, char **envp);
+
+void free_shell(t_shell *shell);
+
 
 void		get_paths(t_main *pipex, char **envp);
 void		parse_args(t_main *pipex, char **argv, int argc, int i);

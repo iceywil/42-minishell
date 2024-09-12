@@ -6,11 +6,21 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:10:56 by codespace         #+#    #+#             */
-/*   Updated: 2024/09/10 14:38:40 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/12 12:59:03 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void free_shell(t_shell *shell)
+{
+	if (shell)
+	{
+		if (shell->cwd)
+			free(shell->cwd);
+	}
+	exit(shell->excode);
+}
 
 void	free_all_exit(t_main *pipex)
 {
