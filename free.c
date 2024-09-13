@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:10:56 by codespace         #+#    #+#             */
-/*   Updated: 2024/09/12 12:59:03 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/12 18:48:00 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,14 @@ void free_shell(t_shell *shell)
 	exit(shell->excode);
 }
 
-void	free_all_exit(t_main *pipex)
+void check_exit(char *line, t_shell *shell)
 {
-	free_all(pipex);
-	exit(pipex->err);
+	if (ft_strncmp(line, "exit", 4) == 0)
+	{
+		shell->excode = 0;
+		free(line);
+		free_shell(shell);
+	}
 }
 
 void	error_exit(t_main *pipex, char *msg, int error)

@@ -6,15 +6,13 @@
 #    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 20:46:06 by codespace         #+#    #+#              #
-#    Updated: 2024/09/10 14:44:52 by codespace        ###   ########.fr        #
+#    Updated: 2024/09/12 15:14:55 by codespace        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME        =   minishell
 
 CC          =   cc
-
-LIBS        =   /inc
 
 FLAG        =   -g3 -Wall -Wextra -Werror
 
@@ -28,8 +26,7 @@ LIBFT_LIB   =   $(LIBFT_PATH)/$(LIBFT_FILE)
 
 C_FILES     =   main.c \
 				free.c \
-
-DEPS        =   $(OBJS:.o=.d)
+				shell.c \
 
 all:        $(NAME)
 
@@ -46,7 +43,7 @@ $(NAME):    $(LIBFT_LIB) $(OBJS)
 
 clean:
 	make clean -C $(LIBFT_PATH)
-	rm -rf $(OBJ_DIR) $(DEPS)
+	rm -rf $(OBJS)
 
 fclean:     clean
 	rm -rf $(NAME)
