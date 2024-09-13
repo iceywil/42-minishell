@@ -6,7 +6,7 @@
 #    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 20:46:06 by codespace         #+#    #+#              #
-#    Updated: 2024/09/12 15:14:55 by codespace        ###   ########.fr        #
+#    Updated: 2024/09/13 13:45:03 by codespace        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,12 @@ LIBFT_LIB   =   $(LIBFT_PATH)/$(LIBFT_FILE)
 C_FILES     =   main.c \
 				free.c \
 				shell.c \
+				exec.c \
+				parsing.c \
+				pipex_one.c \
+				pipex_two.c \
+				pipex_utils_one.c \
+				pipex_utils_two.c \
 
 all:        $(NAME)
 

@@ -6,128 +6,128 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:44:15 by codespace         #+#    #+#             */
-/*   Updated: 2024/09/12 18:45:44 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/13 13:43:22 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "minishell.h"
 
-void	get_paths(t_main *pipex, char **envp)
+void	get_paths(t_shell *shell, char **envp)
 {
 	int		i;
 	char	*first;
 
 	i = 0;
-	pipex->unset = 0;
-	pipex->filein = 0;
-	pipex->fileout = 0;
+	shell->unset = 0;
+	shell->filein = 0;
+	shell->fileout = 0;
 	if (!envp || !envp[0] || !envp[0][0])
 		return ;
 	while (envp[i] && !ft_strnstr(envp[i], "PATH", 4))
 		i++;
 	if (!envp[i])
 	{
-		pipex->unset = 1;
+		shell->unset = 1;
 		return ;
 	}
-	pipex->cmd_paths = ft_split(envp[i], ':');
-	if (!pipex->cmd_paths)
-		malloc_error(pipex);
-	first = ft_strtrim(pipex->cmd_paths[0], "PATH=");
-	free(pipex->cmd_paths[0]);
-	pipex->cmd_paths[0] = first;
+	shell->cmd_paths = ft_split(envp[i], ':');
+	if (!shell->cmd_paths)
+		malloc_error(shell);
+	first = ft_strtrim(shell->cmd_paths[0], "PATH=");
+	free(shell->cmd_paths[0]);
+	shell->cmd_paths[0] = first;
 }
 
-void	parse_args(t_main *pipex, char **argv, int argc, int i)
+void	parse_args(t_shell *shell, char **argv, int argc, int i)
 {
 	int	x;
 
-	if (pipex->here == 1)
-		pipex->args = argc - 4;
+	if (shell->here == 1)
+		shell->args = argc - 4;
 	else
-		pipex->args = argc - 3;
-	envp_check(pipex, argv);
-	pipex->paths = malloc(sizeof(char *) * (pipex->args + 1));
-	if (!pipex->paths)
-		malloc_error(pipex);
-	pipex->cmd_args = malloc(sizeof(char **) * (pipex->args + 1));
-	if (!pipex->cmd_args)
-		malloc_error(pipex);
+		shell->args = argc - 3;
+	envp_check(shell, argv);
+	shell->paths = malloc(sizeof(char *) * (shell->args + 1));
+	if (!shell->paths)
+		malloc_error(shell);
+	shell->cmd_args = malloc(sizeof(char **) * (shell->args + 1));
+	if (!shell->cmd_args)
+		malloc_error(shell);
 	x = 0;
-	while (i < pipex->argc - 1)
+	while (i < shell->argc - 1)
 	{
-		pipex->cmd_args[x] = NULL;
-		pipex->cmd_args[x] = ft_split(argv[i], ' ');
-		if (!pipex->cmd_args[x])
-			malloc_error(pipex);
+		shell->cmd_args[x] = NULL;
+		shell->cmd_args[x] = ft_split(argv[i], ' ');
+		if (!shell->cmd_args[x])
+			malloc_error(shell);
 		i++;
 		x++;
 	}
-	pipex->cmd_args[x] = NULL;
+	shell->cmd_args[x] = NULL;
 }
 
-void	envp_check(t_main *pipex, char **argv)
+void	envp_check(t_shell *shell, char **argv)
 {
 	int	i;
 	int	y;
 
 	i = 0;
-	if (pipex->here == 1)
+	if (shell->here == 1)
 		y = 3;
 	else
 		y = 2;
-	if (!pipex->cmd_paths)
+	if (!shell->cmd_paths)
 	{
-		pipex->cmd_paths = malloc(sizeof(char *) * (pipex->args + 1));
-		pipex->cmd_paths[pipex->args] = NULL;
-		while (i < pipex->args)
-			pipex->cmd_paths[i++] = NULL;
+		shell->cmd_paths = malloc(sizeof(char *) * (shell->args + 1));
+		shell->cmd_paths[shell->args] = NULL;
+		while (i < shell->args)
+			shell->cmd_paths[i++] = NULL;
 		i = 0;
-		envp_loop(pipex, argv, i, y);
+		envp_loop(shell, argv, i, y);
 	}
 }
 
-void	envp_loop(t_main *pipex, char **argv, int i, int y)
+void	envp_loop(t_shell *shell, char **argv, int i, int y)
 {
-	while (i < pipex->args)
+	while (i < shell->args)
 	{
 		if (argv[y][0] == '/' && access(argv[y], F_OK) == 0 && access(argv[y],
 				X_OK) == 0)
 		{
-			pipex->cmd_paths[i] = malloc(sizeof(char));
-			pipex->cmd_paths[i][0] = '\0';
+			shell->cmd_paths[i] = malloc(sizeof(char));
+			shell->cmd_paths[i][0] = '\0';
 			i++;
 		}
 		else
 		{
-			pipex->err = 127;
-			if (pipex->unset == 1)
+			shell->err = 127;
+			if (shell->unset == 1)
 			{
 				ft_putendl_fd("Command not found", 2);
 				ft_putendl_fd("Command not found", 2);
 			}
-			free_all_exit(pipex);
+			free_shell(shell);
 		}
 		y++;
 	}
 }
 
-void	parse_paths(t_main *pipex)
+void	parse_paths(t_shell *shell)
 {
 	int	i;
 	int	j;
 
 	j = 0;
-	pipex->paths[pipex->args] = NULL;
-	while (pipex->cmd_args[j])
+	shell->paths[shell->args] = NULL;
+	while (shell->cmd_args[j])
 	{
-		pipex->paths[j] = NULL;
+		shell->paths[j] = NULL;
 		i = 0;
-		if (!pipex->cmd_args[j][0])
-			pipex->paths[j] = NULL;
+		if (!shell->cmd_args[j][0])
+			shell->paths[j] = NULL;
 		else
-			join_path(pipex, i, j);
+			join_path(shell, i, j);
 		j++;
 	}
 }

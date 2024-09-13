@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/09/12 18:47:19 by codespace        ###   ########.fr       */
+/*   Updated: 2024/09/13 15:13:05 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		check_exit(line, &shell);
 		parsing();
-		exec(argc, argv, envp);
+		pipex(&shell, argc, argv, envp);
 		add_history(line);
 		if (line)
 			free(line);
@@ -53,17 +53,15 @@ void	parsing(void)
 	return ;
 }
 
-void	exec(int argc, char **argv, char **envp)
+void	pipex(t_shell *shell, int argc, char **argv, char **envp)
 {
-	t_main	pipex;
-
-	pipex.cmd_paths = NULL;
-	pipex.cmd_args = NULL;
-	pipex.paths = NULL;
-	pipex.fds = NULL;
-	pipex.pids = NULL;
-	pipex.argc = argc;
-	get_paths(&pipex, envp);
-	(parse_args(&pipex, argv, argc, 3), parse_paths(&pipex));
-	(here_doc(&pipex, envp, argv), free_all_exit(&pipex));
+	shell->cmd_paths = NULL;
+	shell->cmd_args = NULL;
+	shell->paths = NULL;
+	shell->fds = NULL;
+	shell->pids = NULL;
+	shell->argc = argc;
+	get_paths(shell, envp);
+	(parse_args(shell, argv, argc, 3), parse_paths(shell));
+	(here_doc(shell, envp, argv), free_shell(shell));
 }
