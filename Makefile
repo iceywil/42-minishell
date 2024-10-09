@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
+#    By: a <a@student.42.fr>                        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 20:46:06 by codespace         #+#    #+#              #
-#    Updated: 2024/09/13 13:45:03 by codespace        ###   ########.fr        #
+#    Updated: 2024/10/02 16:30:33 by a                ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,12 +27,13 @@ LIBFT_LIB   =   $(LIBFT_PATH)/$(LIBFT_FILE)
 C_FILES     =   main.c \
 				free.c \
 				shell.c \
-				exec.c \
-				parsing.c \
-				pipex_one.c \
-				pipex_two.c \
-				pipex_utils_one.c \
-				pipex_utils_two.c \
+				exec/exec.c \
+				exec/parsing.c \
+				exec/pipex_one.c \
+				exec/pipex_two.c \
+				exec/pipex_utils_one.c \
+				exec/pipex_utils_two.c \
+				parser/parser.c
 
 all:        $(NAME)
 

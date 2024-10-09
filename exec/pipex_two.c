@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_two.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:34:23 by codespace         #+#    #+#             */
-/*   Updated: 2024/09/13 13:43:22 by codespace        ###   ########.fr       */
+/*   Updated: 2024/10/02 16:10:47 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	exev(t_shell *shell, char **envp)
 {

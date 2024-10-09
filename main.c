@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/09/13 15:13:05 by codespace        ###   ########.fr       */
+/*   Updated: 2024/10/08 16:50:00 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ static char	*create_buffer(void)
 	buffer = ft_calloc(PATH_MAX, sizeof(char *));
 	buffer = getcwd(buffer, PATH_MAX);
 	str = ft_strjoin(buffer, "> ");
-	free(buffer);
+	if (!buffer)
+		free(buffer);
 	return (str);
 }
 
@@ -32,25 +33,23 @@ int	main(int argc, char **argv, char **envp)
 	line = NULL;
 	while (1)
 	{
+		shell.cwd = NULL;
 		shell.cwd = create_buffer();
+		if (!shell.cwd)
+			return (free_shell(&shell), 1);
 		line = readline(shell.cwd);
 		if (!line)
 			break ;
-		check_exit(line, &shell);
-		parsing();
-		pipex(&shell, argc, argv, envp);
+		shell.line = line;
+		check_exit(&shell);
+		parsing(&shell);
+		//pipex(&shell, argc, argv, envp);
 		add_history(line);
 		if (line)
 			free(line);
 	}
 	(ft_putstr_fd("exit\n", 1), free_shell(&shell));
 	return (0);
-}
-
-void	parsing(void)
-{
-	// parsing
-	return ;
 }
 
 void	pipex(t_shell *shell, int argc, char **argv, char **envp)

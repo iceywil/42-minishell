@@ -3,44 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:10:56 by codespace         #+#    #+#             */
-/*   Updated: 2024/09/13 14:58:41 by codespace        ###   ########.fr       */
+/*   Updated: 2024/10/08 18:39:07 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void free_shell(t_shell *shell)
+void	free_shell(t_shell *shell)
 {
 	if (shell)
 	{
 		if (shell->cwd)
 			free(shell->cwd);
+		/* if (shell->line)
+			free(shell->line); */
 	}
-	free_shell(shell);
+	free_pipex(shell);
 	exit(shell->excode);
 }
 
-void check_exit(char *line, t_shell *shell)
+void	check_exit(t_shell *shell)
 {
-	if (ft_strncmp(line, "exit", 4) == 0)
+	if (ft_strncmp(shell->line, "exit", 4) == 0)
 	{
 		shell->excode = 0;
-		free(line);
 		free_shell(shell);
 	}
 }
 
 void	error_exit(t_shell *shell, char *msg, int error)
 {
-	free_shell(shell);
-	ft_putendl_fd("Error", 2);
 	ft_putendl_fd(msg, 2);
-	exit(error);
+	free_shell(shell);
 }
-
 
 void	free_pipex(t_shell *shell)
 {
@@ -69,11 +67,4 @@ void	free_pipex(t_shell *shell)
 		if (shell->pids)
 			free(shell->pids);
 	}
-}
-
-void	malloc_error(t_shell *shell)
-{
-	free_shell(shell);
-	ft_putendl_fd("Malloc Error", 2);
-	exit(0);
 }
