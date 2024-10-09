@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:10:56 by codespace         #+#    #+#             */
-/*   Updated: 2024/10/08 18:39:07 by a                ###   ########.fr       */
+/*   Updated: 2024/10/09 15:59:00 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,10 @@ void	free_pipex(t_shell *shell)
 		if (shell->pids)
 			free(shell->pids);
 	}
+}
+
+void	malloc_error(t_shell *shell)
+{
+	ft_putendl_fd("Malloc error", 2);
+	free_shell(shell);
 }

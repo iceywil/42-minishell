@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2024/10/08 16:49:28 by a                ###   ########.fr       */
+/*   Updated: 2024/10/09 16:08:23 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,19 +59,29 @@ typedef struct s_shell
 	char			*line;
 }					t_shell;
 
+// MAIN
+
+
+// PARSER
 static char			*create_buffer(void);
 
+
+// CHECKS
 void				parsing(t_shell *shell);
 static void			check_open_quotes(t_shell *shell, char *input, int flag);
-// void				check_pipes(t_shell *shell);
-// void				check_redirections(t_shell *shell);
+static void			check_pipes(t_shell *shell, char *input);
 
-void				pipex(t_shell *shell, int argc, char **argv, char **envp);
 
+// FREE EXIT
 void				free_shell(t_shell *shell);
 void				check_exit(t_shell *shell);
 void				free_pipex(t_shell *shell);
+void				error_exit(t_shell *shell, char *msg, int error);
+void				malloc_error(t_shell *shell);
 
+
+// PIPEX
+void				pipex(t_shell *shell, int argc, char **argv, char **envp);
 void				get_paths(t_shell *shell, char **envp);
 void				parse_args(t_shell *shell, char **argv, int argc, int i);
 void				parse_paths(t_shell *shell);
@@ -79,12 +89,10 @@ void				join_path(t_shell *shell, int i, int j);
 void				envp_check(t_shell *shell, char **argv);
 void				envp_loop(t_shell *shell, char **argv, int i, int y);
 // int			get_heredoc(t_shell *shell);
-
 // void		exec(t_shell *shell, char **envp, char **argv);
 void				here_doc(t_shell *shell, char **envp, char **argv);
 void				dup_fd(t_shell *shell, int fd1, int fd2);
 void				check_access(t_shell *shell);
-
 void				first_cmd(t_shell *shell, char **envp, char **argv);
 void				mid_cmd(t_shell *shell, char **envp);
 void				last_cmd(t_shell *shell, char **envp, char **argv);
@@ -95,12 +103,9 @@ void				wait_childrens(void);
 void				close_last_pipes(t_shell *shell);
 void				malloc_fds(t_shell *shell);
 void				malloc_pids(t_shell *shell);
-
 void				check_outfile(t_shell *shell, char **argv);
 void				open_infile(t_shell *shell, char **argv);
 void				open_outfile(t_shell *shell, char **argv);
 void				open_outfile_here(t_shell *shell, char **argv);
-
-void				error_exit(t_shell *shell, char *msg, int error);
 
 #endif
