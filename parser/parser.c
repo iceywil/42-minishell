@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:18:26 by a                 #+#    #+#             */
-/*   Updated: 2024/10/09 16:10:02 by a                ###   ########.fr       */
+/*   Updated: 2024/10/09 16:22:22 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	parsing(t_shell *shell)
 	// check_redirections(shell);
 }
 
-static void	check_open_quotes(t_shell *shell, char *input, int flag)
+void	check_open_quotes(t_shell *shell, char *input, int flag)
 {
 	char	quote;
 	int		i;
@@ -46,11 +46,11 @@ static void	check_open_quotes(t_shell *shell, char *input, int flag)
 	//	(free(input), exitmsg(shell, MERROR));
 }
 
-static void	check_pipes(t_shell *shell, char *input)
+void	check_pipes(t_shell *shell, char *input)
 {
 	while (++input)
 	{
-		if (*input == '|' && *(input - 1) != ' ' && *(input + 1) != ' ')
+		if (*input == '|' && (*(input - 1) != ' ' || *(input + 1) != ' '))
 		{
 			shell->excode = 2;
 			error_exit(shell, "syntax error near unexpected token `|'", 2);

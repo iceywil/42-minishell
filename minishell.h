@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2024/10/09 16:08:23 by a                ###   ########.fr       */
+/*   Updated: 2024/10/09 16:24:00 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,16 +61,13 @@ typedef struct s_shell
 
 // MAIN
 
-
 // PARSER
 static char			*create_buffer(void);
 
-
 // CHECKS
 void				parsing(t_shell *shell);
-static void			check_open_quotes(t_shell *shell, char *input, int flag);
-static void			check_pipes(t_shell *shell, char *input);
-
+void				check_open_quotes(t_shell *shell, char *input, int flag);
+void				check_pipes(t_shell *shell, char *input);
 
 // FREE EXIT
 void				free_shell(t_shell *shell);
@@ -78,7 +75,6 @@ void				check_exit(t_shell *shell);
 void				free_pipex(t_shell *shell);
 void				error_exit(t_shell *shell, char *msg, int error);
 void				malloc_error(t_shell *shell);
-
 
 // PIPEX
 void				pipex(t_shell *shell, int argc, char **argv, char **envp);

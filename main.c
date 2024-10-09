@@ -6,13 +6,13 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/10/08 16:50:00 by a                ###   ########.fr       */
+/*   Updated: 2024/10/09 16:21:44 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*create_buffer(void)
+char	*create_buffer(void)
 {
 	char	*buffer;
 	char	*str;

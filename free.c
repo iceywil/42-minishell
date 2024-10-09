@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:10:56 by codespace         #+#    #+#             */
-/*   Updated: 2024/10/09 15:59:00 by a                ###   ########.fr       */
+/*   Updated: 2024/10/09 16:25:13 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	free_shell(t_shell *shell)
 	{
 		if (shell->cwd)
 			free(shell->cwd);
-		/* if (shell->line)
-			free(shell->line); */
+		if (shell->line)
+			free(shell->line);
 	}
-	free_pipex(shell);
+	//free_pipex(shell);
 	exit(shell->excode);
 }
 
