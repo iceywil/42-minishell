@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/10/09 16:21:44 by a                ###   ########.fr       */
+/*   Updated: 2024/10/10 17:41:48 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		shell.line = line;
 		check_exit(&shell);
-		parsing(&shell);
-		//pipex(&shell, argc, argv, envp);
-		add_history(line);
+		if (!parsing(&shell))
+			// pipex(&shell, argc, argv, envp);
+			add_history(line);
 		if (line)
 			free(line);
 	}

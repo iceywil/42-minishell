@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2024/10/09 16:24:00 by a                ###   ########.fr       */
+/*   Updated: 2024/10/14 16:33:46 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,27 @@
 # include <time.h>
 # include <unistd.h>
 
+# define TOKEN_M "syntax error near unexpected token `"
+# define NEWLINE_M "syntax error near unexpected token `newline'"
+# define LEFT_M "syntax error near unexpected token `<'"
+# define RIGHT_M "syntax error near unexpected token `>'"
+# define DOUBLE_LEFT_M "syntax error near unexpected token `<<'"
+# define DOUBLE_RIGHT_M "syntax error near unexpected token `>>'"
+# define PIPE_M "syntax error near unexpected token `|'"
+# define DOUBLE_PIPE_M "syntax error near unexpected token `||'"
+# define DIRECTORY_M "Is a directory"
+# define AND_M "syntax error near unexpected token `&'"
+# define DOUBLE_AND_M "syntax error near unexpected token `&&'"
+
+# define PIPE '|'
+# define DOUBLE_PIPE "||"
+# define LEFT '<'
+# define RIGHT '>'
+# define DOUBLE_LEFT "<<"
+# define DOUBLE_RIGHT ">>"
+# define AND '&'
+# define DOUBLE_AND "&&"
+
 typedef struct s_lexer
 {
 	int i;     // INDEX OF THE MEMBER
@@ -38,6 +59,17 @@ typedef struct s_lexer
 	struct s_lexer	*next;
 	struct s_lexer	*prev;
 }					t_lexer;
+
+typedef struct s_line
+{
+	int				i;
+	char			*prev_token;
+	char			*cmd;
+	char			**args;
+	char			*next_token;
+	struct s_lexer	*next;
+	struct s_lexer	*prev;
+}					t_line;
 
 typedef struct s_shell
 {
@@ -65,9 +97,21 @@ typedef struct s_shell
 static char			*create_buffer(void);
 
 // CHECKS
-void				parsing(t_shell *shell);
-void				check_open_quotes(t_shell *shell, char *input, int flag);
-void				check_pipes(t_shell *shell, char *input);
+int					parsing(t_shell *shell);
+int					check_open_quotes(t_shell *shell, char *input, int flag);
+int					check_pipe(t_shell *shell, char *input);
+int					check_and(t_shell *shell, char *input);
+int					check_redirections(t_shell *shell, char *input, char redir,
+						int flag);
+
+int					check_count(t_shell *shell, char *input, char redir);
+int					check_last(t_shell *shell, char *input, char redir);
+int					check_between(t_shell *shell, char *input, char redir);
+
+int					check_redir(t_shell *shell, char *input, char redir,
+						int flag);
+int					check_semicolon(t_shell *shell, char *input);
+int					check_format(t_shell *shell, char *input);
 
 // FREE EXIT
 void				free_shell(t_shell *shell);
@@ -75,6 +119,7 @@ void				check_exit(t_shell *shell);
 void				free_pipex(t_shell *shell);
 void				error_exit(t_shell *shell, char *msg, int error);
 void				malloc_error(t_shell *shell);
+void				print_err(char *msg, char *word, char redir, int flag);
 
 // PIPEX
 void				pipex(t_shell *shell, int argc, char **argv, char **envp);

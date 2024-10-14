@@ -1,0 +1,16 @@
+?
+Makefile
+README.md
+exec
+free.c
+free.o
+libft
+main.c
+main.o
+minishell
+minishell.h
+par
+parser
+pipex_utils.o
+shell.c
+shell.o

@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:10:56 by codespace         #+#    #+#             */
-/*   Updated: 2024/10/09 16:25:13 by a                ###   ########.fr       */
+/*   Updated: 2024/10/10 17:52:06 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	free_shell(t_shell *shell)
 		if (shell->line)
 			free(shell->line);
 	}
-	//free_pipex(shell);
+	// free_pipex(shell);
 	exit(shell->excode);
 }
 
@@ -73,4 +73,31 @@ void	malloc_error(t_shell *shell)
 {
 	ft_putendl_fd("Malloc error", 2);
 	free_shell(shell);
+}
+
+void	print_err(char *msg, char *word, char redir, int flag)
+{
+	if (flag == 0)
+	{
+		printf("minishell: %s\n", msg);
+	}
+	else if (flag == 1)
+	{
+		printf("minishell: %s: %s\n", word, msg);
+	}
+	else if (flag == 2)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(msg, 2);
+		ft_putchar_fd(redir, 2);
+		ft_putendl_fd("'", 2);
+	}
+	else if (flag == 3)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(msg, 2);
+		ft_putchar_fd(redir, 2);
+		ft_putchar_fd(redir, 2);
+		ft_putendl_fd("'", 2);
+	}
 }
