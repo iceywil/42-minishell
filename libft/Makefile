@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
+#    By: a <a@student.42.fr>                        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 16:02:38 by wscherre          #+#    #+#              #
-#    Updated: 2024/09/10 14:35:51 by codespace        ###   ########.fr        #
+#    Updated: 2024/10/15 16:59:15 by a                ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ SRCS	=	ft_isalpha.c ft_isdigit.c ft_isalnum.c \
 			ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c \
 			ft_lstdelone.c ft_lstiter.c ft_lstlast.c \
 			ft_lstmap.c ft_lstnew.c ft_lstsize.c \
-			ft_gnl.c ft_gnl_utils.c \
+			ft_gnl.c ft_gnl_utils.c ft_strcmp.c \
 
 OBJS	=	$(SRCS:.c=.o)
 

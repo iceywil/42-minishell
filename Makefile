@@ -6,7 +6,7 @@
 #    By: a <a@student.42.fr>                        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 20:46:06 by codespace         #+#    #+#              #
-#    Updated: 2024/10/02 16:30:33 by a                ###   ########.fr        #
+#    Updated: 2024/10/17 20:09:50 by a                ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,8 @@ C_FILES     =   main.c \
 				exec/pipex_two.c \
 				exec/pipex_utils_one.c \
 				exec/pipex_utils_two.c \
-				parser/parser.c
+				parser/parser.c \
+				parser/split_args.c
 
 all:        $(NAME)
 

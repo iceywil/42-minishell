@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:10:56 by codespace         #+#    #+#             */
-/*   Updated: 2024/10/10 17:52:06 by a                ###   ########.fr       */
+/*   Updated: 2024/10/15 18:31:58 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	free_shell(t_shell *shell)
 			free(shell->cwd);
 		if (shell->line)
 			free(shell->line);
+		if (shell->env)
+			ft_free_double_tab(&shell->env);
 	}
 	// free_pipex(shell);
 	exit(shell->excode);
