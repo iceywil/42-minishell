@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2024/10/17 22:02:35 by a                ###   ########.fr       */
+/*   Updated: 2024/10/20 01:49:44 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,11 @@ typedef struct s_command
 
 typedef struct s_shell
 {
+	int					i;
 	int					x;
-	int					err;
-	int					unset;
 	// Pipex
+	int					unset;
+	int					err;
 	int					**fds;
 	int					*pids;
 	int					args;
@@ -93,20 +94,31 @@ typedef struct s_shell
 
 // MAIN
 char					*create_buffer(void);
+void					init_all(t_shell *shell);
 
-// PARSER
-void					replace_quotes(char *input);
+// PARSING
+
+// utils
+char					*replace_quotes(char *input);
 int						is_token(char c);
-int					parse_input(t_shell *shell, char *input);
-char					**split_cmd(char *cmd);
-char					**split_loop(char **result, char *cmd, int i,
-							int count);
-static int				count_args(char *cmd);
-
-// CHECKS
-int						parsing(t_shell *shell);
 int						check_open_quotes(t_shell *shell, char *input,
 							int flag);
+int						count_args(char *cmd);
+int						parsing(t_shell *shell);
+
+// parser
+void					parse_input(t_shell *shell, char *input);
+void					create_node(t_shell *shell);
+void					get_line(t_shell *shell, char *input);
+void					split_line(t_shell *shell, t_command *current,
+							char *cmd);
+void					check_split(t_shell *shell, t_command *current,
+							char **result, int count);
+void					split_delim(t_shell *shell, char **result);
+void					split_normal(t_shell *shell, char **result);
+void					handle_tokens(t_shell *shell, char *input);
+char					**split_loop(char **result, char *cmd, int i,
+							int count);
 
 // FREE EXIT
 void					free_shell(t_shell *shell);

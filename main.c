@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/10/10 17:41:48 by a                ###   ########.fr       */
+/*   Updated: 2024/10/20 02:59:08 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,16 @@ char	*create_buffer(void)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*line;
-	t_shell	shell;
+	char		*line;
+	t_shell		shell;
+	t_command	*tmp;
+	int			i;
 
+	i = 0;
 	line = NULL;
 	while (1)
 	{
-		shell.cwd = NULL;
+		init_all(&shell);
 		shell.cwd = create_buffer();
 		if (!shell.cwd)
 			return (free_shell(&shell), 1);
@@ -43,8 +46,27 @@ int	main(int argc, char **argv, char **envp)
 		shell.line = line;
 		check_exit(&shell);
 		if (!parsing(&shell))
-			// pipex(&shell, argc, argv, envp);
 			add_history(line);
+		tmp = shell.head;
+		while (tmp)
+		{
+			if (tmp->prev_token)
+				printf("prev_token: '%s'\n", tmp->prev_token);
+			if (tmp->delim)
+				printf("delim: '%s'\n", tmp->delim);
+			if (tmp->cmd)
+				printf("cmd: '%s'\n", tmp->cmd);
+			if (tmp->args)
+			{
+				i = 0;
+				while (tmp->args[i])
+					printf("args: '%s'\n", tmp->args[i++]);		
+			}
+
+			if (tmp->next_token)
+				printf("next_token: '%s'\n", tmp->next_token);
+			tmp = tmp->next;
+		}
 		if (line)
 			free(line);
 	}
@@ -52,14 +74,30 @@ int	main(int argc, char **argv, char **envp)
 	return (0);
 }
 
-void	pipex(t_shell *shell, int argc, char **argv, char **envp)
+void	init_all(t_shell *shell)
 {
-	shell->cmd_paths = NULL;
-	shell->cmd_args = NULL;
-	shell->paths = NULL;
+	shell->i = 0;
+	shell->x = 0;
+	shell->unset = 0;
+	shell->err = 0;
 	shell->fds = NULL;
 	shell->pids = NULL;
-	shell->argc = argc;
+	shell->here = 0;
+	shell->filein = 0;
+	shell->fileout = 0;
+	shell->paths = NULL;
+	shell->cmd_paths = NULL;
+	shell->cmd_args = NULL;
+	shell->excode = 0;
+	shell->line = NULL;
+	shell->head = NULL;
+	shell->current = NULL;
+	shell->cwd = NULL;
+	shell->env = NULL;
+}
+
+void	pipex(t_shell *shell, int argc, char **argv, char **envp)
+{
 	get_paths(shell, envp);
 	(parse_args(shell, argv, argc, 3), parse_paths(shell));
 	(here_doc(shell, envp, argv), free_shell(shell));
