@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 20:08:15 by a                 #+#    #+#             */
-/*   Updated: 2024/10/20 02:49:50 by a                ###   ########.fr       */
+/*   Updated: 2024/10/20 03:23:52 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,19 +85,18 @@ void	check_split(t_shell *shell, t_command *current, char **result,
 void	split_delim(t_shell *shell, char **result)
 {
 	int		i;
-	char	*tmp;
 
 	i = 0;
 	if (!result[0])
 		return ;
-	tmp = replace_quotes(result[0]);
-	shell->current->delim = ft_strtrim(tmp, " \t");
+	remove_quotes(result[0]);
+	shell->current->delim = ft_strtrim(result[0], " \t");
 	if (!shell->current->delim)
 		return (ft_free_double_tab(&result), malloc_error(shell));
 	if (!result[1])
 		return ;
-	tmp = replace_quotes(result[1]);
-	shell->current->cmd = ft_strtrim(tmp, " \t");
+	remove_quotes(result[1]);
+	shell->current->cmd = ft_strtrim(result[1], " \t");
 	if (!shell->current->cmd)
 		return (ft_free_double_tab(&result), malloc_error(shell));
 	if (!result[2])
@@ -118,6 +117,7 @@ void	split_normal(t_shell *shell, char **result)
 	i = 0;
 	if (!result[0])
 		return ;
+	remove_quotes(result[0]);
 	shell->current->cmd = ft_strtrim(result[0], " \t");
 	if (!shell->current->cmd)
 		return (ft_free_double_tab(&result), malloc_error(shell));

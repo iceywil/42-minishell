@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2024/10/20 01:49:44 by a                ###   ########.fr       */
+/*   Updated: 2024/10/20 03:06:12 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void					init_all(t_shell *shell);
 // PARSING
 
 // utils
-char					*replace_quotes(char *input);
+char					*remove_quotes(char *input);
 int						is_token(char c);
 int						check_open_quotes(t_shell *shell, char *input,
 							int flag);

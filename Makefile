@@ -6,7 +6,7 @@
 #    By: a <a@student.42.fr>                        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 20:46:06 by codespace         #+#    #+#              #
-#    Updated: 2024/10/19 23:33:10 by a                ###   ########.fr        #
+#    Updated: 2024/10/20 03:11:49 by a                ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,6 @@ C_FILES     =   main.c \
 				exec/pipex_utils_two.c \
 				parsing/parser.c \
 				parsing/split_line.c \
-				parsing/split_result.c \
 				parsing/parser_utils.c \
 				
 

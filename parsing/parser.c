@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:18:26 by a                 #+#    #+#             */
-/*   Updated: 2024/10/20 02:51:19 by a                ###   ########.fr       */
+/*   Updated: 2024/10/20 03:24:12 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	parsing(t_shell *shell)
 {
 	if (check_open_quotes(shell, shell->line, 0))
 		return (1);
-	// replace_quotes(shell->line);
 	parse_input(shell, shell->line);
 	return (0);
 }
@@ -37,7 +36,7 @@ void	create_node(t_shell *shell)
 {
 	t_command	*new_node;
 
-	if (shell->current && !shell->current->cmd && shell->current->prev)
+	if (shell->current && !shell->current->cmd && shell->current->prev_token)
 		return ;
 	new_node = malloc(sizeof(t_command));
 	if (!new_node)

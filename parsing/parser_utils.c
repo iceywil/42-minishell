@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/10/19 22:23:50 by a                ###   ########.fr       */
+/*   Updated: 2024/10/20 03:15:31 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,25 @@ int	check_open_quotes(t_shell *shell, char *input, int flag)
 	return (0);
 }
 
-char	*replace_quotes(char *input)
+char	*remove_quotes(char *input)
 {
-	int		i;
-	char	*result;
+	int	i;
+	int	j;
 
+	if (!input)
+		return (NULL);
 	i = 0;
+	j = 0;
 	while (input[i])
 	{
-		if (input[i] == '\"' || input[i] != '\'')
-			input[i] = ' ';
+		if (input[i] != '\'' && input[i] != '\"')
+		{
+			input[j] = input[i];
+			j++;
+		}
 		i++;
 	}
+	input[j] = '\0';
 	return (input);
 }
 

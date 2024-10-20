@@ -1,0 +1,14 @@
+Makefile
+README.md
+exec
+free.c
+free.o
+libft
+ls
+main.c
+main.o
+minishell
+minishell.h
+parsing
+shell.c
+shell.o
