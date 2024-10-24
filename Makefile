@@ -6,7 +6,7 @@
 #    By: a <a@student.42.fr>                        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 20:46:06 by codespace         #+#    #+#              #
-#    Updated: 2024/10/20 03:11:49 by a                ###   ########.fr        #
+#    Updated: 2024/10/23 03:32:38 by a                ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,9 +14,9 @@ NAME        =   minishell
 
 CC          =   cc
 
-FLAG        =   -g3 -Wall -Wextra -Werror
+FLAG        =   -g3 -Wall -Wextra -Werror -lreadline
 
-LDFLAGS     =   -lreadline
+LDFLAGS     =   
 
 LIBFT_PATH  =   libft
 
@@ -34,14 +34,11 @@ C_FILES     =   main.c \
 				exec/pipex_utils_one.c \
 				exec/pipex_utils_two.c \
 				parsing/parser.c \
-				parsing/split_line.c \
 				parsing/parser_utils.c \
-				
+				parsing/first_parsing.c \
+				parsing/second_parsing.c \
 
 all:        $(NAME)
-
-#$(C_FILES)/%.o: %.c | $(C_FILES)
-#	$(CC) $(FLAG) -MP -c $< -o $@
 
 OBJS    =   $(C_FILES:.c=.o)
 
@@ -49,7 +46,7 @@ $(LIBFT_LIB):
 	make -C $(LIBFT_PATH)
 
 $(NAME):    $(LIBFT_LIB) $(OBJS)
-	$(CC) $(OBJS) $(LDFLAGS) $(LIBFT_LIB) -o $(NAME)
+	$(CC) $(OBJS) $(FLAG) $(LIBFT_LIB) -o $(NAME)
 
 clean:
 	make clean -C $(LIBFT_PATH)

@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/10/20 02:59:08 by a                ###   ########.fr       */
+/*   Updated: 2024/10/24 17:28:42 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,16 @@ int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
 	t_shell		shell;
-	t_command	*tmp;
+	t_first		*tmp;
+	t_second	*tmp2;
 	int			i;
+	int			node_count;
 
 	i = 0;
 	line = NULL;
 	while (1)
 	{
+		shell.env = envp;
 		init_all(&shell);
 		shell.cwd = create_buffer();
 		if (!shell.cwd)
@@ -47,25 +50,31 @@ int	main(int argc, char **argv, char **envp)
 		check_exit(&shell);
 		if (!parsing(&shell))
 			add_history(line);
-		tmp = shell.head;
+		tmp = shell.f_head;
+		node_count = 0;
 		while (tmp)
 		{
-			if (tmp->prev_token)
-				printf("prev_token: '%s'\n", tmp->prev_token);
-			if (tmp->delim)
-				printf("delim: '%s'\n", tmp->delim);
-			if (tmp->cmd)
-				printf("cmd: '%s'\n", tmp->cmd);
-			if (tmp->args)
-			{
-				i = 0;
-				while (tmp->args[i])
-					printf("args: '%s'\n", tmp->args[i++]);		
-			}
-
-			if (tmp->next_token)
-				printf("next_token: '%s'\n", tmp->next_token);
+			printf("Node %d:\n", node_count++);
+			printf("  cmd: '%d'\n", tmp->cmd);
+			printf("  line: '%s'\n", tmp->line);
 			tmp = tmp->next;
+		}
+		tmp2 = shell.s_head;
+		node_count = 0;
+		i = 0;
+		while (tmp2)
+		{
+			printf("Node %d:\n", node_count++);
+			printf("  prev_token: '%s'\n", tmp2->prev_token);
+			printf("  delim: '%s'\n", tmp2->delim);
+			printf("  cmd: '%s'\n", tmp2->cmd);
+			while (tmp2->args && tmp2->args[i])
+			{
+				printf("  args[%d]: '%s'\n", i, tmp2->args[i]);
+				i++;
+			}
+			printf("  next_token: '%s'\n", tmp2->next_token);
+			tmp2 = tmp2->next;
 		}
 		if (line)
 			free(line);
@@ -90,10 +99,11 @@ void	init_all(t_shell *shell)
 	shell->cmd_args = NULL;
 	shell->excode = 0;
 	shell->line = NULL;
-	shell->head = NULL;
-	shell->current = NULL;
+	shell->s_head = NULL;
+	shell->s_current = NULL;
 	shell->cwd = NULL;
-	shell->env = NULL;
+	shell->f_head = NULL;
+	shell->f_current = NULL;
 }
 
 void	pipex(t_shell *shell, int argc, char **argv, char **envp)

@@ -6,12 +6,11 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/10/20 03:15:31 by a                ###   ########.fr       */
+/*   Updated: 2024/10/24 03:10:59 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 int	check_open_quotes(t_shell *shell, char *input, int flag)
 {
@@ -36,28 +35,6 @@ int	check_open_quotes(t_shell *shell, char *input, int flag)
 		return (1);
 	}
 	return (0);
-}
-
-char	*remove_quotes(char *input)
-{
-	int	i;
-	int	j;
-
-	if (!input)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (input[i])
-	{
-		if (input[i] != '\'' && input[i] != '\"')
-		{
-			input[j] = input[i];
-			j++;
-		}
-		i++;
-	}
-	input[j] = '\0';
-	return (input);
 }
 
 int	is_token(char c)
@@ -94,4 +71,49 @@ int	count_args(char *cmd)
 		}
 	}
 	return (count);
+}
+
+void	clean_empty_and_quotes(t_shell *shell, t_first *current)
+{
+	t_first	*prev;
+	t_first	*next;
+
+	prev = NULL;
+	while (current)
+	{
+		remove_side_quotes(current->line);
+		if (current->line[0] == '\0')
+		{
+			next = current->next;
+			free(current->line);
+			free(current);
+			if (prev)
+				prev->next = next;
+			else
+				shell->f_head = next;
+			current = next;
+		}
+		else
+		{
+			prev = current;
+			current = current->next;
+		}
+	}
+}
+
+void	clean_first(t_shell *shell)
+{
+	t_first	*current;
+	t_first	*next;
+
+	current = shell->f_head;
+	while (current)
+	{
+		next = current->next;
+		free(current->line);
+		free(current);
+		current = next;
+	}
+	shell->f_head = NULL;
+	shell->f_current = NULL;
 }
