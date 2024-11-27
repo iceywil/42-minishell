@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2024/11/24 14:12:26 by a                ###   ########.fr       */
+/*   Updated: 2024/11/27 22:38:58 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@
 # define RIGHT '>'
 # define DOUBLE_LEFT "<<"
 # define DOUBLE_RIGHT ">>"
+
+t_shell				g_shell;
 
 typedef struct t_first
 {
@@ -170,7 +172,7 @@ void				check_outfile(t_shell *shell);
 int					open_infile(t_shell *shell);
 int					open_outfile(t_shell *shell);
 int					open_outfile_append(t_shell *shell);
-void	handle_heredoc(t_shell *shell, t_second *current);
-int	handle_redirs(t_shell *shell);
+void				handle_heredoc(t_shell *shell, t_second *current);
+int					handle_redirs(t_shell *shell);
 
 #endif

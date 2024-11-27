@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:29:59 by codespace         #+#    #+#             */
-/*   Updated: 2024/11/27 22:00:45 by a                ###   ########.fr       */
+/*   Updated: 2024/11/27 22:27:38 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,28 @@ void	one_command(t_shell *shell, char **envp)
 			dup_fd(shell, shell->s_current->filein, STDIN_FILENO);
 			close(shell->s_current->filein);
 		}
+		builtin_cmd(shell, envp);
 		exev(shell, envp);
 	}
 	wait_childrens();
+}
+
+void	builtin_cmd(t_shell *shell, char **envp)
+{
+	if (!ft_strcmp(shell->s_current->args[0], "echo"))
+		echo_cmd(shell, envp);
+	else if (!ft_strcmp(shell->s_current->args[0], "cd"))
+		cd_cmd(shell, envp);
+	else if (!ft_strcmp(shell->s_current->args[0], "pwd"))
+		pwd_cmd(shell, envp);
+	else if (!ft_strcmp(shell->s_current->args[0], "export"))
+		export_cmd(shell, envp);
+	else if (!ft_strcmp(shell->s_current->args[0], "unset"))
+		unset_cmd(shell, envp);
+	else if (!ft_strcmp(shell->s_current->args[0], "env"))
+		env_cmd(shell, envp);
+	else if (!ft_strcmp(shell->s_current->args[0], "exit"))
+		exit_cmd(shell, envp);
 }
 
 void	exec(t_shell *shell)

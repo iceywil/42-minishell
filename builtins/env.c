@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:57:22 by codespace         #+#    #+#             */
-/*   Updated: 2024/10/25 12:19:42 by codespace        ###   ########.fr       */
+/*   Updated: 2024/11/27 23:00:00 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,12 @@ int	env_compare(char **env, char **arg, int i)
 	return (i);
 }
 
-/* Remplace une ligne dans env par le nouveau contenue. Si la ligne n'existe
-pas en cree une nouvelle. Arg devrait etre ex: HOME= et new content devrait 
-etre ce qui va etre remplacer dedans. */
 void	bl_set_env(char **env, char *value)
 {
-	char **arg;
-	int i;
-	t_shell *bl;
-	
+	char	**arg;
+	int		i;
+	t_shell	*bl;
+
 	i = env_compare(env, arg, i);
 	arg = ft_split(value, '=');
 	if (env[i] == NULL)

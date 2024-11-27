@@ -6,7 +6,7 @@
 #    By: a <a@student.42.fr>                        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 20:46:06 by codespace         #+#    #+#              #
-#    Updated: 2024/11/24 14:14:06 by a                ###   ########.fr        #
+#    Updated: 2024/11/27 22:49:25 by a                ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,13 @@ C_FILES     =   main.c \
 				exec/pipex_two.c \
 				exec/pipex_utils_one.c \
 				exec/pipex_utils_two.c \
+				builtins/echo.c \
+				builtins/cd.c \
+				builtins/pwd.c \
+				builtins/export.c \
+				builtins/unset.c \
+				builtins/env.c \
+				builtins/exit.c \
 	
 all:        $(NAME)
 
