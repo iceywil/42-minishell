@@ -6,7 +6,7 @@
 #    By: a <a@student.42.fr>                        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 20:46:06 by codespace         #+#    #+#              #
-#    Updated: 2024/10/23 03:32:38 by a                ###   ########.fr        #
+#    Updated: 2024/11/24 14:14:06 by a                ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,18 +26,19 @@ LIBFT_LIB   =   $(LIBFT_PATH)/$(LIBFT_FILE)
 
 C_FILES     =   main.c \
 				free.c \
-				shell.c \
-				exec/exec.c \
+				parsing/parser.c \
+				parsing/parser_utils.c \
+				parsing/parser_utils_two.c \
+				parsing/first_parsing.c \
+				parsing/handle_dollar.c \
+				parsing/second_parsing.c \
 				exec/parsing.c \
+				exec/handle_delims.c \
 				exec/pipex_one.c \
 				exec/pipex_two.c \
 				exec/pipex_utils_one.c \
 				exec/pipex_utils_two.c \
-				parsing/parser.c \
-				parsing/parser_utils.c \
-				parsing/first_parsing.c \
-				parsing/second_parsing.c \
-
+	
 all:        $(NAME)
 
 OBJS    =   $(C_FILES:.c=.o)

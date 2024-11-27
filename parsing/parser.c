@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:18:26 by a                 #+#    #+#             */
-/*   Updated: 2024/10/24 18:54:58 by a                ###   ########.fr       */
+/*   Updated: 2024/11/24 14:21:15 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,50 +14,43 @@
 
 int	parsing(t_shell *shell)
 {
-	check_open_quotes(shell, shell->line, 0);
-	f_split_input(shell, shell->line);
+	if (check_open_quotes(shell, shell->line, 0))
+		return (1);
+	f_parsing(shell, shell->line);
 	clean_empty_and_quotes(shell, shell->f_head);
-	// clean_first(shell);
+	if (check_token_legit(shell, shell->f_head))
+		return (1);
 	s_parsing(shell);
-	check_token_legit(shell);
-	check_token_fill(shell);
+	shell->s_current = shell->s_head;
+	shell->cmd_nbr = 0;
+	while (shell->s_current)
+	{
+		shell->cmd_nbr++;
+		shell->s_current = shell->s_current->next;
+	}
 	return (0);
 }
 
-void	check_token_legit(t_shell *shell)
+int	check_token_legit(t_shell *shell, t_first *current)
 {
-	t_second	*current;
-	t_second	*prev;
-
-	current = shell->s_head;
-	prev = NULL;
 	while (current)
 	{
-		if (current->prev_token)
-			ft_strcmp(current->prev_token)
-				if (current->next_token)
-	}
-	return ;
-}
-
-void	check_token_fill(t_shell *shell)
-{
-	t_second	*current;
-	t_second	*prev;
-
-	current = shell->s_head;
-	prev = NULL;
-	while (current)
-	{
-		if (current->delim == NULL || current->cmd == NULL)
+		if ((!current->cmd && !ft_strcmp(current->line, "|")
+				&& (current == shell->f_head || !current->next || (current->prev
+						&& !current->prev->cmd))) || (!current->cmd
+				&& ft_strcmp(current->line, "|") && (current->prev
+					&& !current->prev->cmd)))
 		{
-			if (prev == NULL)
-				printf("syntax error near unexpected token `newline'\n");
-			else
-				printf("syntax error near unexpected token `%s'\n",
-					current->next_token);
+			printf("minishell : syntax error near unexpected token `%s'\n",
+				current->line);
+			return (1);
 		}
-		prev = current;
+		else if (!current->next && !current->cmd)
+		{
+			printf("minishell: syntax error near unexpected token `newline'\n");
+			return (1);
+		}
 		current = current->next;
 	}
+	return (0);
 }

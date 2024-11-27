@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 17:29:43 by wscherre          #+#    #+#             */
-/*   Updated: 2024/10/15 22:45:23 by a                ###   ########.fr       */
+/*   Updated: 2024/10/27 23:54:19 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,12 @@ char	*ft_strtrim(char const *s1, char const *set)
 	while (ft_is_sep(s1[s1end], (char *)set) && s1[s1end])
 		s1end--;
 	if (s1start > s1end)
-		return (ft_strdup(""));
+	{
+		s2 = ft_strdup("");
+		if (!s2)
+			return (NULL);
+		return (s2);
+	}
 	s2 = ft_substr(s1, s1start, s1end - s1start + 1);
 	if (!s2)
 		return (NULL);

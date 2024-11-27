@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:34:23 by codespace         #+#    #+#             */
-/*   Updated: 2024/10/02 16:10:47 by a                ###   ########.fr       */
+/*   Updated: 2024/11/27 21:36:44 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,35 +17,33 @@ void	exev(t_shell *shell, char **envp)
 	int	i;
 
 	i = 0;
-	if (!shell->paths[shell->x])
+	if (!shell->s_current->cmd_path)
 		(ft_putendl_fd("Command not found", 2), free_shell(shell));
-	else if (access(shell->paths[shell->x], F_OK) == -1)
+	else if (access(shell->s_current->cmd_path, F_OK) == -1)
 	{
-		if (shell->cmd_args[shell->x][0][0] == '/'
+		/* if (shell->cmd_args[shell->x][0][0] == '/'
 			|| shell->cmd_args[shell->x][0][0] == '.')
 			(ft_putendl_fd("No such file or directory", 2),
 				free_shell(shell));
 		else
-			(ft_putendl_fd("Command not found", 2), free_shell(shell));
+			(ft_putendl_fd("Command not found", 2), free_shell(shell)); */
 	}
-	else if (access(shell->paths[shell->x], X_OK) == -1)
+	else if (access(shell->s_current->cmd_path, X_OK) == -1)
 		(ft_putendl_fd("Permission denied", 2), free_shell(shell));
 	else
 	{
-		i = execve(shell->paths[shell->x], shell->cmd_args[shell->x], envp);
-		if (i == -1)
+		if (!execve(shell->s_current->cmd_path, shell->s_current->args, envp))
 			ft_putendl_fd("Command error", 2);
 	}
 }
 
 void	check_access(t_shell *shell)
 {
-	shell->err = 0;
-	if (!shell->paths[shell->x])
-		shell->err = 127;
-	else if (access(shell->paths[shell->x], X_OK) == -1)
+	/* 	if (!shell->s_current->cmd_path)
+			shell->err = 127; */
+	if (access(shell->s_current->cmd_path, X_OK) == -1)
 	{
-		if (shell->cmd_args[shell->x][0][0] == '.')
+		if (shell->s_current->cmd_path[0] == '.')
 			shell->err = 126;
 		else
 			shell->err = 127;
@@ -58,11 +56,12 @@ void	malloc_fds(t_shell *shell)
 	int	i;
 
 	i = 0;
-	fds = malloc(sizeof(int *) * (shell->args + 1));
+	fds = malloc(sizeof(int *) * (shell->cmd_nbr + 1));
 	if (!fds)
 		malloc_error(shell);
-	while (i < shell->args)
+	while (i < shell->cmd_nbr)
 	{
+		fds[i] = NULL;
 		fds[i] = malloc(sizeof(int) * 2);
 		if (!fds[i])
 			malloc_error(shell);
@@ -80,10 +79,11 @@ void	malloc_pids(t_shell *shell)
 	int	i;
 
 	i = 0;
-	pids = malloc(sizeof(int) * (shell->args + 1));
+	pids = NULL;
+	pids = malloc(sizeof(int) * (shell->cmd_nbr + 1));
 	if (!pids)
 		malloc_error(shell);
-	while (i < shell->args + 1)
+	while (i < shell->cmd_nbr + 1)
 	{
 		pids[i] = 0;
 		i++;
@@ -91,29 +91,23 @@ void	malloc_pids(t_shell *shell)
 	shell->pids = pids;
 }
 
-void	join_path(t_shell *shell, int i, int j)
+void	join_path(t_shell *shell, t_second *s_current, char *path)
 {
 	char	*part_path;
 
-	while (shell->cmd_paths[i])
+	part_path = NULL;
+	if (!ft_strncmp(s_current->cmd, "/", 1))
 	{
-		if (ft_strchr(shell->cmd_args[j][0], '/'))
-		{
-			shell->paths[j] = ft_strdup(shell->cmd_args[j][0]);
-			if (!shell->paths[j])
-				malloc_error(shell);
-			return ;
-		}
-		if (shell->paths[j])
-			(free(shell->paths[j]), shell->paths[j] = NULL);
-		part_path = ft_strjoin(shell->cmd_paths[i++], "/");
-		if (!part_path)
-			(ft_free_double_tab(&shell->cmd_paths), malloc_error(shell));
-		shell->paths[j] = ft_strjoin(part_path, shell->cmd_args[j][0]);
-		if (!shell->paths[j])
-			(ft_free_double_tab(&shell->cmd_paths), malloc_error(shell));
-		free(part_path);
-		if (access(shell->paths[j], F_OK) == 0)
-			return ;
+		s_current->cmd_path = ft_strdup(s_current->cmd);
+		if (!s_current->cmd_path)
+			malloc_error(shell);
+		return ;
 	}
+	part_path = ft_strjoin(path, "/");
+	if (!part_path)
+		malloc_error(shell);
+	s_current->cmd_path = ft_strjoin(part_path, s_current->cmd);
+	if (!s_current->cmd_path)
+		malloc_error(shell);
+	free(part_path);
 }

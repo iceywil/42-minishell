@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:10:56 by codespace         #+#    #+#             */
-/*   Updated: 2024/10/15 18:31:58 by a                ###   ########.fr       */
+/*   Updated: 2024/11/24 14:19:08 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,11 @@ void	free_pipex(t_shell *shell)
 	i = 0;
 	if (shell)
 	{
-		if (shell->cmd_paths)
-			ft_free_double_tab(&shell->cmd_paths);
-		if (shell->cmd_args)
-		{
-			while (shell->cmd_args[i])
-				ft_free_double_tab(&shell->cmd_args[i++]);
-			free(shell->cmd_args);
-		}
 		if (shell->paths)
 			ft_free_double_tab(&shell->paths);
 		if (shell->fds)
 		{
 			i = 0;
-			while (i < shell->args)
-				free(shell->fds[i++]);
 			free(shell->fds);
 		}
 		if (shell->pids)

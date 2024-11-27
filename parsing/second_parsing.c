@@ -6,126 +6,143 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2024/10/24 18:36:55 by a                ###   ########.fr       */
+/*   Updated: 2024/11/27 21:51:02 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	remove_side_quotes(char *str)
+void	s_create_node(t_shell *shell, t_second *new_node)
 {
-	int		len;
-	char	quote_type;
-
-	if (!str || !*str)
-		return ;
-	len = ft_strlen(str);
-	if (len < 2)
-		return ;
-	quote_type = '\0';
-	if ((str[0] == '\'' && str[len - 1] == '\'') || (str[0] == '\"' && str[len
-			- 1] == '\"'))
-	{
-		quote_type = str[0];
-	}
-	if (quote_type)
-	{
-		ft_memmove(str, str + 1, len - 2);
-		str[len - 2] = '\0';
-	}
-}
-
-t_second	*s_create_node(t_shell *shell)
-{
-	t_second	*new_node;
-
 	new_node = malloc(sizeof(t_second));
 	if (!new_node)
 		malloc_error(shell);
-	new_node->prev_token = NULL;
 	new_node->prev = NULL;
-	new_node->delim = NULL;
 	new_node->cmd = NULL;
 	new_node->args = NULL;
 	new_node->next = NULL;
-	new_node->next_token = NULL;
+	new_node->args_head = NULL;
+	new_node->args_current = NULL;
+	new_node->redir_head = NULL;
+	new_node->redir_current = NULL;
+	new_node->cmd_path = NULL;
+	new_node->heredoc = NULL;
 	if (!shell->s_head)
+	{
+		new_node->i = 0;
 		shell->s_head = new_node;
+	}
 	else
 	{
 		new_node->prev = shell->s_current;
+		new_node->i = new_node->prev->i + 1;
 		shell->s_current->next = new_node;
 	}
 	shell->s_current = new_node;
-	if (shell->s_current->prev && shell->s_current->prev->next_token)
-		new_node->prev_token = shell->s_current->prev->next_token;
-	return (new_node);
 }
 
 void	s_parsing(t_shell *shell)
 {
-	t_second	*second;
-	char		*line;
-
 	shell->f_current = shell->f_head;
-	second = s_create_node(shell);
+	s_create_node(shell, NULL);
 	while (shell->f_current)
 	{
-		line = ft_strdup(shell->f_current->line);
-		if (!line)
-			return (malloc_error(shell));
 		if (shell->f_current->cmd)
 		{
-			if (!second->delim && !ft_strcmp(second->prev_token, "<<"))
-				second->delim = line;
-			else if (!second->cmd)
-				second->cmd = line;
+			if (shell->f_current->prev && !shell->f_current->prev->cmd
+				&& ft_strcmp("|", shell->f_current->prev->line))
+				s_add_redir(shell, shell->s_current);
+			else if (!shell->s_current->cmd)
+			{
+				shell->s_current->cmd = ft_strdup(shell->f_current->line);
+				if (!shell->s_current->cmd)
+					malloc_error(shell);
+			}
 			else
-				s_args_loop(shell);
+				s_add_arg(shell, shell->s_current);
 		}
-		else
-			s_parsing_token(shell, second, line);
-		if (shell->f_current)
-			shell->f_current = shell->f_current->next;
+		if (!shell->f_current->next || !ft_strcmp(shell->f_current->line, "|"))
+			s_save_args(shell, shell->s_current);
+		if (!ft_strcmp(shell->f_current->line, "|"))
+			s_create_node(shell, NULL);
+		shell->f_current = shell->f_current->next;
 	}
 }
 
-void	s_parsing_token(t_shell *shell, t_second *second, char *line)
+void	s_add_redir(t_shell *shell, t_second *second)
 {
-	if (!second->cmd && !second->prev_token)
-		second->prev_token = line;
+	t_first	*new_node;
+
+	new_node = malloc(sizeof(t_first));
+	if (!new_node)
+		malloc_error(shell);
+	new_node->token = ft_strdup(shell->f_current->prev->line);
+	if (!new_node->token)
+		malloc_error(shell);
+	new_node->line = ft_strdup(shell->f_current->line);
+	if (!new_node->line)
+		malloc_error(shell);
+	new_node->next = NULL;
+	new_node->prev = NULL;
+	new_node->outfile = 0;
+	new_node->cmd = 0;
+	if (!second->redir_head)
+		second->redir_head = new_node;
 	else
 	{
-		second->next_token = line;
-		second->next = s_create_node(shell);
-		second = second->next;
+		new_node->prev = second->redir_current;
+		second->redir_current->next = new_node;
 	}
+	second->redir_current = new_node;
 }
 
-void	s_args_loop(t_shell *shell)
+void	s_add_arg(t_shell *shell, t_second *second)
 {
-	t_first	*current;
-	char	**args;
-	int		count;
-	int		i;
+	t_first	*new_node;
 
-	current = shell->f_current;
-	count = 0;
-	while (current && current->cmd)
-		(current = current->next, count++);
-	args = malloc((count + 1) * sizeof(char *));
-	if (!args)
+	new_node = malloc(sizeof(t_first));
+	if (!new_node)
 		malloc_error(shell);
-	i = 0;
-	while (shell->f_current && shell->f_current->cmd)
+	new_node->line = ft_strdup(shell->f_current->line);
+	if (!new_node->line)
+		malloc_error(shell);
+	new_node->next = NULL;
+	new_node->prev = NULL;
+	new_node->cmd = 0;
+	if (!second->args_head)
+		second->args_head = new_node;
+	else
 	{
-		args[i] = ft_strdup(shell->f_current->line);
-		if (!args[i])
-			(ft_free_double_tab(&args), malloc_error(shell));
-		shell->f_current = shell->f_current->next;
-		i++;
+		new_node->prev = second->args_current;
+		second->args_current->next = new_node;
 	}
-	args[i] = NULL;
-	shell->s_current->args = args;
+	second->args_current = new_node;
 }
 
+void	s_save_args(t_shell *shell, t_second *second)
+{
+	shell->i = 0;
+	second->args_current = second->args_head;
+	while (second->args_current)
+	{
+		second->args_current = second->args_current->next;
+		shell->i++;
+	}
+	second->args = ft_calloc(shell->i + 2, sizeof(char *));
+	if (!second->args)
+		malloc_error(shell);
+	second->args[0] = ft_strdup(second->cmd);
+	if (!second->args[0])
+		malloc_error(shell);
+	second->args_current = second->args_head;
+	shell->i = 1;
+	while (second->args_current)
+	{
+		second->args[shell->i] = ft_strdup(second->args_current->line);
+		if (!second->args[shell->i])
+			malloc_error(shell);
+		second->args_current = second->args_current->next;
+		shell->i++;
+	}
+	second->args[shell->i] = NULL;
+}

@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:35:26 by codespace         #+#    #+#             */
-/*   Updated: 2024/10/02 16:10:54 by a                ###   ########.fr       */
+/*   Updated: 2024/11/07 18:09:26 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ void	close_last_pipes(t_shell *shell)
 	int	i;
 
 	i = 0;
-	while (i < shell->args)
+	/* while (i < shell->args)
 	{
 		if (shell->fds[shell->x - 1][0] > 0)
 			close(shell->fds[shell->x - 1][0]);
 		if (shell->fds[shell->x - 1][1] > 0)
 			close(shell->fds[shell->x - 1][1]);
 		i++;
-	}
+	} */
 }
 
 void	wait_childrens(void)
