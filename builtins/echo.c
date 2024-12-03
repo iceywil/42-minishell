@@ -6,48 +6,43 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 16:06:04 by codespace         #+#    #+#             */
-/*   Updated: 2024/10/25 12:11:59 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/03 15:58:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	bl_newline(char *arg)
+int check_newline(char **args, int *flag)
 {
-	int	i;
-
-	i = 0;
-	if (arg && arg[i++] == '-')
+	int n = 1;
+	while (args[n] && args[n][0] == '-' && args[n][1] == 'n')
 	{
-		while (arg[i])
-		{
-			if (arg[i] != 'n')
-				break ;
-			if (arg[i + 1] == '\0')
-				return (1);
+		int i = 1;
+		while (args[n][i] == 'n')
 			i++;
-		}
+		if (args[n][i] != '\0')
+			break;
+		*flag = 1;
+		n++;
 	}
-	return (0);
+	return n;
 }
 
-int	bl_echo(char **arg)
+void bl_echo(void)
 {
-	int	n;
-	int	i;
+	int i;
+	int flag = 0;
+	char **args = g_shell.builtin_path;
 
-	n = 0;
-	i = -1;
-	while (bt_newline(arg[++i]))
-		n = 1;
-	while (arg[i])
+	i = check_newline(args, &flag);
+	while (args[i])
 	{
-		printf("%s", arg[i]);
-		if (arg[i + 1] != NULL)
-			printf(" ");
+		ft_printf("%s", args[i]);
+		if (args[i + 1] != NULL)
+			ft_printf(" ");
 		i++;
 	}
-	if (n == 0)
-		printf("\n");
-	return (0);
+	if (!flag)
+		ft_printf("\n");
 }
+

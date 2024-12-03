@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char	*env(char **env, char *ag)
 {
@@ -84,4 +84,17 @@ void	bl_set_env(char **env, char *value)
 	value = ft_strdup(value);
 	env[i] = value;
 	ft_free_double_tab(arg);
+}
+
+int bl_env(void)
+{
+	t_env_list *current = g_shell.env_head;
+
+	while (current)
+	{
+		if (current->key && current->value)
+			ft_printf("%s=%s\n", current->key, current->value);
+		current = current->next;
+	}
+	return 0;
 }

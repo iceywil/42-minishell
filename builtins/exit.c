@@ -12,44 +12,38 @@
 
 #include "../minishell.h"
 
-static int bl_check_exit(char *ag)
+static void	check_args(void)
 {
-	int	i;
-	long long	bn_exit;
-
-	i = 0;
-	while (ag[i] == ' ')
-		i++;
-	if (ag[i] && ((ag[i] == '-' || ag[i] == '+')))
-		i++;
-	while (ft_isdigit(ag[i]) == 0 || ft_isal(ag[i]) != 0)
-	{
-		printf("minishell: exit: %s: numeric argument required\n", ag);
-		g_shell.re_exit = 255;
-		return (1);
-	}
-	bn_exit = ft_atol(ag);
-	g_shell.re_exit = bn_exit % 256;
-	if (g_shell.re_exit < 0 || g_shell.re_exit > 255)
-		g_shell.re_exit = 255;
-	return (0);
+    if (!ft_is_numeric(g_shell.builtin_path[0]))
+    {
+        g_shell.excode = 255;
+        ft_printf("exit\n");
+        ft_printf(NUMERIC_M);
+        exit(g_shell.excode);
+    }
+    else if (g_shell.builtin_path[1])
+    {
+        g_shell.excode = 1;
+        ft_printf(EXIT_M);
+        exit(g_shell.excode);
+    }
+    else
+    {
+        ft_printf("exit\n");
+        g_shell.excode = ft_atoi(g_shell.builtin_path[0]);
+        exit(g_shell.excode);
+    }
 }
 
-void	bl_exit(char **arg)
+void	bl_exit()
 {
-	int	i;
-
-	i = 0;
-	printf("exit\n");
-	if (arg[0])
-	{
-		i = bl_check_exit(arg[0]);
-		if (arg[1] && i == 0)
-		{
-			printf("minishell: exit : too many arguments\n");
-			g_shell.re_exit = 1;
-			return ;
-		}
-	}
-	exit(g_shell.re_exit);
+    if (g_shell.builtin_path[0])
+        check_args();
+    else
+    {
+        ft_printf("exit\n");
+        g_shell.excode = g_shell.excode % 256;
+        exit(g_shell.excode);
+    }
+    free_shell(&g_shell);
 }

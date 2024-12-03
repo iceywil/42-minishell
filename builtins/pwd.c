@@ -12,12 +12,31 @@
 
 #include "../minishell.h"
 
-int	bl_pwd(void)
+void bl_pwd(void)
 {
-	char	c[PATH_MAX];
+    char *pwd;
 
-	if (getcwd(c, sizeof(c)) == NULL)
-		return (1);
-	printf("%s\n", c);
-	return (0);
+    // Vérifier les options invalides
+    if (g_shell.builtin_path[1] && g_shell.builtin_path[1][0] == '-')
+    {
+        ft_putstr_fd("minishell: pwd: invalid option\n", 2);
+        g_shell.excode = 2;
+        return;
+    }
+
+    // Obtenir le répertoire de travail actuel
+    pwd = getcwd(NULL, 0);
+    if (!pwd)
+    {
+        ft_putstr_fd("pwd: error retrieving current directory: getcwd: cannot access parent directories\n", 2);
+        g_shell.excode = 1;
+        return;
+    }
+
+    // Afficher le répertoire de travail actuel
+    ft_putstr_fd(pwd, 1);
+    ft_putstr_fd("\n", 1);
+
+    // Libérer la mémoire
+    free(pwd);
 }

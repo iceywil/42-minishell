@@ -16,3 +16,16 @@ void	nothin(int	signal)
 {
 	(void)signal;
 }
+
+void	signal_handler(int signal)
+{
+	if (signal == SIGINT)
+	{
+		ft_printf("\n");
+	}
+	else if (signal == SIGQUIT)
+	{
+		ft_printf("Quit: 3\n");
+	}
+}
+

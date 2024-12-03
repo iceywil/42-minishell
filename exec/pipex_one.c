@@ -42,20 +42,20 @@ void	one_command(t_shell *shell, char **envp)
 
 void	builtin_cmd(t_shell *shell, char **envp)
 {
-	if (!ft_strcmp(shell->s_current->args[0], "echo"))
-		echo_cmd(shell, envp);
-	else if (!ft_strcmp(shell->s_current->args[0], "cd"))
-		cd_cmd(shell, envp);
-	else if (!ft_strcmp(shell->s_current->args[0], "pwd"))
-		pwd_cmd(shell, envp);
-	else if (!ft_strcmp(shell->s_current->args[0], "export"))
-		export_cmd(shell, envp);
-	else if (!ft_strcmp(shell->s_current->args[0], "unset"))
-		unset_cmd(shell, envp);
-	else if (!ft_strcmp(shell->s_current->args[0], "env"))
-		env_cmd(shell, envp);
-	else if (!ft_strcmp(shell->s_current->args[0], "exit"))
-		exit_cmd(shell, envp);
+	if (!ft_strcmp(shell->s_current->args[0], "echo") == 0)
+		return (bl_echo(shell, envp));
+	else if (!ft_strcmp(shell->s_current->args[0], "cd") == 0)
+		return (bl_cd(shell, envp));
+	else if (!ft_strcmp(shell->s_current->args[0], "pwd") == 0)
+		return (bl_pwd(shell, envp));
+	// else if (!ft_strcmp(shell->s_current->args[0], "export"))
+	// 	return (export_cmd(shell, envp));
+	else if (!ft_strcmp(shell->s_current->args[0], "unset") == 0)
+		return (bl_unset(shell->s_current->args[1]));
+	else if (!ft_strcmp(shell->s_current->args[0], "env") == 0)
+		return (bl_env());
+	else if (!ft_strcmp(shell->s_current->args[0], "exit") == 0)
+		return (bl_exit(shell, envp));
 }
 
 void	exec(t_shell *shell)
