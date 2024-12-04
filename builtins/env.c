@@ -23,12 +23,12 @@ char	*env(char **env, char *ag)
 		split = ft_split(env[i], '=');
 		if (ft_strcmp(split[0], ag) == 0)
 		{
-			ft_free_double_tab(split);
+			ft_free_double_tab(&split);
 			break ;
 		}
 		else
 			i++;
-		ft_free_double_tab(split);
+		ft_free_double_tab(&split);
 	}
 	if (env[i] == NULL)
 		return (NULL);
@@ -77,13 +77,13 @@ void	bl_set_env(char **env, char *value)
 	if (env[i] == NULL)
 	{
 		bl->env = bl_add_line(env, value);
-		ft_free_double_tab(arg);
+		ft_free_double_tab(&arg);
 		return ;
 	}
 	free(env[i]);
 	value = ft_strdup(value);
 	env[i] = value;
-	ft_free_double_tab(arg);
+	ft_free_double_tab(&arg);
 }
 
 int bl_env(void)
@@ -97,4 +97,20 @@ int bl_env(void)
 		current = current->next;
 	}
 	return 0;
+}
+
+char	**bl_add_line(char **env, char *value)
+{
+	char	**new_env;
+	int		i;
+
+	i = 0;
+	while (env[i])
+		i++;
+	new_env = malloc(sizeof(char *) * (i + 2));
+	if (!new_env)
+		return (NULL);
+	new_env[i] = value;
+	new_env[i + 1] = NULL;
+	return (new_env);
 }

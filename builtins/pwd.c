@@ -16,8 +16,16 @@ void bl_pwd(void)
 {
     char *pwd;
 
+    // Debug: Afficher le contenu de g_shell.env
+    if (g_shell.env)
+    {
+        printf("Debug: env[0] = %s\n", g_shell.env[0]);
+        if (g_shell.env[1])
+            printf("Debug: env[1] = %s\n", g_shell.env[1]);
+    }
+
     // Vérifier les options invalides
-    if (g_shell.builtin_path[1] && g_shell.builtin_path[1][0] == '-')
+    if (g_shell.env[1] && g_shell.env[1][0] == '-')
     {
         ft_putstr_fd("minishell: pwd: invalid option\n", 2);
         g_shell.excode = 2;
@@ -40,3 +48,13 @@ void bl_pwd(void)
     // Libérer la mémoire
     free(pwd);
 }
+
+// int	bl_pwd(void)
+// {
+// 	char	c[PATH_MAX];
+
+// 	if (getcwd(c, sizeof(c)) == NULL)
+// 		return (1);
+// 	printf("%s\n", c);
+// 	return (0);
+// }

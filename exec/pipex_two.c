@@ -14,26 +14,32 @@
 
 void	exev(t_shell *shell, char **envp)
 {
-	int	i;
-
-	i = 0;
 	if (!shell->s_current->cmd_path)
-		(ft_putendl_fd("Command not found", 2), free_shell(shell));
+	{
+		ft_printf("bash: %s: command not found\n", shell->s_current->cmd);
+		free_shell(shell);
+		exit(127);
+	}
 	else if (access(shell->s_current->cmd_path, F_OK) == -1)
 	{
-		/* if (shell->cmd_args[shell->x][0][0] == '/'
-			|| shell->cmd_args[shell->x][0][0] == '.')
-			(ft_putendl_fd("No such file or directory", 2),
-				free_shell(shell));
-		else
-			(ft_putendl_fd("Command not found", 2), free_shell(shell)); */
+		ft_putendl_fd("No such file or directory", 2);
+		free_shell(shell);
+		exit(127);
 	}
 	else if (access(shell->s_current->cmd_path, X_OK) == -1)
-		(ft_putendl_fd("Permission denied", 2), free_shell(shell));
+	{
+		ft_putendl_fd("Permission denied", 2);
+		free_shell(shell);
+		exit(126);
+	}
 	else
 	{
-		if (!execve(shell->s_current->cmd_path, shell->s_current->args, envp))
+		if (execve(shell->s_current->cmd_path, shell->s_current->args, envp) == -1)
+		{
 			ft_putendl_fd("Command error", 2);
+			free_shell(shell);
+			exit(1);
+		}
 	}
 }
 

@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+t_shell g_shell;
+
 int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
@@ -42,9 +44,9 @@ int	main(int argc, char **argv, char **envp)
 			node_count = 0;
 			while (tmp)
 			{
-				printf("Node %d:\n", node_count++);
-				printf("  cmd: '%d'\n", tmp->cmd);
-				printf("  line: '%s'\n", tmp->line);
+				// printf("Node %d:\n", node_count++);
+				// printf("  cmd: '%d'\n", tmp->cmd);
+				// printf("  line: '%s'\n", tmp->line);
 				tmp = tmp->next;
 			}
 			tmp2 = shell.s_head;
@@ -52,8 +54,8 @@ int	main(int argc, char **argv, char **envp)
 			i = 0;
 			while (tmp2)
 			{
-				printf("Node %d:\n", node_count++);
-				printf("  cmd: '%s'\n", tmp2->cmd);
+				// printf("Node %d:\n", node_count++);
+				// printf("  cmd: '%s'\n", tmp2->cmd);
 				tmp2->redir_current = tmp2->redir_head;
 				while (tmp2->redir_current)
 				{
@@ -63,7 +65,7 @@ int	main(int argc, char **argv, char **envp)
 				}
 				while (tmp2->args && tmp2->args[i])
 				{
-					printf("  args[%d]: '%s'\n", i, tmp2->args[i]);
+					// printf("  args[%d]: '%s'\n", i, tmp2->args[i]);
 					i++;
 				}
 				tmp2 = tmp2->next;
@@ -73,9 +75,9 @@ int	main(int argc, char **argv, char **envp)
 			node_count = 0;
 			while (tmp2)
 			{
-				printf("Node %d:\n", node_count++);
-				printf("  cmd: '%s'\n", tmp2->cmd);
-				printf("  path: '%s'\n", tmp2->cmd_path);
+				// printf("Node %d:\n", node_count++);
+				// printf("  cmd: '%s'\n", tmp2->cmd);
+				// printf("  path: '%s'\n", tmp2->cmd_path);
 				tmp2 = tmp2->next;
 			}
 		}
@@ -127,6 +129,7 @@ void	init_all(t_shell *shell)
 	shell->cwd = NULL;
 	shell->f_head = NULL;
 	shell->f_current = NULL;
+	shell->builtin_path = NULL;
 }
 
 void	copy_env(t_shell *shell, char **envp)

@@ -15,21 +15,27 @@
 
 #define _XOPEN_SOURCE 700
 
+#define PATH_MAX 4096
+
 #include "libft/libft.h"
 #include <errno.h>
 #include <fcntl.h>
 #include <limits.h>
 #include <pthread.h>
-// # include <readline/history.h>
-// # include <readline/readline.h>
+#include <readline/history.h>
+#include <readline/readline.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <sys/time.h>
-// # include <sys/wait.h>
-#include <time.h>
+#include <limits.h>
+#include <stdbool.h>
 #include <dirent.h>
-#include <unistd.h>
+#include <sys/errno.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
+#include <signal.h>
+#include <string.h>
+#include <fcntl.h>
 
 #define NEWLINE_M "syntax error near unexpected token `newline'\n"
 #define DIRECTORY_M "Is a directory\n"
@@ -41,6 +47,7 @@
 #define DOUBLE_RIGHT ">>"
 #define EXIT_M "exit: too many arguments\n"
 #define NUMERIC_M "numeric argument required\n"
+
 
 typedef struct t_first
 {
@@ -73,7 +80,6 @@ typedef struct s_env_list
 {
 	char *key;
 	char *value;
-	bool is_unset;
 	struct s_env_list *next;
 } t_env_list;
 
@@ -100,14 +106,10 @@ typedef struct s_shell
 	char *cwd;
 	char **env;
 	t_env_list *env_head;
-	// Builtins
-	char **builtin_path;
-	int exit_status;
 
 } t_shell;
 
-t_shell g_shell;
-
+extern t_shell g_shell;
 // MAIN
 char *create_buffer(void);
 void init_all(t_shell *shell);
@@ -193,21 +195,24 @@ int handle_redirs(t_shell *shell);
 //Builtins
 int ft_checkdir();
 void bl_cd();
-void bl_echo();
+void bl_echo(t_shell *shell);
 void bl_pwd();
 void bl_unset(const char *key);
-void bl_env();
-void bl_exit();
+int bl_env();
+// void bl_exit();
+void bl_exit(t_shell *shell);
+int exit_options(int *flag);
 void update_env(t_env_list *env_head, const char *key, const char *value);
-void update_pwd(char *old_pwd);
+// void update_pwd(char *old_pwd);
 void exec_cd(const char *dir);
 void cd_home();
-int check_newline(char **args, int *flag);
+int check_newline(char **arg, int *flag);
 char *env(char **env, char *ag);
 char *bl_varenv(char **env, char *arg);
 int env_compare(char **env, char **arg, int i);
 void bl_set_env(char **env, char *value);
-
+int	builtin_cmd(t_shell *shell, char **envp);
+char	**bl_add_line(char **env, char *value);
 
 
 

@@ -12,37 +12,53 @@
 
 #include "../minishell.h"
 
-int check_newline(char **args, int *flag)
+int	check_newline(char **tab, int *flag)
 {
-	int n = 1;
-	while (args[n] && args[n][0] == '-' && args[n][1] == 'n')
+	int	n;
+	int	i;
+
+	n = 1;
+	while (tab[n] && tab[n][0] == '-' && tab[n][1] == 'n')
 	{
-		int i = 1;
-		while (args[n][i] == 'n')
-			i++;
-		if (args[n][i] != '\0')
-			break;
+		i = 1;
+		if (tab[n][0] == '-' && tab[n][1] == 'n')
+		{
+			while (tab[n][i] == 'n')
+				i++;
+			if (tab[n][i] != '\0')
+				return (n);
+		}
 		*flag = 1;
 		n++;
 	}
-	return n;
+	return (n);
 }
 
-void bl_echo(void)
+void	bl_echo(t_shell *shell)
 {
-	int i;
-	int flag = 0;
-	char **args = g_shell.builtin_path;
+	int	i;
+	int	flag;
+	int	ext;
 
-	i = check_newline(args, &flag);
-	while (args[i])
+	flag = 0;
+	i = check_newline(shell->s_current->args, &flag);
+	if (shell->s_current->args[1])
 	{
-		ft_printf("%s", args[i]);
-		if (args[i + 1] != NULL)
-			ft_printf(" ");
-		i++;
+		while (shell->s_current->args[i])
+		{
+			if (shell->s_current->args[i] && !shell->s_current->args[i + 1])
+				printf("%s", shell->s_current->args[i++]);
+			else if (shell->s_current->args[i])
+				printf("%s ", shell->s_current->args[i++]);
+		}
 	}
 	if (!flag)
-		ft_printf("\n");
+		printf("\n");
+	if (shell->s_current->next)
+		ext = shell->excode;
+	else
+		ext = shell->unset;
+	free_shell(shell);
+	exit(ext);
 }
 

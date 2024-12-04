@@ -12,38 +12,78 @@
 
 #include "../minishell.h"
 
-static void	check_args(void)
+static int	cmp_llmax(const char *str, long long value, int sign)
 {
-    if (!ft_is_numeric(g_shell.builtin_path[0]))
-    {
-        g_shell.excode = 255;
-        ft_printf("exit\n");
-        ft_printf(NUMERIC_M);
-        exit(g_shell.excode);
-    }
-    else if (g_shell.builtin_path[1])
-    {
-        g_shell.excode = 1;
-        ft_printf(EXIT_M);
-        exit(g_shell.excode);
-    }
-    else
-    {
-        ft_printf("exit\n");
-        g_shell.excode = ft_atoi(g_shell.builtin_path[0]);
-        exit(g_shell.excode);
-    }
+	int	digit;
+
+	while (*str)
+	{
+		if (!ft_isdigit((unsigned char)*str))
+			return (0);
+		digit = *str - '0';
+		if (value > (LLONG_MAX - digit) / 10)
+			return (0);
+		value = value * 10 + digit;
+		str++;
+	}
+	value *= sign;
+	if (value < LLONG_MIN || value > LLONG_MAX)
+		return (0);
+	return (1);
 }
 
-void	bl_exit()
+static int	check_long(const char *str)
 {
-    if (g_shell.builtin_path[0])
-        check_args();
-    else
-    {
-        ft_printf("exit\n");
-        g_shell.excode = g_shell.excode % 256;
-        exit(g_shell.excode);
-    }
-    free_shell(&g_shell);
+	long long	value;
+	int			sign;
+
+	value = 0;
+	if (*str == '\0')
+		return (0);
+	sign = 1;
+	if (*str == '+' || *str == '-')
+	{
+		if (*str == '-')
+			sign = -1;
+		str++;
+	}
+	if (*str == '\0')
+		return (0);
+	return (cmp_llmax(str, value, sign));
+}
+
+int	exit_options(int *flag)
+{
+	if (!check_long(g_shell.s_current->args[1]))
+	{
+		ft_putstr_fd("minishell: exit: ", 2);
+		ft_putstr_fd(g_shell.s_current->args[1], 2);
+		ft_putstr_fd(": numeric argument required\n", 2);
+		(*flag) = 1;
+		return (2);
+	}
+	return (ft_atoi(g_shell.s_current->args[1]) % 256);
+}
+
+void	bl_exit(t_shell *shell)
+{
+	int	ext;
+	int	flag;
+
+	flag = 0;
+	if (g_shell.s_current->args[1])
+		shell->excode = exit_options(&flag);
+	if (g_shell.s_current->args[1] && g_shell.s_current->args[2] && !flag)
+	{
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		ft_putstr_fd("exit\n", 1);
+		shell->excode = 1;
+		return ;
+	}
+	if (g_shell.s_current->next || g_shell.s_current->prev)
+		return ;
+	ext = shell->excode;
+	free_shell(shell);
+	ft_putstr_fd("exit\n", 1);
+	exit(ext);
 }
