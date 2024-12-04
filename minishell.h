@@ -195,7 +195,7 @@ int handle_redirs(t_shell *shell);
 //Builtins
 int ft_checkdir();
 void bl_cd();
-void bl_echo(t_shell *shell);
+void bl_echo();
 void bl_pwd();
 void bl_unset(const char *key);
 int bl_env();

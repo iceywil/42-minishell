@@ -129,7 +129,6 @@ void	init_all(t_shell *shell)
 	shell->cwd = NULL;
 	shell->f_head = NULL;
 	shell->f_current = NULL;
-	shell->builtin_path = NULL;
 }
 
 void	copy_env(t_shell *shell, char **envp)
