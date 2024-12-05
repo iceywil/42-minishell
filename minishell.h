@@ -15,7 +15,6 @@
 
 #define _XOPEN_SOURCE 700
 
-#define PATH_MAX 4096
 
 #include "libft/libft.h"
 #include <errno.h>
@@ -194,13 +193,12 @@ int handle_redirs(t_shell *shell);
 
 //Builtins
 int ft_checkdir();
-void bl_cd();
-void bl_echo();
-void bl_pwd();
+// void bl_cd();
+void bl_echo(t_shell *shell);
+void bl_pwd(t_shell *shell);
 void bl_unset(const char *key);
-int bl_env();
-// void bl_exit();
-void bl_exit(t_shell *shell);
+int bl_env(t_shell *shell);
+void bl_exit(char **arg, t_shell *shell);
 int exit_options(int *flag);
 void update_env(t_env_list *env_head, const char *key, const char *value);
 // void update_pwd(char *old_pwd);

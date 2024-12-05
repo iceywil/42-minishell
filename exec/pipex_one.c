@@ -48,78 +48,37 @@ void	one_command(t_shell *shell, char **envp)
 
 int	builtin_cmd(t_shell *shell, char **envp)
 {
-	if (ft_strcmp(shell->s_current->args[0], "echo") == 0)
+	ft_printf("Entering builtin_cmd\n");
+	ft_printf("Command: %s\n", shell->s_current->args[0]);
+	if (ft_strcmp(shell->s_current->args[0], "exit") == 0)
+	{
+		ft_printf("Calling bl_exit\n");
+		bl_exit(shell->s_current->args, shell);
+		return (1);
+	}
+	else if (ft_strcmp(shell->s_current->args[0], "echo") == 0)
 	{
 		bl_echo(shell);
-		// return (1);
+		return (1);
 	}
 	// else if (ft_strcmp(shell->s_current->args[0], "cd") == 0)
 	// {
 	// 	bl_cd();
 	// 	return (1);
 	// }
-// 	int	check_newline(char **tab, int *flag)
-// {
-// 	int	n;
-// 	int	i;
-
-// 	n = 1;
-// 	while (tab[n] && tab[n][0] == '-' && tab[n][1] == 'n')
-// 	{
-// 		i = 1;
-// 		if (tab[n][0] == '-' && tab[n][1] == 'n')
-// 		{
-// 			while (tab[n][i] == 'n')
-// 				i++;
-// 			if (tab[n][i] != '\0')
-// 				return (n);
-// 		}
-// 		*flag = 1;
-// 		n++;
-// 	}
-// 	return (n);
-// }
-
-// void	bl_echo(t_shell *shell)
-// {
-// 	int	i;
-// 	int	flag;
-// 	int	ext;
-
-// 	flag = 0;
-// 	i = check_newline(shell->s_current->args, &flag);
-// 	if (shell->s_current->args[1])
-// 	{
-// 		while (shell->s_current->args[i])
-// 		{
-// 			if (shell->s_current->args[i] && !shell->s_current->args[i + 1])
-// 				printf("%s", shell->s_current->args[i++]);
-// 			else if (shell->s_current->args[i])
-// 				printf("%s ", shell->s_current->args[i++]);
-// 		}
-// 	}
-// 	if (!flag)
-// 		printf("\n");
-// 	if (shell->s_current->next)
-// 		ext = shell->excode;
-// 	else
-// 		ext = shell->uns;
-// 	free_shell(shell);
-// 	exit(ext);
-// }
 	else if (ft_strcmp(shell->s_current->args[0], "pwd") == 0)
 	{
-		bl_pwd();
+		bl_pwd(shell);
+		return (1);
+	}
+	else if (ft_strcmp(shell->s_current->args[0], "env") == 0)
+	{
+		bl_env(shell);
 		return (1);
 	}
 	else if (ft_strcmp(shell->s_current->args[0], "unset") == 0)
 	{
 		bl_unset(shell->s_current->args[1]);
-		return (1);
-	}
-	else if (ft_strcmp(shell->s_current->args[0], "exit") == 0)
-	{
-		bl_exit(shell);
 		return (1);
 	}
 	else

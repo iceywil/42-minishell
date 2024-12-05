@@ -28,27 +28,31 @@ int check_newline(char **args, int *flag)
 	return n;
 }
 
-void bl_echo(void)
+void	bl_echo(t_shell *shell)
 {
-	int i;
-	int flag = 0;
-	char **args = g_shell.env;
-
-	// Vérifier si des arguments sont fournis
-	if (!args || !args[0])
+	int	i;
+	int	flag;
+	int	x;
+	
+	flag = 0;
+	i = check_newline(shell->s_current->args, &flag);
+	if (shell->s_current->args[1])
 	{
-		ft_printf("\n");
-		return;
-	}
-	i = check_newline(args, &flag);
-	while (args[i])
-	{
-		ft_printf("%s", args[i]);
-		if (args[i + 1] != NULL)
-			ft_printf(" ");
-		i++;
+		while (shell->s_current->args[i])
+		{
+			if (shell->s_current->args[i] && !shell->s_current->args[i + 1])
+				ft_printf("%s", shell->s_current->args[i++]);
+			else if (shell->s_current->args[i])
+				ft_printf("%s ", shell->s_current->args[i++]);
+		}
 	}
 	if (!flag)
 		ft_printf("\n");
+	if (shell->s_current->next)
+		x = shell->excode;
+	else
+		x = shell->unset;
+	free_shell(shell);
+	exit(x);
 }
 

@@ -86,15 +86,23 @@ void	bl_set_env(char **env, char *value)
 	ft_free_double_tab(&arg);
 }
 
-int bl_env(void)
+int bl_env(t_shell *shell)
 {
-	t_env_list *current = g_shell.env_head;
+	int i;
 
-	while (current)
+	i = 0;
+	if (shell->s_current->args[1])
 	{
-		if (current->key && current->value)
-			ft_printf("%s=%s\n", current->key, current->value);
-		current = current->next;
+		ft_putstr_fd("minishell: env: ", 2);
+		ft_putstr_fd(shell->s_current->args[1], 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		shell->excode = 127;
+		return 1;
+	}
+	while (shell->env[i])
+	{
+		ft_printf("%s\n", shell->env[i]);
+		i++;
 	}
 	return 0;
 }
