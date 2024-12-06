@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:36:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/11/24 14:07:24 by a                ###   ########.fr       */
+/*   Updated: 2024/12/05 01:14:39 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,14 @@ int	open_outfile_append(t_shell *shell)
 	char	*line;
 
 	line = shell->s_current->redir_current->line;
-	shell->s_current->redir_current->outfile = -1;
+	if (shell->s_current->outfile)
+		close(shell->s_current->outfile);
+	shell->s_current->outfile = -1;
 	if (access(line, F_OK) == 0)
 	{
-		shell->s_current->redir_current->outfile = open(line,
-				O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (shell->s_current->redir_current->outfile == -1)
+		shell->s_current->outfile = open(line, O_WRONLY | O_CREAT | O_APPEND,
+				0644);
+		if (shell->s_current->outfile == -1)
 		{
 			ft_putstr_fd("minishell: permission denied: ", 2);
 			return (ft_putendl_fd(line, 2), 1);
@@ -58,13 +60,11 @@ int	open_outfile_append(t_shell *shell)
 	}
 	else
 	{
-		shell->s_current->redir_current->outfile = open(line,
-				O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (shell->s_current->redir_current->outfile == -1)
-		{
-			ft_putstr_fd("minishell: can't open: ", 2);
-			return (ft_putendl_fd(line, 2), 1);
-		}
+		shell->s_current->outfile = open(line, O_WRONLY | O_CREAT | O_APPEND,
+				0644);
+		if (shell->s_current->outfile == -1)
+			return (ft_putstr_fd("minishell: can't open: ", 2),
+				ft_putendl_fd(line, 2), 1);
 	}
 	return (0);
 }
@@ -83,12 +83,14 @@ int	open_outfile(t_shell *shell)
 	char	*line;
 
 	line = shell->s_current->redir_current->line;
-	shell->s_current->redir_current->outfile = -1;
+	if (shell->s_current->outfile)
+		close(shell->s_current->outfile);
+	shell->s_current->outfile = -1;
 	if (access(line, F_OK) == 0)
 	{
-		shell->s_current->redir_current->outfile = open(line,
-				O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (shell->s_current->redir_current->outfile == -1)
+		shell->s_current->outfile = open(line, O_WRONLY | O_CREAT | O_TRUNC,
+				0644);
+		if (shell->s_current->outfile == -1)
 		{
 			ft_putstr_fd("minishell: permission denied: ", 2);
 			return (ft_putendl_fd(shell->s_current->redir_current->line, 2), 1);
@@ -96,13 +98,11 @@ int	open_outfile(t_shell *shell)
 	}
 	else
 	{
-		shell->s_current->redir_current->outfile = open(line,
-				O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (shell->s_current->redir_current->outfile == -1)
-		{
-			ft_putstr_fd("minishell: can't open ", 2);
-			return (ft_putendl_fd(shell->s_current->redir_current->line, 2), 1);
-		}
+		shell->s_current->outfile = open(line, O_WRONLY | O_CREAT | O_TRUNC,
+				0644);
+		if (shell->s_current->outfile == -1)
+			return (ft_putstr_fd("minishell: can't open ", 2),
+				ft_putendl_fd(shell->s_current->redir_current->line, 2), 1);
 	}
 	return (0);
 }

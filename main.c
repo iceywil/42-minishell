@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/11/27 22:04:16 by a                ###   ########.fr       */
+/*   Updated: 2024/12/06 22:08:49 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,8 @@ t_shell g_shell;
 
 int	main(int argc, char **argv, char **envp)
 {
-	char		*line;
-	t_shell		shell;
-	t_first		*tmp;
-	t_second	*tmp2;
-	int			i;
-	int			node_count;
+	t_shell	shell;
 
-	i = 0;
-	line = NULL;
 	while (1)
 	{
 		init_all(&shell);
@@ -36,6 +29,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!shell.line)
 			break ;
 		check_exit(&shell);
+<<<<<<< HEAD
 		if (!parsing(&shell))
 		{
 			add_history(shell.line);
@@ -81,11 +75,30 @@ int	main(int argc, char **argv, char **envp)
 				tmp2 = tmp2->next;
 			}
 		}
+=======
+		if (!check_empty_line(&shell) && !parsing(&shell))
+			execute(&shell);
+		add_history(shell.line);
+>>>>>>> 288f2ee63f412c118d1f6ef60f26b97c22d31cab
 		if (shell.line)
 			(free(shell.line), shell.line = NULL);
 	}
 	(ft_putstr_fd("exit\n", 1), free_shell(&shell));
 	return (0);
+}
+
+int	check_empty_line(t_shell *shell)
+{
+	int	i;
+
+	i = 0;
+	while (shell->line[i])
+	{
+		if (shell->line[i] != ' ')
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 char	*create_buffer(void)

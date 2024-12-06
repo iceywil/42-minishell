@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 16:02:51 by wscherre          #+#    #+#             */
-/*   Updated: 2024/10/24 16:31:24 by a                ###   ########.fr       */
+/*   Updated: 2024/11/28 21:44:45 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ char *ft_strrchr(const char *s, int c);
 int ft_tolower(int c);
 int ft_toupper(int c);
 
+<<<<<<< HEAD
 void ft_free_double_tab(char ***tab);
 char *ft_substr(char const *s, unsigned int start, size_t len);
 char *ft_strjoin(char const *s1, char const *s2);
@@ -67,6 +68,24 @@ void ft_striteri(char *s, void (*f)(unsigned int, char *));
 int ft_strcmp(const char *s1, const char *s2);
 int ft_strncpy(char *dest, const char *src, int n);
 char *ft_strcpy(char *dest, const char *src);
+=======
+void				ft_free_double_tab(char ***tab);
+char				*ft_substr(char const *s, unsigned int start, size_t len);
+char				*ft_strjoin(char const *s1, char const *s2);
+char				*ft_strtrim(char const *s1, char const *set);
+char				**ft_split(char const *s, char c);
+char				*ft_itoa(int n);
+char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
+void				ft_putchar_fd(char c, int fd);
+void				ft_putstr_fd(char *s, int fd);
+void				ft_putendl_fd(char *s, int fd);
+void				ft_putnbr_fd(int n, int fd);
+void				ft_striteri(char *s, void (*f)(unsigned int, char *));
+int					ft_strcmp(const char *s1, const char *s2);
+int					ft_strncpy(char *dest, const char *src, int n);
+char				*ft_strcpy(char *dest, const char *src);
+char				*ft_strndup(const char *s, size_t n);
+>>>>>>> 288f2ee63f412c118d1f6ef60f26b97c22d31cab
 
 typedef struct s_list
 {

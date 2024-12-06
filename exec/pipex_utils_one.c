@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:35:26 by codespace         #+#    #+#             */
-/*   Updated: 2024/11/07 18:09:26 by a                ###   ########.fr       */
+/*   Updated: 2024/12/04 22:15:26 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ void	dup_fd(t_shell *shell, int fd1, int fd2)
 
 void	create_own_pipes(t_shell *shell)
 {
-	if (pipe(shell->fds[shell->x]) == -1)
+	if (pipe(shell->fds[shell->i]) == -1)
 		error_exit(shell, "Pipe Error", errno);
 }
 
 void	close_own_pipes(t_shell *shell)
 {
-	close(shell->fds[shell->x][0]);
-	close(shell->fds[shell->x][1]);
+	close(shell->fds[shell->i][0]);
+	close(shell->fds[shell->i][1]);
 }
 
 void	close_last_pipes(t_shell *shell)
@@ -35,14 +35,14 @@ void	close_last_pipes(t_shell *shell)
 	int	i;
 
 	i = 0;
-	/* while (i < shell->args)
+	while (i < shell->cmd_nbr)
 	{
-		if (shell->fds[shell->x - 1][0] > 0)
-			close(shell->fds[shell->x - 1][0]);
-		if (shell->fds[shell->x - 1][1] > 0)
-			close(shell->fds[shell->x - 1][1]);
+		if (shell->fds[shell->i - 1][0] > 0)
+			close(shell->fds[shell->i - 1][0]);
+		if (shell->fds[shell->i - 1][1] > 0)
+			close(shell->fds[shell->i - 1][1]);
 		i++;
-	} */
+	}
 }
 
 void	wait_childrens(void)

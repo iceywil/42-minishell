@@ -6,7 +6,7 @@
 #    By: a <a@student.42.fr>                        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 16:02:38 by wscherre          #+#    #+#              #
-#    Updated: 2024/10/24 16:31:46 by a                ###   ########.fr        #
+#    Updated: 2024/11/28 21:40:36 by a                ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,8 +29,12 @@ SRCS	=	ft_isalpha.c ft_isdigit.c ft_isalnum.c \
 			ft_lstdelone.c ft_lstiter.c ft_lstlast.c \
 			ft_lstmap.c ft_lstnew.c ft_lstsize.c \
 			ft_gnl.c ft_gnl_utils.c ft_strcmp.c \
+<<<<<<< HEAD
 			ft_strncpy.c ft_strcpy.c ft_is_numeric.c \
 			ft_stricmp.c \
+=======
+			ft_strncpy.c ft_strcpy.c ft_strndup.c \
+>>>>>>> 288f2ee63f412c118d1f6ef60f26b97c22d31cab
 
 OBJS	=	$(SRCS:.c=.o)
 

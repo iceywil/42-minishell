@@ -12,80 +12,58 @@
 
 #include "../minishell.h"
 
-static int	cmp_llmax(const char *str, long long value, int sign)
+static int	ft_isllong(char *str)
 {
-	int	digit;
-
-	while (*str)
-	{
-		if (!ft_isdigit((unsigned char)*str))
-			return (0);
-		digit = *str - '0';
-		if (value > (LLONG_MAX - digit) / 10)
-			return (0);
-		value = value * 10 + digit;
-		str++;
-	}
-	value *= sign;
-	if (value < LLONG_MIN || value > LLONG_MAX)
-		return (0);
-	return (1);
+	if (str[0] == '-' && ft_strlen(str) >= 20
+		&& ft_strcmp(&str[1], "9223372036854775808") > 0)
+		return (1);
+	else if (ft_strlen(str) >= 19
+		&& ft_strcmp(str, "9223372036854775807") > 0)
+		return (1);
+	return (0);
 }
 
-static int	check_long(const char *str)
+int	ms_check_exit_arg(char *arg)
 {
-	long long	value;
-	int			sign;
+	int			i;
+	long long	exit_code;
+	t_shell		*shell;
 
-	value = 0;
-	if (*str == '\0')
-		return (0);
-	sign = 1;
-	if (*str == '+' || *str == '-')
+
+	i = 0;
+	while (arg[i] == ' ')
+		i++;
+	if (arg[i] && (arg[i] == '+' || arg[i] == '-'))
+		i++;
+	if (ft_isdigit(arg[i]) == 0 || ft_isllong(arg) != 0)
 	{
-		if (*str == '-')
-			sign = -1;
-		str++;
+		ft_printf("minishell: exit: %s: numeric argument required\n", arg);
+		shell->excode = 255;
+		return (1);
 	}
-	if (*str == '\0')
-		return (0);
-	return (cmp_llmax(str, value, sign));
+	exit_code = ft_atol(arg);
+	shell->excode = exit_code % 256;
+	if (shell->excode < 0 || shell->excode > 255)
+		shell->excode = 255;
+	return (0);
 }
 
-static int	exit_options(t_shell *shell, int *flag)
+void	bl_exit(char **arg, t_shell *shell)
 {
 	int	i;
 
 	i = 0;
-	if (!check_long(shell->s_current->args[1]))
+	ft_printf("exit\n");
+	if (arg[0])
 	{
-		ft_putstr_fd("minishell: exit: ", 2);
-		ft_putstr_fd(shell->s_current->args[1], 2);
-		ft_putstr_fd(": numeric argument required\n", 2);
-		(*flag) = 1;
-		return (2);
+		i = ms_check_exit_arg(arg[0]);
+		if (arg[1] && i == 0)
+		{
+			ft_printf("minishell: exit: too many arguments\n");
+			shell->excode = 1;
+			return ;
+		}
 	}
-	return (ft_atoi(shell->s_current->args[1]) % 256);
-}
-
-void	bl_exit(t_shell *shell)
-{
-	int	ext;
-	int	flag;
-
-	flag = 0;
-	if (shell->s_current->args[1])
-		shell->excode = exit_options(shell, &flag);
-	if (shell->s_current->args[1] && shell->s_current->args[2] && !flag)
-	{
-		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-		ft_putstr_fd("exit\n", 1);
-		shell->excode = 1;
-		return ;
-	}
-	if (shell->s_current->next || shell->s_current->prev)
-		return ;
 	free_shell(shell);
-	ft_putstr_fd("exit\n", 1);
-	exit(ext);
+	exit(shell->excode);
 }

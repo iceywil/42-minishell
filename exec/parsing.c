@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:44:15 by codespace         #+#    #+#             */
-/*   Updated: 2024/11/24 14:28:12 by a                ###   ########.fr       */
+/*   Updated: 2024/12/06 22:28:21 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,23 +38,7 @@ void	get_paths(t_shell *shell)
 	shell->paths[0] = first;
 }
 
-void	envp_check(t_shell *shell)
-{
-	int	i;
-	int	y;
-
-	i = 0;
-	/* 	if (!shell->paths)
-		{
-			shell->cmd_paths = malloc(sizeof(char *) * (shell->args + 1));
-			shell->cmd_paths[shell->args] = NULL;
-			while (i < shell->args)
-				shell->cmd_paths[i++] = NULL;
-			i = 0;
-			envp_loop(shell, argv, i, y);
-		} */
-}
-
+// check this later
 void	envp_loop(t_shell *shell, int i, int y)
 {
 	/* while (i < shell->args)
@@ -89,7 +73,6 @@ void	parse_paths(t_shell *shell)
 	s_current = shell->s_head;
 	while (s_current)
 	{
-		s_current->filein = -1;
 		s_current->infile = -1;
 		if (s_current->cmd)
 		{
@@ -99,7 +82,7 @@ void	parse_paths(t_shell *shell)
 				join_path(shell, s_current, shell->paths[j++]);
 				if (access(s_current->cmd_path, F_OK) == 0
 					|| !ft_strncmp(s_current->cmd, "/", 1))
-					return ;
+					break ;
 				if (s_current->cmd_path)
 					free(s_current->cmd_path);
 				s_current->cmd_path = NULL;

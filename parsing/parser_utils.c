@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/10/24 03:10:59 by a                ###   ########.fr       */
+/*   Updated: 2024/12/04 01:25:01 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,19 @@ int	check_open_quotes(t_shell *shell, char *input, int flag)
 	i = -1;
 	while (input[++i])
 	{
-		if (input[i] == '\"')
-			doublee++;
-		else if (input[i] == '\'')
-			single++;
+		if (input[i] == '\"' && doublee == 0 && single == 0)
+			doublee = 1;
+		else if (input[i] == '\"' && doublee == 1)
+			doublee = 0;
+		else if (input[i] == '\'' && single == 0 && doublee == 0)
+			single = 1;
+		else if (input[i] == '\'' && single == 1)
+			single = 0;
 	}
-	if (single % 2 != 0 || doublee % 2 != 0)
+	if (single || doublee)
 	{
 		shell->excode = 2;
-		print_err("syntax error quotes not closed", 0, 0, 0);
+		ft_putstr_fd("minishell: syntax error quotes not closed\n", 2);
 		return (1);
 	}
 	return (0);
@@ -81,7 +85,7 @@ void	clean_empty_and_quotes(t_shell *shell, t_first *current)
 	prev = NULL;
 	while (current)
 	{
-		remove_side_quotes(current->line);
+		remove_quotes(current->line);
 		if (current->line[0] == '\0')
 		{
 			next = current->next;
@@ -101,19 +105,27 @@ void	clean_empty_and_quotes(t_shell *shell, t_first *current)
 	}
 }
 
-void	clean_first(t_shell *shell)
+void	remove_quotes(char *str)
 {
-	t_first	*current;
-	t_first	*next;
+	int		i;
+	char	quote_char;
+	int		len;
 
-	current = shell->f_head;
-	while (current)
+	i = 0;
+	quote_char = 0;
+	while (str[i])
 	{
-		next = current->next;
-		free(current->line);
-		free(current);
-		current = next;
+		len = ft_strlen(str + i + 1);
+		if (str[i] == '\'' || str[i] == '\"' && (!quote_char
+			|| quote_char == str[i]))
+		{
+			if (!quote_char)
+				quote_char = str[i];
+			else if (str[i] == quote_char)
+				quote_char = 0;
+			ft_memmove(str + i, str + i + 1, len + 1);
+			continue ;
+		}
+		i++;
 	}
-	shell->f_head = NULL;
-	shell->f_current = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:10:56 by codespace         #+#    #+#             */
-/*   Updated: 2024/11/24 14:19:08 by a                ###   ########.fr       */
+/*   Updated: 2024/12/06 22:17:47 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,18 @@ void	malloc_error(t_shell *shell)
 	free_shell(shell);
 }
 
-void	print_err(char *msg, char *word, char redir, int flag)
+void	print_err(char *word, char *msg, char redir, int flag)
 {
 	if (flag == 0)
 	{
-		printf("minishell: %s\n", msg);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(word, 2);
+		ft_putendl_fd(msg, 2);
 	}
 	else if (flag == 1)
 	{
-		printf("minishell: %s: %s\n", word, msg);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putendl_fd(msg, 2);
 	}
 	else if (flag == 2)
 	{
@@ -92,4 +95,21 @@ void	print_err(char *msg, char *word, char redir, int flag)
 		ft_putchar_fd(redir, 2);
 		ft_putendl_fd("'", 2);
 	}
+}
+
+void	free_first(t_shell *shell)
+{
+	t_first	*current;
+	t_first	*next;
+
+	current = shell->f_head;
+	while (current)
+	{
+		next = current->next;
+		free(current->line);
+		free(current);
+		current = next;
+	}
+	shell->f_head = NULL;
+	shell->f_current = NULL;
 }

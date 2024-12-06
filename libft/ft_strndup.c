@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/06 18:07:20 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/06 18:07:20 by marvin           ###   ########.fr       */
+/*   Created: 2023/11/07 11:43:18 by wscherre          #+#    #+#             */
+/*   Updated: 2024/11/28 21:40:19 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "libft.h"
 
+<<<<<<< HEAD:builtins/export.c
 bool is_valid_identifier(const char *str)
 {
     if (!str || !*str)
@@ -96,3 +97,15 @@ void bl_export(t_shell *shell)
         i++;
     }
 }
+=======
+char	*ft_strndup(const char *s, size_t n)
+{
+	char	*dest;
+
+	dest = malloc(n + 1);
+	if (!dest)
+		return (NULL);
+	ft_strncpy(dest, s, n);
+	return (dest);
+}
+>>>>>>> 288f2ee63f412c118d1f6ef60f26b97c22d31cab:libft/ft_strndup.c
