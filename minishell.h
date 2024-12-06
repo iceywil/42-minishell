@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/07 00:23:41 by a                ###   ########.fr       */
+/*   Updated: 2024/12/07 00:28:20 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@
 # define DOUBLE_LEFT "<<"
 # define DOUBLE_RIGHT ">>"
 
+
 typedef struct t_first
 {
 	char			*token;
@@ -67,6 +68,13 @@ typedef struct t_second
 	struct t_second	*next;
 	struct t_second	*prev;
 }					t_second;
+
+typedef struct s_env_list
+{
+	char *key;
+	char *value;
+	struct s_env_list *next;
+} t_env_list;
 
 typedef struct s_shell
 {
