@@ -6,38 +6,35 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/07 00:20:48 by a                ###   ########.fr       */
+/*   Updated: 2024/12/07 00:23:41 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
-#define MINISHELL_H
+# define MINISHELL_H
 
-#define _XOPEN_SOURCE 700
+# define _XOPEN_SOURCE 700
 
+# include "libft/libft.h"
+# include <dirent.h>
+# include <errno.h>
+# include <fcntl.h>
+# include <limits.h>
+# include <pthread.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <sys/errno.h>
+# include <sys/stat.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
-#include "libft/libft.h"
-#include <errno.h>
-#include <fcntl.h>
-#include <limits.h>
-#include <pthread.h>
-#include <readline/history.h>
-#include <readline/readline.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <limits.h>
-#include <stdbool.h>
-#include <dirent.h>
-#include <sys/errno.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/wait.h>
-#include <signal.h>
-#include <string.h>
-#include <fcntl.h>
-
-#define NEWLINE_M "syntax error near unexpected token `newline'\n"
-#define DIRECTORY_M "Is a directory\n"
+# define NEWLINE_M "syntax error near unexpected token `newline'\n"
+# define DIRECTORY_M "Is a directory\n"
 
 # define PIPE '|'
 # define LEFT '<'
@@ -45,14 +42,11 @@
 # define DOUBLE_LEFT "<<"
 # define DOUBLE_RIGHT ">>"
 
-t_shell				g_shell;
-
 typedef struct t_first
 {
 	char			*token;
 	char			*line;
 	int				cmd;
-	int				outfile;
 	struct t_first	*prev;
 	struct t_first	*next;
 }					t_first;
@@ -62,45 +56,44 @@ typedef struct t_second
 	int				i;
 	char			*cmd;
 	char			*cmd_path;
-	char			*heredoc;
 	char			**args;
 	t_first			*args_head;
 	t_first			*args_current;
 	t_first			*redir_head;
 	t_first			*redir_current;
+	char			*heredoc;
 	int				infile;
-	int				filein;
+	int				outfile;
 	struct t_second	*next;
 	struct t_second	*prev;
 }					t_second;
 
 typedef struct s_shell
 {
-	int i;
-	int x;
+	int				i;
+	int				x;
 	// Execute
-	int unset;
-	int err;
-	int cmd_nbr;
-	char **paths;
-	int **fds;
-	int *pids;
+	int				unset;
+	int				err;
+	int				cmd_nbr;
+	char			**paths;
+	int				**fds;
+	int				*pids;
 	// Minishell
-	int excode;
-	char *line;
+	int				excode;
+	char			*line;
 	// Parser
-	t_first *f_head;
-	t_first *f_current;
-	t_second *s_head;
-	t_second *s_current;
+	t_first			*f_head;
+	t_first			*f_current;
+	t_second		*s_head;
+	t_second		*s_current;
 	// Env
-	char *cwd;
-	char **env;
-	t_env_list *env_head;
+	char			*cwd;
+	char			**env;
+	//t_env_list		*env_head;
 
-} t_shell;
+}					t_shell;
 
-extern t_shell g_shell;
 // MAIN
 char				*create_buffer(void);
 void				init_all(t_shell *shell);
@@ -108,13 +101,13 @@ void				execute(t_shell *shell);
 void				copy_env(t_shell *shell, char **envp);
 
 // PARSING
-int parsing(t_shell *shell);
-int check_token_legit(t_shell *shell, t_first *current);
+int					parsing(t_shell *shell);
+int					check_token_legit(t_shell *shell, t_first *current);
 
 // utils
-int is_token(char c);
-int check_open_quotes(t_shell *shell, char *input, int flag);
-int count_args(char *cmd);
+int					is_token(char c);
+int					check_open_quotes(t_shell *shell, char *input, int flag);
+int					count_args(char *cmd);
 
 // first parser
 void				f_parsing(t_shell *shell, char *input);
@@ -184,17 +177,16 @@ void				handle_heredoc(t_shell *shell, t_second *current);
 int					handle_redirs(t_shell *shell);
 
 // BUILTINS
-void bl_echo(t_shell *shell);
-void bl_pwd(t_shell *shell);
-int bl_env(t_shell *shell);
-void bl_exit(char **arg, t_shell *shell);
-int check_newline(char **arg, int *flag);
-char *env(char **env, char *ag);
-char *bl_varenv(char **env, char *arg);
-int env_compare(char **env, char **arg, int i);
-void bl_set_env(char **env, char *value);
-int	builtin_cmd(t_shell *shell, char **envp);
-char	**bl_add_line(char **env, char *value);
-
+void				bl_echo(t_shell *shell);
+void				bl_pwd(t_shell *shell);
+int					bl_env(t_shell *shell);
+void				bl_exit(char **arg, t_shell *shell);
+int					check_newline(char **arg, int *flag);
+char				*env(char **env, char *ag);
+char				*bl_varenv(char **env, char *arg);
+int					env_compare(char **env, char **arg, int i);
+void				bl_set_env(char **env, char *value);
+int					builtin_cmd(t_shell *shell, char **envp);
+char				**bl_add_line(char **env, char *value);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:29:59 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/07 00:20:18 by a                ###   ########.fr       */
+/*   Updated: 2024/12/07 00:22:15 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	one_command(t_shell *shell, char **envp)
 
 int	builtin_cmd(t_shell *shell, char **envp)
 {
-	if (ft_strcmp(shell->s_current->args[0], "exit") == 0)
+	/* if (ft_strcmp(shell->s_current->args[0], "exit") == 0)
 	{
 		bl_exit(shell);
 		return (1);
@@ -89,7 +89,7 @@ int	builtin_cmd(t_shell *shell, char **envp)
 		return (1);
 	}
 	else
-		return (0);
+		return (0); */
 }
 
 void	exec(t_shell *shell)
