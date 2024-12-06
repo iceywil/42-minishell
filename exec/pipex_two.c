@@ -32,10 +32,35 @@ void	builtin_cmd(t_shell *shell, char **envp)
 
 void	exev(t_shell *shell, char **envp)
 {
-	int	i;
-
-	i = 0;
 	if (!shell->s_current->cmd_path)
+<<<<<<< HEAD
+	{
+		ft_printf("bash: %s: command not found\n", shell->s_current->cmd);
+		free_shell(shell);
+		exit(127);
+	}
+	else if (access(shell->s_current->cmd_path, F_OK) == -1)
+	{
+		ft_putendl_fd("No such file or directory", 2);
+		free_shell(shell);
+		exit(127);
+	}
+	else if (access(shell->s_current->cmd_path, X_OK) == -1)
+	{
+		ft_putendl_fd("Permission denied", 2);
+		free_shell(shell);
+		exit(126);
+	}
+	else
+	{
+		if (execve(shell->s_current->cmd_path, shell->s_current->args, envp) == -1)
+		{
+			ft_putendl_fd("Command error", 2);
+			free_shell(shell);
+			exit(1);
+		}
+	}
+=======
 		print_err(shell->s_current->args[0], " Command not found", 0, 0);
 	else if (access(shell->s_current->cmd_path, F_OK) == -1)
 	{
@@ -52,6 +77,7 @@ void	exev(t_shell *shell, char **envp)
 		print_err(shell->s_current->args[0], " Command error", 0, 0);
 	shell->err = 127;
 	exit(0);
+>>>>>>> 288f2ee63f412c118d1f6ef60f26b97c22d31cab
 }
 
 void	check_access(t_shell *shell)
