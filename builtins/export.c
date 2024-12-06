@@ -12,94 +12,87 @@
 
 #include "../minishell.h"
 
-// static int update_env(t_shell *shell, const char *key, const char *value, int append)
-// {
-//     for (int i = 0; shell->env[i]; i++)
-//     {
-//         char *env_key = strtok(shell->env[i], "=");
-//         if (strcmp(env_key, key) == 0)
-//         {
-//             char *new_value;
-//             if (append)
-//             {
-//                 new_value = malloc(strlen(shell->env[i]) + strlen(value) + 1);
-//                 if (!new_value)
-//                     return -1;
-//                 sprintf(new_value, "%s%s", shell->env[i], value);
-//             }
-//             else
-//             {
-//                 new_value = malloc(strlen(key) + strlen(value) + 2);
-//                 if (!new_value)
-//                     return -1;
-//                 sprintf(new_value, "%s=%s", key, value);
-//             }
-//             free(shell->env[i]);
-//             shell->env[i] = new_value;
-//             return 0;
-//         }
-//     }
-//     return -1;
-// }
+bool is_valid_identifier(const char *str)
+{
+    if (!str || !*str)
+        return false;
+    if (!ft_isalpha(*str) && *str != '_')
+        return false;
+    for (const char *s = str + 1; *s; ++s)
+    {
+        if (!ft_isalnum(*s) && *s != '_')
+            return false;
+    }
+    return true;
+}
 
-// static int add_env(t_shell *shell, const char *key, const char *value)
-// {
-//     int i;
-//     for (i = 0; shell->env[i]; i++);
-//     char **new_env = realloc(shell->env, sizeof(char *) * (i + 2));
-//     if (!new_env)
-//         return -1;
-//     shell->env = new_env;
-//     shell->env[i] = malloc(strlen(key) + strlen(value) + 2);
-//     if (!shell->env[i])
-//         return -1;
-//     sprintf(shell->env[i], "%s=%s", key, value);
-//     shell->env[i + 1] = NULL;
-//     return 0;
-// }
+void handle_id(t_env_list *env, char *arg, t_shell *shell)
+{
+    char *equal_sign;
 
-// void ft_export(t_shell *shell, t_second *cmd)
-// {
-//     if (!cmd->args[1])
-//     {
-//         ft_printf("export: not enough arguments\n");
-//         shell->excode = 1;
-//         return;
-//     }
+    suppr_space(arg);
+    equal_sign = ft_strchr(arg, '=');
+    if (equal_sign)
+    {
+        *equal_sign = '\0';
+        suppr_space(arg);
+        suppr_space(equal_sign + 1);
+        if (is_valid_identifier(arg))
+            add_or_update_env(&env, arg, equal_sign + 1, shell);
+        else
+            ft_putstr_fd("export: not a valid identifier\n", STDERR_FILENO);
+    }
+    else
+    {
+        if (is_valid_identifier(arg))
+            add_or_update_env(&env, arg, "", shell);
+        else
+            ft_putstr_fd("export: not a valid identifier\n", STDERR_FILENO);
+    }
+}
 
-//     for (int i = 1; cmd->args[i]; i++)
-//     {
-//         char *arg = cmd->args[i];
-//         char *equal_sign = strchr(arg, '=');
-//         int append = 0;
+bool export_args(t_env_list *env, char *arg, char *next_arg, t_shell *shell)
+{
+    char *equal_sign;
+    char *joined_arg = NULL;
+    bool skip_next = false;
 
-//         if (equal_sign && equal_sign > arg && *(equal_sign - 1) == '+')
-//         {
-//             append = 1;
-//             *(equal_sign - 1) = '\0';
-//         }
+    suppr_space(arg);
+    if (arg && arg[ft_strlen(arg) - 1] == '=' && next_arg)
+    {
+        joined_arg = ft_strjoin(arg, next_arg);
+        if (!joined_arg)
+            return (ft_putstr_fd("Error: malloc\n", STDERR_FILENO), false);
+        arg = joined_arg;
+        skip_next = true;
+    }
+    equal_sign = ft_strchr(arg, '=');
+    if (equal_sign)
+    {
+        *equal_sign = '\0';
+        handle_id(env, arg, shell);
+        *equal_sign = '=';
+    }
+    else
+        handle_id(env, arg, shell);
+    free(joined_arg);
+    return skip_next;
+}
 
-//         if (equal_sign)
-//         {
-//             *equal_sign = '\0';
-//             const char *key = arg;
-//             const char *value = equal_sign + 1;
+void bl_export(t_shell *shell)
+{
+    bool skip;
+    int i;
 
-//             if (update_env(shell, key, value, append) == -1)
-//             {
-//                 if (add_env(shell, key, value) == -1)
-//                 {
-//                     perror("export");
-//                     shell->excode = 1;
-//                     return;
-//                 }
-//             }
-//         }
-//         else
-//         {
-//             ft_printf("export: `%s': not a valid identifier\n", arg);
-//             shell->excode = 1;
-//         }
-//     }
-//     shell->excode = 0;
-// }
+    if (!shell->s_current->args[1])
+        return;
+
+    i = 1;
+    while (shell->s_current->args[i])
+    {
+        skip = export_args(shell->env_head, shell->s_current->args[i], shell->s_current->args[i + 1], shell);
+        if (skip)
+            i++;
+        i++;
+    }
+}

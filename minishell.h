@@ -192,15 +192,14 @@ void handle_heredoc(t_shell *shell, t_second *current);
 int handle_redirs(t_shell *shell);
 
 //Builtins
-int ft_checkdir();
 // void bl_cd();
 void bl_echo(t_shell *shell);
 void bl_pwd(t_shell *shell);
 void bl_unset(const char *key);
 int bl_env(t_shell *shell);
-void bl_exit(char **arg, t_shell *shell);
-int exit_options(int *flag);
-void update_env(t_env_list *env_head, const char *key, const char *value);
+void bl_exit(t_shell *shell);
+void bl_export(t_shell *shell);
+// int exit_options(int *flag);
 // void update_pwd(char *old_pwd);
 void exec_cd(const char *dir);
 void cd_home();
@@ -211,6 +210,13 @@ int env_compare(char **env, char **arg, int i);
 void bl_set_env(char **env, char *value);
 int	builtin_cmd(t_shell *shell, char **envp);
 char	**bl_add_line(char **env, char *value);
+bool export_args(t_env_list *env, char *arg, char *next_arg, t_shell *shell);
+void handle_id(t_env_list *env, char *arg, t_shell *shell);
+bool is_valid_identifier(const char *str);
+void suppr_space(char *str);
+void add_or_update_env(t_env_list **env, const char *key, const char *value, t_shell *shell);
+t_env_list *new_env(char *key, char *value, t_shell *shell);
+
 
 
 

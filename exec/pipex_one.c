@@ -48,12 +48,9 @@ void	one_command(t_shell *shell, char **envp)
 
 int	builtin_cmd(t_shell *shell, char **envp)
 {
-	ft_printf("Entering builtin_cmd\n");
-	ft_printf("Command: %s\n", shell->s_current->args[0]);
 	if (ft_strcmp(shell->s_current->args[0], "exit") == 0)
 	{
-		ft_printf("Calling bl_exit\n");
-		bl_exit(shell->s_current->args, shell);
+		bl_exit(shell);
 		return (1);
 	}
 	else if (ft_strcmp(shell->s_current->args[0], "echo") == 0)
@@ -79,6 +76,11 @@ int	builtin_cmd(t_shell *shell, char **envp)
 	else if (ft_strcmp(shell->s_current->args[0], "unset") == 0)
 	{
 		bl_unset(shell->s_current->args[1]);
+		return (1);
+	}
+	else if (ft_strcmp(shell->s_current->args[0], "export") == 0)
+	{
+		bl_export(shell);
 		return (1);
 	}
 	else

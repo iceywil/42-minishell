@@ -45,6 +45,7 @@ C_FILES     =   main.c \
 				builtins/unset.c \
 				builtins/env.c \
 				builtins/exit.c \
+				builtins/utils_env.c \
 	
 all:        $(NAME)
 
