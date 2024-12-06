@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:29:59 by codespace         #+#    #+#             */
-/*   Updated: 2024/11/27 22:27:38 by a                ###   ########.fr       */
+/*   Updated: 2024/12/06 22:56:27 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,15 @@ void	one_command(t_shell *shell, char **envp)
 			shell->err = 1;
 			return ;
 		}
-		if (shell->s_current->filein != -1)
+		if (shell->s_current->infile != -1)
 		{
-			dup_fd(shell, shell->s_current->filein, STDIN_FILENO);
-			close(shell->s_current->filein);
+			dup_fd(shell, shell->s_current->infile, STDIN_FILENO);
+			close(shell->s_current->infile);
+		}
+		if (shell->s_current->outfile != -1)
+		{
+			dup_fd(shell, shell->s_current->outfile, STDOUT_FILENO);
+			close(shell->s_current->outfile);
 		}
 		builtin_cmd(shell, envp);
 		exev(shell, envp);
@@ -40,36 +45,17 @@ void	one_command(t_shell *shell, char **envp)
 	wait_childrens();
 }
 
-void	builtin_cmd(t_shell *shell, char **envp)
-{
-	if (!ft_strcmp(shell->s_current->args[0], "echo"))
-		echo_cmd(shell, envp);
-	else if (!ft_strcmp(shell->s_current->args[0], "cd"))
-		cd_cmd(shell, envp);
-	else if (!ft_strcmp(shell->s_current->args[0], "pwd"))
-		pwd_cmd(shell, envp);
-	else if (!ft_strcmp(shell->s_current->args[0], "export"))
-		export_cmd(shell, envp);
-	else if (!ft_strcmp(shell->s_current->args[0], "unset"))
-		unset_cmd(shell, envp);
-	else if (!ft_strcmp(shell->s_current->args[0], "env"))
-		env_cmd(shell, envp);
-	else if (!ft_strcmp(shell->s_current->args[0], "exit"))
-		exit_cmd(shell, envp);
-}
-
 void	exec(t_shell *shell)
 {
 	malloc_fds(shell);
-	malloc_pids(shell);
 	shell->i = 0;
 	shell->s_current = shell->s_head;
 	first_cmd(shell, shell->env);
-	if (shell->s_current->filein != -1)
-		close(shell->s_current->filein);
+	if (shell->s_current->infile != -1)
+		close(shell->s_current->infile);
 	shell->i++;
 	shell->s_current = shell->s_current->next;
-	while (shell->s_current)
+	while (shell->i != shell->cmd_nbr - 1)
 	{
 		mid_cmd(shell, shell->env);
 		shell->i++;
@@ -77,8 +63,6 @@ void	exec(t_shell *shell)
 	}
 	last_cmd(shell, shell->env);
 	wait_childrens();
-	if (shell->s_current->prev->filein)
-		close(shell->s_current->prev->filein);
 	close_last_pipes(shell);
 	close_own_pipes(shell);
 }
@@ -88,25 +72,32 @@ void	first_cmd(t_shell *shell, char **envp)
 	pid_t	pid;
 
 	create_own_pipes(shell);
-	check_access(shell);
+	// check_access(shell);
 	pid = fork();
-	shell->pids[shell->s_current->i] = pid;
 	if (pid == -1)
 		error_exit(shell, "Fork Error", errno);
 	if (pid == 0)
 	{
-		// handle_redirs(shell);
-		// open_infile(shell, argv);
-		if (shell->s_current->filein != -1)
+		if (handle_redirs(shell))
 		{
-			dup_fd(shell, shell->s_current->filein, STDIN_FILENO);
-			close(shell->s_current->filein);
+			shell->err = 1;
+			close_own_pipes(shell);
+			exit(1);
+		}
+		if (shell->s_current->infile != -1)
+		{
+			dup_fd(shell, shell->s_current->infile, STDIN_FILENO);
+			close(shell->s_current->infile);
+		}
+		if (shell->s_current->outfile != -1)
+		{
+			dup_fd(shell, shell->s_current->outfile, STDOUT_FILENO);
+			close(shell->s_current->outfile);
 		}
 		else
-			(close_own_pipes(shell), free_shell(shell));
-		//
-		dup_fd(shell, shell->fds[0][1], STDOUT_FILENO);
+			dup_fd(shell, shell->fds[shell->i][1], STDOUT_FILENO);
 		close_own_pipes(shell);
+		builtin_cmd(shell, envp);
 		exev(shell, envp);
 	}
 	close(shell->fds[0][1]);
@@ -117,21 +108,39 @@ void	mid_cmd(t_shell *shell, char **envp)
 	pid_t	pid;
 
 	create_own_pipes(shell);
-	check_access(shell);
+	// check_access(shell);
 	pid = fork();
-	shell->pids[shell->x] = pid;
 	if (pid == -1)
 		error_exit(shell, "Fork Error", errno);
 	if (pid == 0)
 	{
-		dup_fd(shell, shell->fds[shell->x - 1][0], STDIN_FILENO);
-		dup_fd(shell, shell->fds[shell->x][1], STDOUT_FILENO);
+		if (handle_redirs(shell))
+		{
+			shell->err = 1;
+			close_own_pipes(shell);
+			exit(1);
+		}
+		if (shell->s_current->infile != -1)
+		{
+			dup_fd(shell, shell->s_current->infile, STDIN_FILENO);
+			close(shell->s_current->infile);
+		}
+		else
+			dup_fd(shell, shell->fds[shell->i - 1][0], STDIN_FILENO);
+		if (shell->s_current->outfile != -1)
+		{
+			dup_fd(shell, shell->s_current->outfile, STDOUT_FILENO);
+			close(shell->s_current->outfile);
+		}
+		else
+			dup_fd(shell, shell->fds[shell->i][1], STDOUT_FILENO);
 		close_own_pipes(shell);
 		close_last_pipes(shell);
+		builtin_cmd(shell, envp);
 		exev(shell, envp);
 	}
-	close(shell->fds[shell->x][1]);
-	close(shell->fds[shell->x - 1][0]);
+	close(shell->fds[shell->i][1]);
+	close(shell->fds[shell->i - 1][0]);
 }
 
 void	last_cmd(t_shell *shell, char **envp)
@@ -139,25 +148,37 @@ void	last_cmd(t_shell *shell, char **envp)
 	pid_t	pid;
 
 	create_own_pipes(shell);
-	check_access(shell);
-	check_outfile(shell);
+	// check_access(shell);
 	pid = fork();
-	shell->pids[shell->x] = pid;
 	if (pid == -1)
 		error_exit(shell, "Fork Error", errno);
 	if (pid == 0)
 	{
-		/* 		if (shell->here)
-					open_outfile_here(shell, argv);
-				else
-					open_outfile(shell, argv);
-				dup_fd(shell, shell->fds[shell->x - 1][0], STDIN_FILENO);
-				(close_own_pipes(shell), close_last_pipes(shell));
-				if (shell->fileout != -1)
-				{
-					dup_fd(shell, shell->fileout, STDOUT_FILENO);
-					(close(shell->fileout), exev(shell, envp));
-				} */
+		if (handle_redirs(shell))
+		{
+			shell->err = 1;
+			close_own_pipes(shell);
+			exit(1);
+		}
+		if (shell->s_current->infile != -1)
+		{
+			dup_fd(shell, shell->s_current->infile, STDIN_FILENO);
+			close(shell->s_current->infile);
+		}
+		// probleme here
+		// else
+		// dup_fd(shell, shell->fds[shell->i - 1][0], STDIN_FILENO);
+		if (shell->s_current->outfile != -1)
+		{
+			dup_fd(shell, shell->s_current->outfile, STDOUT_FILENO);
+			close(shell->s_current->outfile);
+		}
+		close_own_pipes(shell);
+		// probleme here
+		// close_last_pipes(shell);
+		builtin_cmd(shell, envp);
+		exev(shell, envp);
 	}
-	close(shell->fds[shell->x - 1][0]);
+	close(shell->fds[shell->i][1]);
+	close(shell->fds[shell->i - 1][0]);
 }

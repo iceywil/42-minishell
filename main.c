@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/11/27 22:04:16 by a                ###   ########.fr       */
+/*   Updated: 2024/12/06 22:08:49 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,8 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	char		*line;
-	t_shell		shell;
-	t_first		*tmp;
-	t_second	*tmp2;
-	int			i;
-	int			node_count;
+	t_shell	shell;
 
-	i = 0;
-	line = NULL;
 	while (1)
 	{
 		init_all(&shell);
@@ -34,56 +27,28 @@ int	main(int argc, char **argv, char **envp)
 		if (!shell.line)
 			break ;
 		check_exit(&shell);
-		if (!parsing(&shell))
-		{
-			add_history(shell.line);
-			//
-			tmp = shell.f_head;
-			node_count = 0;
-			while (tmp)
-			{
-				printf("Node %d:\n", node_count++);
-				printf("  cmd: '%d'\n", tmp->cmd);
-				printf("  line: '%s'\n", tmp->line);
-				tmp = tmp->next;
-			}
-			tmp2 = shell.s_head;
-			node_count = 0;
-			i = 0;
-			while (tmp2)
-			{
-				printf("Node %d:\n", node_count++);
-				printf("  cmd: '%s'\n", tmp2->cmd);
-				tmp2->redir_current = tmp2->redir_head;
-				while (tmp2->redir_current)
-				{
-					printf("  redir : '%s' '%s'\n", tmp2->redir_current->token,
-						tmp2->redir_current->line);
-					tmp2->redir_current = tmp2->redir_current->next;
-				}
-				while (tmp2->args && tmp2->args[i])
-				{
-					printf("  args[%d]: '%s'\n", i, tmp2->args[i]);
-					i++;
-				}
-				tmp2 = tmp2->next;
-			}
+		if (!check_empty_line(&shell) && !parsing(&shell))
 			execute(&shell);
-			tmp2 = shell.s_head;
-			node_count = 0;
-			while (tmp2)
-			{
-				printf("Node %d:\n", node_count++);
-				printf("  cmd: '%s'\n", tmp2->cmd);
-				printf("  path: '%s'\n", tmp2->cmd_path);
-				tmp2 = tmp2->next;
-			}
-		}
+		add_history(shell.line);
 		if (shell.line)
 			(free(shell.line), shell.line = NULL);
 	}
 	(ft_putstr_fd("exit\n", 1), free_shell(&shell));
 	return (0);
+}
+
+int	check_empty_line(t_shell *shell)
+{
+	int	i;
+
+	i = 0;
+	while (shell->line[i])
+	{
+		if (shell->line[i] != ' ')
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 char	*create_buffer(void)

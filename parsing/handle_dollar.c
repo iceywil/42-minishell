@@ -6,92 +6,118 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 17:40:22 by a                 #+#    #+#             */
-/*   Updated: 2024/11/10 22:04:25 by a                ###   ########.fr       */
+/*   Updated: 2024/12/06 23:49:47 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*f_handle_dollar(t_shell *shell, char *var_name, size_t var_len)
-{
-	int		i;
-	char	*env_value;
-
-	i = 0;
-	env_value = NULL;
-	while (shell->env[i])
-	{
-		if (!ft_strncmp(shell->env[i], var_name, var_len)
-			&& shell->env[i][var_len] == '=')
-		{
-			env_value = shell->env[i] + var_len + 1;
-			break ;
-		}
-		i++;
-	}
-	free(var_name);
-	return (env_value);
-}
-
-char	*f_get_var_name(char *line, char **var_end)
-{
-	char	*var_start;
-
-
-	var_start = NULL;
-	var_start = ft_strchr(line, '$');
-	if (!var_start)
-		return (NULL);
-	else
-		var_start = var_start + 1;
-	*var_end = var_start;
-	while (**var_end && **var_end != ' ' && **var_end != '\''
-		&& **var_end != '\"')
-		(*var_end)++;
-	return (strndup(var_start, *var_end - var_start));
-}
-
 char	*f_handle_env_cmd(t_shell *shell, char *line)
 {
-	char	*var_end;
-	char	*var_name;
-	char	*env_value;
-	size_t	prefix_len;
+	int	single_quote;
+	int	double_quote;
+
+	single_quote = 0;
+	double_quote = 0;
+	shell->i = 0;
+	while (line[shell->i])
+	{
+		if (line[shell->i] == '$' && single_quote == 0 && !(double_quote
+				&& line[shell->i + 1] != '\"'))
+			line = f_set_shard(shell, line);
+		else if (line[shell->i] == '\'' && single_quote == 0)
+			single_quote = 1;
+		else if (line[shell->i] == '\'' && single_quote == 1)
+			single_quote = 0;
+		else if (line[shell->i] == '"' && double_quote == 0)
+			double_quote = 1;
+		else if (line[shell->i] == '"' && double_quote == 1)
+			double_quote = 0;
+		shell->i++;
+	}
+	return (line);
+}
+
+char	*f_set_shard(t_shell *shell, char *line)
+{
+	int		start;
+	char	*var_value;
 	char	*new_line;
 
-	if (!line || !*line || line[0] == '\'' || line[ft_strlen(line) - 1] == '\'')
-		return (line);
-	var_name = NULL;
-	//Maybe add "$PA"TH > TH
-	//Fix ''$PATH
-	var_name = f_get_var_name(line, &var_end);
-	if (!var_name)
-		return (line);
-	if (!var_name || !*var_name)
-		return (line);
-	env_value = f_handle_dollar(shell, var_name, ft_strlen(var_name));
-	if (!env_value)
-		return (line);
-	prefix_len = ft_strchr(line, '$') - line;
-	new_line = f_create_new_line(line, env_value, var_end, prefix_len);
-	if (!new_line)
-		return (NULL);
+	start = shell->i;
+	if (line[shell->i + 1] == '?')
+		return (f_handle_err(shell, line, start));
+	else
+	{
+		if (!line[shell->i + 1])
+			return (line);
+		while (line[++shell->i])
+		{
+			if (line[shell->i] == ' ' || line[shell->i] == '\''
+				|| line[shell->i] == '\"' || line[shell->i] == '$')
+				break ;
+		}
+		shell->i--;
+		var_value = f_find_var_value(shell, line + start + 1, shell->i - start);
+	}
+	new_line = f_replace_line(shell, line, var_value, start);
 	free(line);
 	return (new_line);
 }
 
-char	*f_create_new_line(char *line, char *env_value, char *var_end,
-		size_t prefix_len)
+char	*f_handle_err(t_shell *shell, char *line, int start)
+{
+	char	*var_value;
+	char	*new_line;
+
+	var_value = ft_itoa(shell->err);
+	if (!var_value)
+		malloc_error(shell);
+	shell->i++;
+	new_line = f_replace_line(shell, line, var_value, start);
+	free(line);
+	return (new_line);
+}
+
+char	*f_find_var_value(t_shell *shell, char *var_start, int var_len)
+{
+	int	i;
+
+	i = 0;
+	while (shell->env[i])
+	{
+		if (!ft_strncmp(shell->env[i], var_start, var_len)
+			&& shell->env[i][var_len] == '=')
+			return (shell->env[i] + var_len + 1);
+		i++;
+	}
+	return (NULL);
+}
+
+char	*f_replace_line(t_shell *shell, char *line, char *var_value, int start)
 {
 	char	*new_line;
-	size_t	suffix_len;
 
-	suffix_len = ft_strlen(var_end);
-	new_line = malloc(prefix_len + ft_strlen(env_value) + suffix_len + 1);
-	if (!new_line)
-		return (NULL);
-	ft_strncpy(new_line, line, prefix_len);
-	ft_strcpy(new_line + prefix_len, env_value);
-	ft_strcpy(new_line + prefix_len + ft_strlen(env_value), var_end);
+	new_line = NULL;
+	if (!var_value)
+	{
+		new_line = malloc(ft_strlen(line) - (shell->i - start + 1) + 1);
+		if (!new_line)
+			(free(var_value), free(line), malloc_error(shell));
+		ft_strncpy(new_line, line, start);
+		ft_strcpy(new_line + start, line + shell->i + 1);
+		shell->i = start - 1;
+	}
+	else
+	{
+		new_line = malloc(ft_strlen(line) - (shell->i - start + 1)
+				+ ft_strlen(var_value) + 1);
+		if (!new_line)
+			(free(var_value), free(line), malloc_error(shell));
+		ft_strncpy(new_line, line, start);
+		ft_strcpy(new_line + start, var_value);
+		ft_strcpy(new_line + start + ft_strlen(var_value), line + shell->i + 1);
+		shell->i = start + ft_strlen(var_value) - 1;
+	}
 	return (new_line);
 }

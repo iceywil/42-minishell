@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2024/11/27 21:51:02 by a                ###   ########.fr       */
+/*   Updated: 2024/12/05 05:35:27 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,13 @@ void	s_create_node(t_shell *shell, t_second *new_node)
 	new_node->redir_head = NULL;
 	new_node->redir_current = NULL;
 	new_node->cmd_path = NULL;
-	new_node->heredoc = NULL;
+	new_node->infile = -1;
+	new_node->outfile = -1;
 	if (!shell->s_head)
-	{
-		new_node->i = 0;
 		shell->s_head = new_node;
-	}
 	else
 	{
 		new_node->prev = shell->s_current;
-		new_node->i = new_node->prev->i + 1;
 		shell->s_current->next = new_node;
 	}
 	shell->s_current = new_node;
@@ -84,7 +81,6 @@ void	s_add_redir(t_shell *shell, t_second *second)
 		malloc_error(shell);
 	new_node->next = NULL;
 	new_node->prev = NULL;
-	new_node->outfile = 0;
 	new_node->cmd = 0;
 	if (!second->redir_head)
 		second->redir_head = new_node;

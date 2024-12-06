@@ -6,11 +6,29 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:34:23 by codespace         #+#    #+#             */
-/*   Updated: 2024/11/27 21:36:44 by a                ###   ########.fr       */
+/*   Updated: 2024/12/06 22:37:40 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	builtin_cmd(t_shell *shell, char **envp)
+{
+	/* 	if (!ft_strcmp(shell->s_current->args[0], "echo"))
+			return (echo_cmd(shell, envp), exit(0));
+		else if (!ft_strcmp(shell->s_current->args[0], "cd"))
+			return (cd_cmd(shell, envp), exit(0));
+		else if (!ft_strcmp(shell->s_current->args[0], "pwd"))
+			return (pwd_cmd(shell, envp), exit(0));
+		else if (!ft_strcmp(shell->s_current->args[0], "export"))
+			return (export_cmd(shell, envp), exit(0));
+		else if (!ft_strcmp(shell->s_current->args[0], "unset"))
+			return (unset_cmd(shell, envp), exit(0));
+		else if (!ft_strcmp(shell->s_current->args[0], "env"))
+			return (env_cmd(shell, envp), exit(0));
+		else if (!ft_strcmp(shell->s_current->args[0], "exit"))
+			return (exit_cmd(shell, envp), exit(0)); */
+}
 
 void	exev(t_shell *shell, char **envp)
 {
@@ -18,23 +36,22 @@ void	exev(t_shell *shell, char **envp)
 
 	i = 0;
 	if (!shell->s_current->cmd_path)
-		(ft_putendl_fd("Command not found", 2), free_shell(shell));
+		print_err(shell->s_current->args[0], " Command not found", 0, 0);
 	else if (access(shell->s_current->cmd_path, F_OK) == -1)
 	{
-		/* if (shell->cmd_args[shell->x][0][0] == '/'
-			|| shell->cmd_args[shell->x][0][0] == '.')
-			(ft_putendl_fd("No such file or directory", 2),
-				free_shell(shell));
+		if (shell->s_current->cmd_path[0] == '/'
+			|| shell->s_current->cmd_path[0] == '.')
+			print_err(shell->s_current->args[0], " No such file or directory",
+				0, 0);
 		else
-			(ft_putendl_fd("Command not found", 2), free_shell(shell)); */
+			print_err(shell->s_current->args[0], " Command not found", 0, 0);
 	}
 	else if (access(shell->s_current->cmd_path, X_OK) == -1)
-		(ft_putendl_fd("Permission denied", 2), free_shell(shell));
-	else
-	{
-		if (!execve(shell->s_current->cmd_path, shell->s_current->args, envp))
-			ft_putendl_fd("Command error", 2);
-	}
+		print_err(shell->s_current->args[0], " Permission denied", 0, 0);
+	else if (!execve(shell->s_current->cmd_path, shell->s_current->args, envp))
+		print_err(shell->s_current->args[0], " Command error", 0, 0);
+	shell->err = 127;
+	exit(0);
 }
 
 void	check_access(t_shell *shell)
@@ -71,24 +88,6 @@ void	malloc_fds(t_shell *shell)
 	}
 	fds[i] = NULL;
 	shell->fds = fds;
-}
-
-void	malloc_pids(t_shell *shell)
-{
-	int	*pids;
-	int	i;
-
-	i = 0;
-	pids = NULL;
-	pids = malloc(sizeof(int) * (shell->cmd_nbr + 1));
-	if (!pids)
-		malloc_error(shell);
-	while (i < shell->cmd_nbr + 1)
-	{
-		pids[i] = 0;
-		i++;
-	}
-	shell->pids = pids;
 }
 
 void	join_path(t_shell *shell, t_second *s_current, char *path)

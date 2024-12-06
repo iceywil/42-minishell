@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 16:02:51 by wscherre          #+#    #+#             */
-/*   Updated: 2024/10/24 16:31:24 by a                ###   ########.fr       */
+/*   Updated: 2024/11/28 21:44:45 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void				ft_striteri(char *s, void (*f)(unsigned int, char *));
 int					ft_strcmp(const char *s1, const char *s2);
 int					ft_strncpy(char *dest, const char *src, int n);
 char				*ft_strcpy(char *dest, const char *src);
+char				*ft_strndup(const char *s, size_t n);
 
 typedef struct s_list
 {

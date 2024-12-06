@@ -6,7 +6,7 @@
 #    By: a <a@student.42.fr>                        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 20:46:06 by codespace         #+#    #+#              #
-#    Updated: 2024/11/27 22:49:25 by a                ###   ########.fr        #
+#    Updated: 2024/12/04 00:33:53 by a                ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,6 @@ C_FILES     =   main.c \
 				free.c \
 				parsing/parser.c \
 				parsing/parser_utils.c \
-				parsing/parser_utils_two.c \
 				parsing/first_parsing.c \
 				parsing/handle_dollar.c \
 				parsing/second_parsing.c \
@@ -38,7 +37,7 @@ C_FILES     =   main.c \
 				exec/pipex_two.c \
 				exec/pipex_utils_one.c \
 				exec/pipex_utils_two.c \
-				builtins/echo.c \
+				#builtins/echo.c \
 				builtins/cd.c \
 				builtins/pwd.c \
 				builtins/export.c \

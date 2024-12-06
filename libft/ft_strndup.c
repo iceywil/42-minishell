@@ -1,36 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_utils_two.c                                 :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/26 01:05:35 by a                 #+#    #+#             */
-/*   Updated: 2024/10/26 01:05:42 by a                ###   ########.fr       */
+/*   Created: 2023/11/07 11:43:18 by wscherre          #+#    #+#             */
+/*   Updated: 2024/11/28 21:40:19 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "libft.h"
 
-void	remove_side_quotes(char *str)
+char	*ft_strndup(const char *s, size_t n)
 {
-	int		len;
-	char	quote_type;
+	char	*dest;
 
-	if (!str || !*str)
-		return ;
-	len = ft_strlen(str);
-	if (len < 2)
-		return ;
-	quote_type = '\0';
-	if ((str[0] == '\'' && str[len - 1] == '\'') || (str[0] == '\"' && str[len
-			- 1] == '\"'))
-	{
-		quote_type = str[0];
-	}
-	if (quote_type)
-	{
-		ft_memmove(str, str + 1, len - 2);
-		str[len - 2] = '\0';
-	}
+	dest = malloc(n + 1);
+	if (!dest)
+		return (NULL);
+	ft_strncpy(dest, s, n);
+	return (dest);
 }
