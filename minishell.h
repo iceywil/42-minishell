@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/06 23:49:14 by a                ###   ########.fr       */
+/*   Updated: 2024/12/07 00:05:13 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ char				*f_find_var_value(t_shell *shell, char *var_start,
 						int var_len);
 char				*f_replace_line(t_shell *shell, char *line, char *var_value,
 						int start);
-char	*f_handle_err(t_shell *shell, char *line, int start);
+char				*f_handle_err(t_shell *shell, char *line, int start);
 
 // second parser
 void				s_parsing(t_shell *shell);

@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:29:59 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/06 22:56:27 by a                ###   ########.fr       */
+/*   Updated: 2024/12/07 00:14:20 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,18 +165,18 @@ void	last_cmd(t_shell *shell, char **envp)
 			dup_fd(shell, shell->s_current->infile, STDIN_FILENO);
 			close(shell->s_current->infile);
 		}
-		// probleme here
-		// else
-		// dup_fd(shell, shell->fds[shell->i - 1][0], STDIN_FILENO);
+		else
+		{
+			dup_fd(shell, shell->fds[shell->i - 1][0], STDIN_FILENO);
+		}
 		if (shell->s_current->outfile != -1)
 		{
 			dup_fd(shell, shell->s_current->outfile, STDOUT_FILENO);
 			close(shell->s_current->outfile);
 		}
 		close_own_pipes(shell);
-		// probleme here
-		// close_last_pipes(shell);
-		builtin_cmd(shell, envp);
+		close_last_pipes(shell);
+		builtin_cmd(shell, envp);   
 		exev(shell, envp);
 	}
 	close(shell->fds[shell->i][1]);
