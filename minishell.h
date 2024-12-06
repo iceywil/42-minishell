@@ -45,7 +45,6 @@
 # define DOUBLE_LEFT "<<"
 # define DOUBLE_RIGHT ">>"
 
-t_shell				g_shell;
 
 typedef struct t_first
 {
@@ -73,6 +72,13 @@ typedef struct t_second
 	struct t_second	*next;
 	struct t_second	*prev;
 }					t_second;
+
+typedef struct s_env_list
+{
+	char *key;
+	char *value;
+	struct s_env_list *next;
+} t_env_list;
 
 typedef struct s_shell
 {

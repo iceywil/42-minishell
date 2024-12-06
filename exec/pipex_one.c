@@ -51,7 +51,6 @@ void	one_command(t_shell *shell, char **envp)
 	wait_childrens();
 }
 
-<<<<<<< HEAD
 int	builtin_cmd(t_shell *shell, char **envp)
 {
 	if (ft_strcmp(shell->s_current->args[0], "exit") == 0)
@@ -93,8 +92,6 @@ int	builtin_cmd(t_shell *shell, char **envp)
 		return (0);
 }
 
-=======
->>>>>>> 288f2ee63f412c118d1f6ef60f26b97c22d31cab
 void	exec(t_shell *shell)
 {
 	malloc_fds(shell);

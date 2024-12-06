@@ -29,7 +29,6 @@ int	main(int argc, char **argv, char **envp)
 		if (!shell.line)
 			break ;
 		check_exit(&shell);
-<<<<<<< HEAD
 		if (!parsing(&shell))
 		{
 			add_history(shell.line);
@@ -75,11 +74,9 @@ int	main(int argc, char **argv, char **envp)
 				tmp2 = tmp2->next;
 			}
 		}
-=======
 		if (!check_empty_line(&shell) && !parsing(&shell))
 			execute(&shell);
 		add_history(shell.line);
->>>>>>> 288f2ee63f412c118d1f6ef60f26b97c22d31cab
 		if (shell.line)
 			(free(shell.line), shell.line = NULL);
 	}
