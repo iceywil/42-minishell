@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/05 05:35:27 by a                ###   ########.fr       */
+/*   Updated: 2024/12/10 01:31:51 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,9 +127,7 @@ void	s_save_args(t_shell *shell, t_second *second)
 	second->args = ft_calloc(shell->i + 2, sizeof(char *));
 	if (!second->args)
 		malloc_error(shell);
-	second->args[0] = ft_strdup(second->cmd);
-	if (!second->args[0])
-		malloc_error(shell);
+	s_set_arg_zero(shell, second);
 	second->args_current = second->args_head;
 	shell->i = 1;
 	while (second->args_current)
@@ -142,3 +140,4 @@ void	s_save_args(t_shell *shell, t_second *second)
 	}
 	second->args[shell->i] = NULL;
 }
+

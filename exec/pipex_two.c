@@ -6,19 +6,16 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:34:23 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/07 00:44:58 by a                ###   ########.fr       */
+/*   Updated: 2024/12/10 09:13:34 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	builtin_cmd(t_shell *shell, char **envp)
+void	builtin_cmd(t_shell *shell, char **envp)
 {
 	/* if (ft_strcmp(shell->s_current->args[0], "exit") == 0)
-	{
-		bl_exit(shell);
-		return (1);
-	}
+		(bl_exit(shell), return (1));
 	else if (ft_strcmp(shell->s_current->args[0], "echo") == 0)
 	{
 		bl_echo(shell);
@@ -51,41 +48,35 @@ int	builtin_cmd(t_shell *shell, char **envp)
 	}
 	else
 		return (0); */
-	return (0);
 }
 
 void	exev(t_shell *shell, char **envp)
 {
 	if (!shell->s_current->cmd_path)
-		print_err(shell->s_current->args[0], " Command not found", 0, 0);
+		print_err(shell->s_current->cmd, ": command not found", 0, 0);
 	else if (access(shell->s_current->cmd_path, F_OK) == -1)
 	{
-		if (shell->s_current->cmd_path[0] == '/'
-			|| shell->s_current->cmd_path[0] == '.')
-			print_err(shell->s_current->args[0], " No such file or directory",
-				0, 0);
+		if (shell->s_current->cmd[0] == '/' || shell->s_current->cmd[0] == '.')
+			print_err(shell->s_current->cmd, ": No such file or directory", 0,
+				0);
 		else
-			print_err(shell->s_current->args[0], " Command not found", 0, 0);
+			print_err(shell->s_current->cmd, ": command not found", 0, 0);
 	}
 	else if (access(shell->s_current->cmd_path, X_OK) == -1)
-		print_err(shell->s_current->args[0], " Permission denied", 0, 0);
+		print_err(shell->s_current->cmd, ": Permission denied", 0, 0);
 	else if (!execve(shell->s_current->cmd_path, shell->s_current->args, envp))
-		print_err(shell->s_current->args[0], " Command error", 0, 0);
-	shell->err = 127;
-	exit(0);
+		print_err(shell->s_current->cmd, ": command error", 0, 0);
+	exit(1);
 }
 
 void	check_access(t_shell *shell)
 {
-	/* 	if (!shell->s_current->cmd_path)
-			shell->err = 127; */
-	if (access(shell->s_current->cmd_path, X_OK) == -1)
-	{
-		if (shell->s_current->cmd_path[0] == '.')
-			shell->err = 126;
-		else
-			shell->err = 127;
-	}
+	if (!shell->s_current->cmd_path)
+		shell->excode = 127;
+	else if (access(shell->s_current->cmd_path, F_OK) == -1)
+		shell->excode = 127;
+	else if (access(shell->s_current->cmd_path, X_OK) == -1)
+		shell->excode = 126;
 }
 
 void	malloc_fds(t_shell *shell)
@@ -109,25 +100,4 @@ void	malloc_fds(t_shell *shell)
 	}
 	fds[i] = NULL;
 	shell->fds = fds;
-}
-
-void	join_path(t_shell *shell, t_second *s_current, char *path)
-{
-	char	*part_path;
-
-	part_path = NULL;
-	if (!ft_strncmp(s_current->cmd, "/", 1))
-	{
-		s_current->cmd_path = ft_strdup(s_current->cmd);
-		if (!s_current->cmd_path)
-			malloc_error(shell);
-		return ;
-	}
-	part_path = ft_strjoin(path, "/");
-	if (!part_path)
-		malloc_error(shell);
-	s_current->cmd_path = ft_strjoin(part_path, s_current->cmd);
-	if (!s_current->cmd_path)
-		malloc_error(shell);
-	free(part_path);
 }

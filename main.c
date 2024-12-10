@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/07 00:19:07 by a                ###   ########.fr       */
+/*   Updated: 2024/12/11 00:44:12 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_shell	shell;
 
+	shell.excode = 0;
+	shell.switch_signal = 0;
+	signal(SIGINT, ctrl_c);
+	// signal(SIGQUIT, nothing);
+	// real copy env here
+	// 
 	while (1)
 	{
 		init_all(&shell);
@@ -34,6 +40,7 @@ int	main(int argc, char **argv, char **envp)
 		add_history(shell.line);
 		if (shell.line)
 			(free(shell.line), shell.line = NULL);
+		free_shell(&shell);
 	}
 	(ft_putstr_fd("exit\n", 1), free_shell(&shell));
 	return (0);
@@ -71,6 +78,7 @@ void	execute(t_shell *shell)
 	get_paths(shell);
 	parse_paths(shell);
 	handle_heredoc(shell, shell->s_head);
+	shell->s_current = shell->s_head;
 	if (shell->cmd_nbr == 1)
 		one_command(shell, shell->env);
 	else
@@ -80,12 +88,9 @@ void	execute(t_shell *shell)
 void	init_all(t_shell *shell)
 {
 	shell->i = 0;
-	shell->x = 0;
 	shell->env = NULL;
 	shell->unset = 0;
-	shell->err = 0;
 	shell->fds = NULL;
-	shell->pids = NULL;
 	shell->paths = NULL;
 	shell->excode = 0;
 	shell->line = NULL;

@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 17:40:22 by a                 #+#    #+#             */
-/*   Updated: 2024/12/06 23:49:47 by a                ###   ########.fr       */
+/*   Updated: 2024/12/10 23:30:16 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*f_handle_err(t_shell *shell, char *line, int start)
 	char	*var_value;
 	char	*new_line;
 
-	var_value = ft_itoa(shell->err);
+	var_value = ft_itoa(shell->excode);
 	if (!var_value)
 		malloc_error(shell);
 	shell->i++;

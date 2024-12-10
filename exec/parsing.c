@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:44:15 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/06 22:28:21 by a                ###   ########.fr       */
+/*   Updated: 2024/12/10 09:13:12 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,32 +38,6 @@ void	get_paths(t_shell *shell)
 	shell->paths[0] = first;
 }
 
-// check this later
-void	envp_loop(t_shell *shell, int i, int y)
-{
-	/* while (i < shell->args)
-	{
-		if (argv[y][0] == '/' && access(argv[y], F_OK) == 0 && access(argv[y],
-				X_OK) == 0)
-		{
-			shell->cmd_paths[i] = malloc(sizeof(char));
-			shell->cmd_paths[i][0] = '\0';
-			i++;
-		}
-		else
-		{
-			shell->err = 127;
-			if (shell->unset == 1)
-			{
-				ft_putendl_fd("Command not found", 2);
-				ft_putendl_fd("Command not found", 2);
-			}
-			free_shell(shell);
-		}
-		y++;
-	} */
-}
-
 void	parse_paths(t_shell *shell)
 {
 	int			i;
@@ -81,7 +55,7 @@ void	parse_paths(t_shell *shell)
 			{
 				join_path(shell, s_current, shell->paths[j++]);
 				if (access(s_current->cmd_path, F_OK) == 0
-					|| !ft_strncmp(s_current->cmd, "/", 1))
+					|| s_current->cmd[0] == '/')
 					break ;
 				if (s_current->cmd_path)
 					free(s_current->cmd_path);
@@ -90,4 +64,25 @@ void	parse_paths(t_shell *shell)
 		}
 		s_current = s_current->next;
 	}
+}
+
+void	join_path(t_shell *shell, t_second *s_current, char *path)
+{
+	char	*part_path;
+
+	part_path = NULL;
+	if (s_current->cmd[0] == '/')
+	{
+		s_current->cmd_path = ft_strdup(s_current->cmd);
+		if (!s_current->cmd_path)
+			malloc_error(shell);
+		return ;
+	}
+	part_path = ft_strjoin(path, "/");
+	if (!part_path)
+		malloc_error(shell);
+	s_current->cmd_path = ft_strjoin(part_path, s_current->cmd);
+	if (!s_current->cmd_path)
+		malloc_error(shell);
+	free(part_path);
 }

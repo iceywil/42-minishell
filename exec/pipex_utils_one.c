@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:35:26 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/04 22:15:26 by a                ###   ########.fr       */
+/*   Updated: 2024/12/10 08:22:01 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ void	wait_childrens(void)
 {
 	int	status;
 
-	while (errno != ECHILD)
-		waitpid(-1, &status, 0);
+	while (1)
+	{
+		if (waitpid(-1, &status, 0) > 0)
+			break ;
+	}
 }
-
