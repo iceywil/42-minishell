@@ -32,7 +32,7 @@ void	stop_heredoc(t_shell *shell, int signal)
 {
 	(void)signal;
 	ft_putstr_fd("\n", STDERR_FILENO);
-	exit(130);
+	exit(131);
 }
 
 void	newline(t_shell *shell, int signal)
@@ -49,8 +49,8 @@ void	ctrl_d(t_shell *shell, char *line)
 {
 	free(line);
 	//free (shell->user);
-	ft_free_tab(shell->env);
-	//ft_free_tab(shell->env_export);
+	//ft_free_double_tab(shell->env);
+	//ft_free_double_tab(shell->env_export);
 	rl_clear_history();
 	exit(0);
 }
