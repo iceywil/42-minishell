@@ -6,7 +6,7 @@
 /*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/11 00:44:12 by a                ###   ########.fr       */
+/*   Updated: 2024/12/11 01:25:59 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int argc, char **argv, char **envp)
 	shell.excode = 0;
 	shell.switch_signal = 0;
 	signal(SIGINT, ctrl_c);
-	// signal(SIGQUIT, nothing);
+	signal(SIGQUIT, nothing);
 	// real copy env here
 	// 
 	while (1)
