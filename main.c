@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/11 00:44:12 by a                ###   ########.fr       */
+/*   Updated: 2024/12/12 17:29:26 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	main(int argc, char **argv, char **envp)
 		add_history(shell.line);
 		if (shell.line)
 			(free(shell.line), shell.line = NULL);
-		free_shell(&shell);
+		//free_shell(&shell);
 	}
 	(ft_putstr_fd("exit\n", 1), free_shell(&shell));
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/11 00:41:22 by a                ###   ########.fr       */
+/*   Updated: 2024/12/12 17:28:16 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ typedef struct s_shell
 	int					switch_signal;
 	// t_env_list		*env_head;
 }						t_shell;
+
+extern t_shell g_shell;
 
 // MAIN
 char					*create_buffer(void);
@@ -199,10 +201,11 @@ void					builtin_cmd(t_shell *shell, char **envp);
 char					**bl_add_line(char **env, char *value);
 
 // SIGNALS
-void					ctrl_c(t_shell *shell, int var);
-void					nothing(t_shell *shell, int signal);
-void					stop_heredoc(t_shell *shell, int signal);
-void					newline(t_shell *shell, int signal);
-void					ctrl_d(t_shell *shell, char *line);
+void					ctrl_c(int var);
+void					nothing(int signal);
+void					stop_heredoc(int signal);
+void					newline(int signal);
+void					ctrl_d(char *line);
+
 
 #endif
