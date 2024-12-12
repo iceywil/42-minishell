@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:18:26 by a                 #+#    #+#             */
-/*   Updated: 2024/12/10 23:58:07 by a                ###   ########.fr       */
+/*   Updated: 2024/12/12 17:45:00 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,27 +56,4 @@ int	check_token_legit(t_shell *shell, t_first *current)
 		current = current->next;
 	}
 	return (0);
-}
-
-void	s_set_arg_zero(t_shell *shell, t_second *second)
-{
-	int	i;
-	int	start;
-
-	i = 0;
-	start = -1;
-	if (second->cmd[0] == '/')
-	{
-		while (second->cmd[i])
-		{
-			if (second->cmd[i] == '/')
-				start = i + 1;
-			i++;
-		}
-		second->args[0] = ft_strdup(second->cmd + start);
-	}
-	else
-		second->args[0] = ft_strdup(second->cmd);
-	if (!second->args[0])
-		malloc_error(shell);
 }

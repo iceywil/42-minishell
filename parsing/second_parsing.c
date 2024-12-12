@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   second_parsing.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/10 01:31:51 by a                ###   ########.fr       */
+/*   Updated: 2024/12/12 17:45:08 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,3 +141,26 @@ void	s_save_args(t_shell *shell, t_second *second)
 	second->args[shell->i] = NULL;
 }
 
+
+void	s_set_arg_zero(t_shell *shell, t_second *second)
+{
+	int	i;
+	int	start;
+
+	i = 0;
+	start = -1;
+	if (second->cmd[0] == '/')
+	{
+		while (second->cmd[i])
+		{
+			if (second->cmd[i] == '/')
+				start = i + 1;
+			i++;
+		}
+		second->args[0] = ft_strdup(second->cmd + start);
+	}
+	else
+		second->args[0] = ft_strdup(second->cmd);
+	if (!second->args[0])
+		malloc_error(shell);
+}
