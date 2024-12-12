@@ -14,40 +14,26 @@
 
 void	builtin_cmd(t_shell *shell, char **envp)
 {
-	/* if (ft_strcmp(shell->s_current->args[0], "exit") == 0)
-		(bl_exit(shell), return (1));
-	else if (ft_strcmp(shell->s_current->args[0], "echo") == 0)
-	{
-		bl_echo(shell);
-		return (1);
-	}
+	t_env_list *env;
+	// if (ft_strcmp(shell->s_current->args[0], "exit") == 0)
+	// 	(bl_exit(shell->s_current->args, shell), exit(shell->excode));
+	if (ft_strcmp(shell->s_current->args[0], "echo") == 0)
+		(bl_echo(shell), exit(shell->excode));
+	else if (ft_strcmp(shell->s_current->args[0], "pwd") == 0)
+		(bl_pwd(shell), exit(shell->excode));
 	// else if (ft_strcmp(shell->s_current->args[0], "cd") == 0)
+	// 	(bl_cd(shell, shell->s_current->args), exit(shell->excode));
+	else if (ft_strcmp(shell->s_current->args[0], "env") == 0)
+		(bl_env(shell), exit(shell->excode));
+	else if (ft_strcmp(shell->s_current->args[0], "export") == 0)
+		(bl_export(shell), exit(shell->excode));
+	// else if (ft_strcmp(shell->s_current->args[0], "unset") == 0)
 	// {
-	// 	bl_cd();
+	// 	bl_unset(shell->s_current->args[1]);
 	// 	return (1);
 	// }
-	else if (ft_strcmp(shell->s_current->args[0], "pwd") == 0)
-	{
-		bl_pwd(shell);
-		return (1);
-	}
-	else if (ft_strcmp(shell->s_current->args[0], "env") == 0)
-	{
-		bl_env(shell);
-		return (1);
-	}
-	else if (ft_strcmp(shell->s_current->args[0], "unset") == 0)
-	{
-		bl_unset(shell->s_current->args[1]);
-		return (1);
-	}
-	else if (ft_strcmp(shell->s_current->args[0], "export") == 0)
-	{
-		bl_export(shell);
-		return (1);
-	}
 	else
-		return (0); */
+		exev(shell, envp);
 }
 
 void	exev(t_shell *shell, char **envp)

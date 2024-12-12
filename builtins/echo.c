@@ -34,16 +34,16 @@ void	bl_echo(t_shell *shell)
 	int	flag;
 	int	x;
 	
+
 	flag = 0;
 	i = check_newline(shell->s_current->args, &flag);
 	if (shell->s_current->args[1])
 	{
 		while (shell->s_current->args[i])
 		{
-			if (shell->s_current->args[i] && !shell->s_current->args[i + 1])
-				ft_printf("%s", shell->s_current->args[i++]);
-			else if (shell->s_current->args[i])
-				ft_printf("%s ", shell->s_current->args[i++]);
+			if (i > 1)
+				ft_printf(" ");
+			ft_printf("%s", shell->s_current->args[i++]);
 		}
 	}
 	if (!flag)
