@@ -10,60 +10,41 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-/* Cree une nouvelle matrix en ajoutant une ligne et free l'ancienne */
-char	**bl_add_line(char **src, char *new_line)
+bool conf_second_env(t_shell *shell)
 {
-	int	i;
-	char	**new_src;
+    char *temps;
+    char path[PATH_MAX];
 
-	i = 0;
-	while (src[i])
-		i++;
-	new_src = malloc(sizeof(char *) * (i + 2));
-	if (!new_src)
-		return (NULL);
-	i = 0;
-	while (src[i])
-	{
-		new_src[i] = ft_strdup(src[i]);
-		i++;
-	}
-	new_src[i] = ft_strdup(new_line);
-	i++;
-	new_src[i] = NULL;
-	ft_free_double_tab(src);
-	return (new_src);
+    temps = ft_strdup("OLDPWD");
+    if (!temps)
+        return (0);
+    temps = ft_strjoin("PWD", path);
+    if (!temps)
+        return (0);
+    free(temps);
+    return (1);
 }
 
-
-char	**bl_remove_line(char **src, char *line)
+int conf_env(t_shell *shell, char **env)
 {
-	int	i;
-	int	j;
-	char	**new_src;
+    t_env_list *envp;
+    int i;
+    char *temps;
 
-	i = 0;
-	j = 0;
-	while (src[i])
-		i++;
-	new_src = malloc(sizeof(char *) * (i + 1));
-	if (!new_src)
-		return (NULL);
-	i = 0;
-	while (src[i])
-	{
-		if (ft_strcmp(src[i], line) == 0)
-			i++;
-		if (src[i])
-		{
-			new_src[j++] = ft_strdup(src[i]);
-			i++;
-		}
-		
-	}
-	new_src[j] = NULL;
-	ft_free_double_tab(src);
-	return (new_src);
+    if (!(*env))
+        return (conf_second_env(shell));
+    i = -1;
+    envp = NULL;
+    while (env[++i])
+    {
+        temps = ft_strdup(env[i]);
+        if (!temps)
+            return (free_list(&envp));
+        if (!add_back_env(&envp, temps))
+            return (free_list(&envp));
+    }
+    shell->env_head = envp;
+    return (1);
 }
