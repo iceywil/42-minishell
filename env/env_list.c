@@ -22,7 +22,7 @@ static void add_head(t_env_list **env, t_env_list *new_head)
 static int new_element(t_env_list **env, char *new_element)
 {
 	(*env) = malloc(sizeof(t_env_list));
-	if (!(*env))
+	if (*env == NULL)
 		return (0);
 	(*env)->key = new_element;
 	(*env)->next = NULL;

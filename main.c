@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-t_shell g_shell;
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	shell;
@@ -27,7 +25,8 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		init_all(&shell);
-		copy_env(&shell, envp);
+		if (!conf_env(&shell, envp))
+			return (free_shell(&shell), 1);
 		shell.cwd = create_buffer();
 		if (!shell.cwd)
 			return (free_shell(&shell), 1);

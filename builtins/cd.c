@@ -112,7 +112,7 @@ int bl_cd(t_shell *shell, char **params)
 	if (count_arg(params) == 2)
 	{
 		res = chdir(params[1]);
-		printf("params[1]: %s\n", params[1]);
+
 		if (res == 0)
 			update_pwd(shell, params[1]);
 		if (res == -1)

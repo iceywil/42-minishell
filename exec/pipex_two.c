@@ -21,8 +21,8 @@ void	builtin_cmd(t_shell *shell, char **envp)
 		(bl_echo(shell), exit(shell->excode));
 	else if (ft_strcmp(shell->s_current->args[0], "pwd") == 0)
 		(bl_pwd(shell), exit(shell->excode));
-	// else if (ft_strcmp(shell->s_current->args[0], "cd") == 0)
-	// 	(bl_cd(shell, shell->s_current->args), exit(shell->excode));
+	else if (ft_strcmp(shell->s_current->args[0], "cd") == 0)
+		(bl_cd(shell, shell->s_current->args), exit(shell->excode));
 	else if (ft_strcmp(shell->s_current->args[0], "env") == 0)
 		(bl_env(shell), exit(shell->excode));
 	else if (ft_strcmp(shell->s_current->args[0], "export") == 0)
