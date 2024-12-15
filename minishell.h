@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/12 17:43:50 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/15 21:26:57 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ typedef struct s_shell
 	int					switch_signal;
 }						t_shell;
 
-extern t_shell g_shell;
+extern t_shell			g_shell;
 
 // MAIN
 char					*create_buffer(void);
@@ -152,7 +152,7 @@ void					s_create_node(t_shell *shell, t_second *new_node);
 void					s_add_redir(t_shell *shell, t_second *second);
 void					s_add_arg(t_shell *shell, t_second *second);
 void					s_save_args(t_shell *shell, t_second *second);
-void    s_set_arg_zero(t_shell *shell, t_second *second);
+void					s_set_arg_zero(t_shell *shell, t_second *second);
 
 // FREE EXIT
 void					free_shell(t_shell *shell);
@@ -190,7 +190,7 @@ int						open_infile(t_shell *shell);
 int						open_outfile(t_shell *shell);
 int						open_outfile_append(t_shell *shell);
 void					handle_heredoc(t_shell *shell, t_second *current);
-void	handle_redirs(t_shell *shell);
+void					handle_redirs(t_shell *shell);
 
 // BUILTINS
 void					bl_echo(t_shell *shell);
@@ -251,5 +251,7 @@ void					nothing(int signal);
 void					stop_heredoc(int signal);
 void					newline(int signal);
 void					ctrl_d(char *line);
+void					set_signal_action(void);
+void					sigint_handler(int signal);
 
 #endif
