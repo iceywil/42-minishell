@@ -28,11 +28,11 @@ static void error_malloc(void)
 	return;
 }
 
-static void update_oldpwd(t_shell *shell)
+static void	update_oldpwd(t_shell *shell)
 {
-	t_env_list *tmp;
-	char *test;
-	int len;
+	t_env_list	*tmp;
+	char	*test;
+	int		len;
 
 	tmp = shell->env_head;
 	test = NULL;
@@ -40,7 +40,7 @@ static void update_oldpwd(t_shell *shell)
 	while (len--)
 	{
 		if (ft_strncmp(tmp->key, "PWD=", 3) == 0)
-			test = tmp->value;
+			test = tmp->key;
 		tmp = tmp->next;
 	}
 	if (!test)
@@ -57,20 +57,44 @@ static void update_oldpwd(t_shell *shell)
 
 static void update_pwd(t_shell *shell, char *param)
 {
-	char cwd[PATH_MAX];
-	char *pwd;
+    char    cwd[PATH_MAX];
+    char    *pwd;
+    char    *oldpwd;
 
-	update_oldpwd(shell);
-	if (getcwd(cwd, PATH_MAX) == NULL)
-	{
-		perror(param);
-		return;
-	}
-	pwd = ft_strjoin("PWD=", cwd);
-	if (!pwd)
-		return (error_malloc());
-	export(pwd, &shell->env_head);
-	free(pwd);
+    update_oldpwd(shell);
+    if (getcwd(cwd, PATH_MAX) == NULL)
+    {
+        perror(param);
+        return;
+    }
+
+    // Convertir le chemin en format Unix si nécessaire
+    if (cwd[1] == ':') // Si c'est un chemin Windows
+    {
+        char temp[PATH_MAX] = "/cygdrive/";
+        if (cwd[0] >= 'A' && cwd[0] <= 'Z')
+            temp[9] = cwd[0] + 32; // Convertir en minuscule
+        else
+            temp[9] = cwd[0];
+        strcat(temp, cwd + 2);
+        strcpy(cwd, temp);
+    }
+
+    // Mettre à jour PWD
+    pwd = ft_strjoin("PWD=", cwd);
+    if (!pwd)
+        return (error_malloc());
+    export(pwd, &shell->env_head);
+    free(pwd);
+
+    // Mettre à jour le prompt
+    if (shell->cwd)
+        free(shell->cwd);
+    shell->cwd = create_buffer();
+    if (!shell->cwd)
+        error_malloc();
+
+    printf("PWD updated to: %s\n", cwd);
 }
 
 static int ft_cdhome(t_shell *shell)
@@ -105,22 +129,49 @@ static int ft_cdhome(t_shell *shell)
 
 int bl_cd(t_shell *shell, char **params)
 {
-	int res;
+    int res;
+    char *old_pwd;
+    char *new_pwd;
 
-	if (count_arg(params) == 1)
-		return ft_cdhome(shell);
-	if (count_arg(params) == 2)
-	{
-		res = chdir(params[1]);
+    old_pwd = getcwd(NULL, 0);
+    printf("Current directory before cd: %s\n", old_pwd);
+    free(old_pwd);
 
-		if (res == 0)
-			update_pwd(shell, params[1]);
-		if (res == -1)
-			res *= -1;
-		if (res == 1)
-			perror(params[1]);
-		return (res);
-	}
-	ft_putstr_fd("cd: too many arguments\n", 2);
-	return (1);
+    if (count_arg(params) == 1)
+    {
+        printf("Changing to home directory\n");
+        res = ft_cdhome(shell);
+    }
+    else if (count_arg(params) == 2)
+    {
+        printf("Changing to directory: %s\n", params[1]);
+        res = chdir(params[1]);
+
+        if (res == 0)
+        {
+            new_pwd = getcwd(NULL, 0);
+            printf("Directory changed successfully to: %s\n", new_pwd);
+            update_pwd(shell, params[1]);
+            
+            // Mettre à jour le prompt
+            if (shell->cwd)
+                free(shell->cwd);
+            shell->cwd = create_buffer();
+            if (!shell->cwd)
+                return (1);
+            
+            free(new_pwd);
+        }
+        else
+        {
+            perror("chdir failed");
+        }
+    }
+    else
+    {
+        ft_putstr_fd("cd: too many arguments\n", 2);
+        return 1;
+    }
+
+    return res;
 }

@@ -15,18 +15,18 @@
 void	builtin_cmd(t_shell *shell, char **envp)
 {
 	t_env_list *env;
-	// if (ft_strcmp(shell->s_current->args[0], "exit") == 0)
-	// 	(bl_exit(shell->s_current->args, shell), exit(shell->excode));
-	if (ft_strcmp(shell->s_current->args[0], "echo") == 0)
+	if (ft_strncmp(shell->s_current->args[0], "exit", INT_MAX) == 0)
+		(bl_exit(shell, shell->s_current->args), exit(shell->excode));
+	if (!ft_strncmp("echo", shell->s_current->args[0], INT_MAX))
 		(bl_echo(shell), exit(shell->excode));
-	else if (ft_strcmp(shell->s_current->args[0], "pwd") == 0)
+	else if (!ft_strncmp("pwd", shell->s_current->args[0], INT_MAX))
 		(bl_pwd(shell), exit(shell->excode));
-	else if (ft_strcmp(shell->s_current->args[0], "cd") == 0)
+	else if (!ft_strncmp("cd", shell->s_current->args[0], 2))
 		(bl_cd(shell, shell->s_current->args), exit(shell->excode));
-	else if (ft_strcmp(shell->s_current->args[0], "env") == 0)
+	else if (!ft_strncmp("env", shell->s_current->args[0], INT_MAX))
 		(bl_env(shell), exit(shell->excode));
-	else if (ft_strcmp(shell->s_current->args[0], "export") == 0)
-		(bl_export(shell), exit(shell->excode));
+	// else if (!ft_strncmp("export", shell->s_current->args[0], 6))
+	// 	(bl_export(shell), exit(shell->excode));
 	// else if (ft_strcmp(shell->s_current->args[0], "unset") == 0)
 	// {
 	// 	bl_unset(shell->s_current->args[1]);

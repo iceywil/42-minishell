@@ -48,6 +48,7 @@ C_FILES     =   main.c \
 				env/env_setup.c \
 				env/env_list.c \
 				free_utils.c \
+				builtins/export_lol.c \
 	
 all:        $(NAME)
 

@@ -71,9 +71,7 @@ typedef struct t_second
 typedef struct s_env_list
 {
 	char				*key;
-	char				*value;
-	int					index;
-	bool				isunset;
+	char				*str;
 	struct s_env_list	*next;
 	struct s_env_list	*prev;
 }						t_env_list;
@@ -109,7 +107,7 @@ extern t_shell g_shell;
 
 // MAIN
 char					*create_buffer(void);
-void					init_all(t_shell *shell);
+void					init_all(t_shell *shell, int argc, char **argv);
 void					execute(t_shell *shell);
 void					copy_env(t_shell *shell, char **envp);
 int						check_empty_line(t_shell *shell);
@@ -196,38 +194,13 @@ void	handle_redirs(t_shell *shell);
 void					bl_echo(t_shell *shell);
 void					bl_pwd(t_shell *shell);
 int						bl_env(t_shell *shell);
-void					bl_exit(char **arg, t_shell *shell);
+void					bl_exit(t_shell *shell, char **args);
 int						check_newline(char **arg, int *flag);
-char					*env(char **env, char *ag);
-char					*bl_varenv(char **env, char *arg);
-int						env_compare(char **env, char **arg, int i);
-void					bl_set_env(char **env, char *value);
 void					builtin_cmd(t_shell *shell, char **envp);
-char					**bl_add_line(char **env, char *value);
 void					suppr_space(char *str);
 t_env_list				*new_env(char *key, char *value, t_shell *shell);
 void					add_or_update_env(t_env_list **env, char *arg,
 							char *value, t_shell *shell);
-bool					is_valid_identifier(char *arg);
-void					handle_id(t_env_list *env, char *arg, t_shell *shell);
-
-// UTILS
-void					init_shell(t_shell *shell, char **envp);
-t_env_list				*find_env_node(t_env_list *env_head, const char *key);
-void					edit_env_value(t_shell *shell, const char *key,
-							const char *value);
-void					add_env_value(t_shell *shell, const char *key,
-							const char *value);
-void					set_env(t_shell *shell, const char *key,
-							const char *value);
-char					*get_env_value(t_env_list *env_head, const char *key);
-char					*ft_strcat(char *dest, const char *src);
-char					*ft_strjoin_double(const char *s1, const char *sep,
-							const char *s2);
-void					ft_getenv(t_shell *shell, char **envp);
-void					fill_envp(t_shell *shell);
-char					*get_value_by_key(t_env_list *env_head,
-							const char *key);
 
 // Env
 size_t					env_size(t_env_list *env);

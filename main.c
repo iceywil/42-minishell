@@ -21,15 +21,20 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGINT, ctrl_c);
 	// signal(SIGQUIT, nothing);
 	// real copy env here
-	// 
+	init_all(&shell, argc, argv);
+	if (!conf_env(&shell, envp))
+		return (free_shell(&shell), 1);
+	shell.cwd = create_buffer();
+	if (!shell.cwd)
+		return (free_shell(&shell), 1);
 	while (1)
 	{
-		init_all(&shell);
-		if (!conf_env(&shell, envp))
-			return (free_shell(&shell), 1);
-		shell.cwd = create_buffer();
-		if (!shell.cwd)
-			return (free_shell(&shell), 1);
+		// init_all(&shell);
+		// if (!conf_env(&shell, envp))
+		// 	return (free_shell(&shell), 1);
+		// shell.cwd = create_buffer();
+		// if (!shell.cwd)
+		// 	return (free_shell(&shell), 1);
 		shell.line = readline(shell.cwd);
 		if (!shell.line)
 			break ;
@@ -59,17 +64,58 @@ int	check_empty_line(t_shell *shell)
 	return (1);
 }
 
-char	*create_buffer(void)
+char *create_buffer(void)
 {
-	char	*buffer;
-	char	*str;
+    char *pwd;
+    char *prompt;
+    char *clean_path;
+    int i;
+    int j;
 
-	buffer = ft_calloc(PATH_MAX, sizeof(char *));
-	buffer = getcwd(buffer, PATH_MAX);
-	str = ft_strjoin(buffer, "> ");
-	if (!buffer)
-		free(buffer);
-	return (str);
+    pwd = getcwd(NULL, 0);
+    if (!pwd)
+        return (ft_strdup("> "));
+
+    // Allouer de l'espace pour le chemin nettoyé
+    clean_path = malloc(strlen(pwd) * 2 + 1); // *2 pour le pire cas
+    if (!clean_path)
+    {
+        free(pwd);
+        return (ft_strdup("> "));
+    }
+
+    i = 0;
+    j = 0;
+
+    // Gérer le cas Windows (C:\...)
+    if (pwd[1] == ':')
+    {
+        clean_path[j++] = '/';
+        // Ignorer le ":" et convertir le disque en minuscule
+        clean_path[j++] = ft_tolower(pwd[0]);
+        i = 2; // Sauter C:
+    }
+
+    // Convertir le reste du chemin
+    while (pwd[i])
+    {
+        if (pwd[i] == '\\')
+            clean_path[j++] = '/';
+        else if (pwd[i] == ' ')
+            clean_path[j++] = '\\', clean_path[j++] = ' ';
+        else
+            clean_path[j++] = pwd[i];
+        i++;
+    }
+    clean_path[j] = '\0';
+
+    // Créer le prompt final
+    prompt = ft_strjoin(clean_path, "> ");
+    
+    free(pwd);
+    free(clean_path);
+    
+    return prompt;
 }
 
 void	execute(t_shell *shell)
@@ -84,20 +130,23 @@ void	execute(t_shell *shell)
 		exec(shell);
 }
 
-void	init_all(t_shell *shell)
+void	init_all(t_shell *shell, int argc, char **argv)
 {
+	(void)argc;
+	(void)argv;
 	shell->i = 0;
 	shell->env = NULL;
 	shell->unset = 0;
 	shell->fds = NULL;
 	shell->paths = NULL;
 	shell->excode = 0;
-	shell->line = NULL;
+	// shell->line = NULL;
 	shell->s_head = NULL;
 	shell->s_current = NULL;
 	shell->cwd = NULL;
 	shell->f_head = NULL;
 	shell->f_current = NULL;
+	shell->env_head = NULL;
 }
 
 void	copy_env(t_shell *shell, char **envp)
