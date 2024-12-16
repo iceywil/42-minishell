@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 00:00:43 by a                 #+#    #+#             */
-/*   Updated: 2024/12/12 17:27:02 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/15 21:27:23 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_shell g_shell;
 
-void	ctrl_c(int var)
+/* void	ctrl_c(int var)
 {
 	(void) var;
 	if (g_shell.switch_signal == 0)
@@ -55,4 +55,27 @@ void	ctrl_d(char *line)
 	//ft_free_tab(shell->env_export);
 	rl_clear_history();
 	exit(0);
+} */
+
+void sigint_handler(int signal)
+{
+ if (signal == SIGINT)
+  printf("\nIntercepted SIGINT!\n");
+}
+
+void set_signal_action(void)
+{
+ // Déclaration de la structure sigaction
+ struct sigaction act;
+
+ // Met à 0 tous les bits dans la structure,
+ // sinon on aura de mauvaises surprises de valeurs
+ // non-initialisées...
+ ft_bzero(&act, sizeof(act));
+ // On voudrait invoquer la routine sigint_handler
+ // quand on reçoit le signal :
+ act.sa_handler = &sigint_handler;
+ // Applique cette structure avec la fonction à invoquer
+ // au signal SIGINT (ctrl-c)
+ sigaction(SIGINT, &act, NULL);
 }

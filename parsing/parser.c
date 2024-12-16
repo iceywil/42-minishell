@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:18:26 by a                 #+#    #+#             */
-/*   Updated: 2024/12/12 17:45:00 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/15 21:29:17 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ int	parsing(t_shell *shell)
 	if (check_open_quotes(shell, shell->line, 0))
 		return (1);
 	f_parsing(shell, shell->line);
-
 	clean_empty_and_quotes(shell, shell->f_head);
-
 	if (check_token_legit(shell, shell->f_head))
 		return (1);
 	s_parsing(shell);
@@ -30,7 +28,6 @@ int	parsing(t_shell *shell)
 		shell->cmd_nbr++;
 		shell->s_current = shell->s_current->next;
 	}
-
 	return (0);
 }
 
@@ -46,11 +43,13 @@ int	check_token_legit(t_shell *shell, t_first *current)
 		{
 			printf("minishell : syntax error near unexpected token `%s'\n",
 				current->line);
+			shell->excode = 2;
 			return (1);
 		}
 		else if (!current->next && !current->cmd)
 		{
 			printf("minishell: syntax error near unexpected token `newline'\n");
+			shell->excode = 2;
 			return (1);
 		}
 		current = current->next;
