@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/17 17:41:06 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/18 03:48:24 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	s_create_node(t_shell *shell, t_second *new_node)
 	new_node->args_current = NULL;
 	new_node->redir_head = NULL;
 	new_node->redir_current = NULL;
+	new_node->heredoc = NULL;
 	new_node->infile = -1;
 	new_node->outfile = -1;
 	new_node->next = NULL;
@@ -58,7 +59,8 @@ void	s_parsing(t_shell *shell)
 			else
 				s_add_arg(shell, shell->s_current);
 		}
-		if (!shell->f_current->next || !ft_strcmp(shell->f_current->line, "|"))
+		if ((!shell->f_current->next || !ft_strcmp(shell->f_current->line, "|"))
+			&& shell->s_current->cmd)
 			s_save_args(shell, shell->s_current);
 		if (!ft_strcmp(shell->f_current->line, "|"))
 			s_create_node(shell, NULL);
@@ -140,7 +142,6 @@ void	s_save_args(t_shell *shell, t_second *second)
 	}
 	second->args[shell->i] = NULL;
 }
-
 
 void	s_set_arg_zero(t_shell *shell, t_second *second)
 {

@@ -1,4 +1,4 @@
-valgrind --suppressions=supp_file.supp ./minishell
+valgrind --leak-check=full --show-leak-kinds=all --suppressions=ignore_readline.supp ./minishell
 
 
 - 1

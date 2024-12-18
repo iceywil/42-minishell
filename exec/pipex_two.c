@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_two.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:34:23 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/10 09:13:34 by a                ###   ########.fr       */
+/*   Updated: 2024/12/18 04:09:08 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 void	builtin_cmd(t_shell *shell, char **envp)
 {
-	t_env_list *env;
+	t_env_list	*env;
+
+	if (!shell->s_current->cmd)
+		return ;
 	if (ft_strncmp(shell->s_current->args[0], "exit", INT_MAX) == 0)
 		(bl_exit(shell, shell->s_current->args), exit(shell->excode));
 	if (!ft_strncmp("echo", shell->s_current->args[0], INT_MAX))
@@ -32,26 +35,30 @@ void	builtin_cmd(t_shell *shell, char **envp)
 	// 	bl_unset(shell->s_current->args[1]);
 	// 	return (1);
 	// }
-	else
-		exev(shell, envp);
 }
 
 void	exev(t_shell *shell, char **envp)
 {
-	if (!shell->s_current->cmd_path)
-		print_err(shell->s_current->cmd, ": command not found", 0, 0);
-	else if (access(shell->s_current->cmd_path, F_OK) == -1)
+	if (shell->s_current->cmd)
 	{
-		if (shell->s_current->cmd[0] == '/' || shell->s_current->cmd[0] == '.')
-			print_err(shell->s_current->cmd, ": No such file or directory", 0,
-				0);
-		else
+		if (!shell->s_current->cmd_path)
 			print_err(shell->s_current->cmd, ": command not found", 0, 0);
+		else if (access(shell->s_current->cmd_path, F_OK) == -1)
+		{
+			if (shell->s_current->cmd[0] == '/'
+				|| shell->s_current->cmd[0] == '.')
+				print_err(shell->s_current->cmd, ": No such file or directory",
+					0, 0);
+			else
+				print_err(shell->s_current->cmd, ": command not found", 0, 0);
+		}
+		else if (access(shell->s_current->cmd_path, X_OK) == -1)
+			print_err(shell->s_current->cmd, ": Permission denied", 0, 0);
+		else if (!execve(shell->s_current->cmd_path, shell->s_current->args,
+				envp))
+			print_err(shell->s_current->cmd, ": command error", 0, 0);
 	}
-	else if (access(shell->s_current->cmd_path, X_OK) == -1)
-		print_err(shell->s_current->cmd, ": Permission denied", 0, 0);
-	else if (!execve(shell->s_current->cmd_path, shell->s_current->args, envp))
-		print_err(shell->s_current->cmd, ": command error", 0, 0);
+	free_shell(shell);
 	exit(1);
 }
 

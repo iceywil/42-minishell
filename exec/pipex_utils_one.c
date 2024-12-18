@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils_one.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:35:26 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/10 08:22:01 by a                ###   ########.fr       */
+/*   Updated: 2024/12/18 03:41:02 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,10 @@ void	wait_childrens(void)
 
 	while (1)
 	{
-		if (waitpid(-1, &status, 0) > 0)
-			break ;
+		if (waitpid(-1, &status, 0) == -1)
+		{
+			if (errno == ECHILD)
+				break ;
+		}
 	}
 }

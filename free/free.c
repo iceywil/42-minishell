@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:10:56 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/17 18:00:09 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/18 03:54:07 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	free_shell(t_shell *shell)
 		free(shell->cwd);
 	if (shell->env_head)
 		free_list(shell);
+	if (shell->env_tab)
+		ft_free_double_tab(&shell->env_tab);
 }
 
 void	check_exit(t_shell *shell)
@@ -101,7 +103,7 @@ void	free_second(t_shell *shell)
 	while (current)
 	{
 		next = current->next;
-		/* if (current->cmd)
+		if (current->cmd)
 			free(current->cmd);
 		if (current->cmd_path)
 			free(current->cmd_path);
@@ -110,10 +112,10 @@ void	free_second(t_shell *shell)
 		if (current->args_head)
 			free_first(current->args_head);
 		if (current->redir_head)
-			free_first(current->redir_current);
+			free_first(current->redir_head);
 		if (current->heredoc)
 			free(current->heredoc);
-		free(current); */
+		free(current);
 		current = next;
 	}
 	shell->s_head = NULL;
