@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/15 21:37:38 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/17 18:00:15 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,7 @@ typedef struct t_second
 typedef struct s_env_list
 {
 	char				*key;
-	char				*str;
 	struct s_env_list	*next;
-	struct s_env_list	*prev;
 }						t_env_list;
 
 typedef struct s_shell
@@ -85,7 +83,6 @@ typedef struct s_shell
 	int					cmd_nbr;
 	char				**paths;
 	int					**fds;
-	int					*pids;
 	// Minishell
 	int					excode;
 	char				*line;
@@ -96,22 +93,20 @@ typedef struct s_shell
 	t_second			*s_current;
 	// Env
 	char				*cwd;
-	char				**env;
 	t_env_list			*env_head;
-	char				*pwd;
-	char				*oldpwd;
+	t_env_list			*env_current;
+	char				**env_tab;
 	int					switch_signal;
 }						t_shell;
 
 extern t_shell			g_shell;
 
 // MAIN
-char					*create_buffer(void);
-void					init_all(t_shell *shell, int argc, char **argv);
+char					*create_buffer(t_shell *shell);
+void					init_all(t_shell *shell);
+void					init_all_start(t_shell *shell);
 void					execute(t_shell *shell);
-void					copy_env(t_shell *shell, char **envp);
 int						check_empty_line(t_shell *shell);
-void					init_env_list(t_shell *shell, char **envp);
 
 // PARSING
 int						parsing(t_shell *shell);
@@ -201,18 +196,19 @@ void					add_or_update_env(t_env_list **env, char *arg,
 							char *value, t_shell *shell);
 
 // Env
-size_t					env_size(t_env_list *env);
-int						add_back_env(t_env_list **env, char *new_element);
 int						conf_env(t_shell *shell, char **env);
-bool					conf_second_env(t_shell *shell);
-int						free_list(t_env_list **envp);
+void					conf_second_env(t_shell *shell, char **envp);
+void					free_list(t_shell *shell);
 bool					print_error(char *str);
 void					free_t_env(t_shell *shell, char *err, int ext);
+void					copy_env(t_shell *shell);
+int						env_size(t_shell *shell);
+void					add_back_env(t_shell *shell, char *value);
 
 // export
-char					**lst_to_arr(t_env_list *env);
+char					**lst_to_arr(t_shell *shell, t_env_list *env);
 void					sort_array(char **arr, int len);
-bool					export(char *str, t_env_list **env);
+bool					export(t_shell *shell, char *str, t_env_list **env);
 int						bl_export(t_shell *shell);
 int						bl_cd(t_shell *shell, char **params);
 

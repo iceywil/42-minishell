@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export_lol.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 23:12:18 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/10 23:12:18 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/17 16:35:12 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	**lst_to_arr(t_env_list *env)
+char	**lst_to_arr(t_shell *shell, t_env_list *env)
 {
 	t_env_list	*lst;
 	char	**dest;
@@ -21,7 +21,7 @@ char	**lst_to_arr(t_env_list *env)
 	dest = NULL;
 	i = 0;
 	lst = env;
-	dest = (char **)malloc(sizeof(char *) * (env_size(lst) + 1));
+	dest = (char **)malloc(sizeof(char *) * (env_size(shell) + 1));
 	if (!dest)
 		return (NULL);
 	dest[i] = (lst->key);

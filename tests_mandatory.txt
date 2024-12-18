@@ -1,4 +1,4 @@
-
+valgrind --suppressions=supp_file.supp ./minishell
 
 
 - 1

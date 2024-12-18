@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/12 17:45:08 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/17 17:41:06 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@ void	s_create_node(t_shell *shell, t_second *new_node)
 	new_node = malloc(sizeof(t_second));
 	if (!new_node)
 		malloc_error(shell);
-	new_node->prev = NULL;
 	new_node->cmd = NULL;
+	new_node->cmd_path = NULL;
 	new_node->args = NULL;
-	new_node->next = NULL;
 	new_node->args_head = NULL;
 	new_node->args_current = NULL;
 	new_node->redir_head = NULL;
 	new_node->redir_current = NULL;
-	new_node->cmd_path = NULL;
 	new_node->infile = -1;
 	new_node->outfile = -1;
+	new_node->next = NULL;
+	new_node->prev = NULL;
 	if (!shell->s_head)
 		shell->s_head = new_node;
 	else

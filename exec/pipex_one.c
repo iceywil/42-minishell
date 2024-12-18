@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_one.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:29:59 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/10 08:45:13 by a                ###   ########.fr       */
+/*   Updated: 2024/12/16 16:35:58 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,16 @@ void	exec(t_shell *shell)
 {
 	malloc_fds(shell);
 	shell->i = 0;
-	first_cmd(shell, shell->env);
+	first_cmd(shell, shell->env_tab);
 	shell->i++;
 	shell->s_current = shell->s_current->next;
 	while (shell->i != shell->cmd_nbr - 1)
 	{
-		mid_cmd(shell, shell->env);
+		mid_cmd(shell, shell->env_tab);
 		shell->i++;
 		shell->s_current = shell->s_current->next;
 	}
-	last_cmd(shell, shell->env);
+	last_cmd(shell, shell->env_tab);
 	wait_childrens();
 	close_last_pipes(shell);
 	close_own_pipes(shell);

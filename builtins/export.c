@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 18:07:20 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/06 18:07:20 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/17 16:35:29 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static bool	export_no_args(t_env_list *env)
+static bool	export_no_args(t_shell *shell, t_env_list *env)
 {
 	char	**arr;
 	int		i;
 	int		j;
 
-	arr = lst_to_arr(env);
+	arr = lst_to_arr(shell, env);
 	if (!arr)
 		return (false);
-	sort_array(arr, env_size(env));
+	sort_array(arr, env_size(shell));
 	i = 0;
 	while (arr[i])
 	{
@@ -57,8 +57,8 @@ static bool	valid_identifier(char *str)
 
 static int	exist(char *str, t_env_list *env)
 {
-	int		i;
-	int		j;
+	int			i;
+	int			j;
 	t_env_list	*tmp;
 
 	if (!env)
@@ -68,15 +68,15 @@ static int	exist(char *str, t_env_list *env)
 		i++;
 	j = 0;
 	tmp = env;
-	if (!ft_strncmp(tmp->key, str, i) && (tmp->key[i] == '\0' || \
-		tmp->key[i] == '='))
+	if (!ft_strncmp(tmp->key, str, i) && (tmp->key[i] == '\0'
+			|| tmp->key[i] == '='))
 		return (j);
 	tmp = tmp->next;
 	j++;
 	while (tmp != env)
 	{
-		if (!ft_strncmp(tmp->key, str, i) && (tmp->key[i] == '\0' || \
-			tmp->key[i] == '='))
+		if (!ft_strncmp(tmp->key, str, i) && (tmp->key[i] == '\0'
+				|| tmp->key[i] == '='))
 			return (j);
 		tmp = tmp->next;
 		j++;
@@ -84,25 +84,27 @@ static int	exist(char *str, t_env_list *env)
 	return (-1);
 }
 
-bool export(char *str, t_env_list **env) {
-    int pos;
-    char *value;
-    t_env_list *current;
+bool	export(t_shell *shell, char *str, t_env_list **env)
+{
+	int			pos;
+	char		*value;
+	t_env_list	*current;
 
-    value = ft_strdup(str);
-    if (!value)
-        return (false);
-
-    current = *env;
-    while (current) {
-        if (ft_strncmp(current->key, str, ft_strchr(str, '=') - str) == 0) {
-            free(current->key);
-            current->key = value;
-            return (true);
-        }
-        current = current->next;
-    }
-    return add_back_env(env, value);
+	value = ft_strdup(str);
+	if (!value)
+		return (false);
+	current = *env;
+	while (current)
+	{
+		if (ft_strncmp(current->key, str, ft_strchr(str, '=') - str) == 0)
+		{
+			free(current->key);
+			current->key = value;
+			return (true);
+		}
+		current = current->next;
+	}
+	return (add_back_env(shell, value), true);
 }
 
 // int	bl_export(char **str, t_env_list **env)

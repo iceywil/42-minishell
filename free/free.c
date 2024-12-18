@@ -6,24 +6,33 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:10:56 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/15 21:54:12 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/17 18:00:09 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	free_shell(t_shell *shell)
 {
-	if (shell->cwd)
-		free(shell->cwd);
+	if (shell->paths)
+		ft_free_double_tab(&shell->paths);
+	if (shell->fds)
+	{
+		shell->i = 0;
+		while (shell->fds[shell->i])
+			free(shell->fds[shell->i++]);
+		free(shell->fds);
+	}
 	if (shell->line)
 		free(shell->line);
-	if (shell->env)
-		ft_free_double_tab(&shell->env);
 	if (shell->f_head)
-		free_first(shell);
+		free_first(shell->f_head);
 	if (shell->s_head)
 		free_second(shell);
+	if (shell->cwd)
+		free(shell->cwd);
+	if (shell->env_head)
+		free_list(shell);
 }
 
 void	check_exit(t_shell *shell)
@@ -71,7 +80,7 @@ void	free_first(t_first *head)
 	t_first	*next;
 
 	current = head;
-	while (head)
+	while (current)
 	{
 		next = current->next;
 		if (current->token)
@@ -92,19 +101,19 @@ void	free_second(t_shell *shell)
 	while (current)
 	{
 		next = current->next;
-		if (current->cmd)
+		/* if (current->cmd)
 			free(current->cmd);
 		if (current->cmd_path)
 			free(current->cmd_path);
 		if (current->args)
-			ft_free_double_tab(current->args);
+			ft_free_double_tab(&current->args);
 		if (current->args_head)
-			free_first(shell);
+			free_first(current->args_head);
 		if (current->redir_head)
-			free_first(shell);
+			free_first(current->redir_current);
 		if (current->heredoc)
 			free(current->heredoc);
-		free(current);
+		free(current); */
 		current = next;
 	}
 	shell->s_head = NULL;

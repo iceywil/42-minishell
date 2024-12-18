@@ -3,34 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 02:36:19 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/11 02:36:19 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/17 17:57:38 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-int	free_list(t_env_list **envp)
+void	free_list(t_shell *shell)
 {
-	t_env_list	*tmp;
 	t_env_list	*current;
-
-	if (!(*envp))
-		return (0);
-	current = *envp;
-	while (current->next != *envp)
+	t_env_list	*next;
+	current = shell->env_head;
+	while (current)
 	{
-		tmp = current;
-		current = current->next;
-		free(tmp->key);
-		free(tmp);
+		next = current->next;
+		if (current->key)
+			free(current->key);
+		free(current);
+		current = next;
 	}
-	free(current->key);
-	free(current);
-	*envp = NULL;
-	return (0);
+	shell->env_head = NULL;
 }
 
 bool	print_error(char *str)
@@ -43,7 +38,7 @@ bool	print_error(char *str)
 void	free_t_env(t_shell *shell, char *err, int ext)
 {
 	if (shell->env_head)
-		free_list(&shell->env_head);
+		free_list(shell);
 	if (err)
 		print_error(err);
 	rl_clear_history();

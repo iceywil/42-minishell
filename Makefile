@@ -6,7 +6,7 @@
 #    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 20:46:06 by codespace         #+#    #+#              #
-#    Updated: 2024/12/12 17:44:35 by codespace        ###   ########.fr        #
+#    Updated: 2024/12/17 02:16:41 by codespace        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ LIBFT_FILE  =   libft.a
 LIBFT_LIB   =   $(LIBFT_PATH)/$(LIBFT_FILE)
 
 C_FILES     =   main.c \
-				free.c \
+				free/free.c \
+				free/free_utils.c \
 				parsing/parser.c \
 				parsing/parser_utils.c \
 				parsing/first_parsing.c \
@@ -45,10 +46,8 @@ C_FILES     =   main.c \
 				builtins/unset.c \
 				builtins/env.c \
 				builtins/exit.c \
-				env/env_setup.c \
-				env/env_list.c \
-				free_utils.c \
 				builtins/export_lol.c \
+				env/env_setup.c \
 	
 all:        $(NAME)
 

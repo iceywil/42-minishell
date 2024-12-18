@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2024/10/25 10:59:40 by codespace         #+#    #+#             */
 /*   Updated: 2024/10/25 13:29:08 by codespace        ###   ########.fr       */
 /*                                                                            */
@@ -12,43 +15,94 @@
 
 #include "../minishell.h"
 
-bool conf_second_env(t_shell *shell)
+t_env_list	*create_env_node(t_shell *shell, char *new)
 {
-    char	path[PATH_MAX];
-	char	*tmp;
+	t_env_list *new_node;
 
-	tmp = ft_strdup("OLDPWD");
-	if (!tmp || !add_back_env(&(shell->env_head), tmp) || getcwd(path, PATH_MAX) == NULL)
-		free_shell(shell);
+	new_node = malloc(sizeof(t_env_list));
+	if (!new_node)
+		malloc_error(shell);
+	new_node->key = new;
+	new_node->next = NULL;
+	return (new_node);
+}
+
+void	conf_second_env(t_shell *shell, char **envp)
+{
+	char path[PATH_MAX];
+	char *tmp;
+	int i;
+
+	i = 0;
+	while (ft_strncmp(envp[i], "OLDPWD=", 7))
+		i++;
+	if (envp[i])
+	{
+		tmp = ft_strdup(envp[i]);
+		if (!tmp)
+			malloc_error(shell);
+		shell->env_current->next = create_env_node(shell, tmp);
+		shell->env_current = shell->env_current->next;
+	}
+	if (!getcwd(path, PATH_MAX))
+		error_exit(shell, "getcwd error", 1);
+	tmp = NULL;
 	tmp = ft_strjoin("PWD=", path);
-	if (!tmp || !add_back_env(&(shell->env_head), tmp))
-		free_shell(shell);
+	if (!tmp)
+		malloc_error(shell);
+	shell->env_current->next = create_env_node(shell, tmp);
+}
+
+int	conf_env(t_shell *shell, char **envp)
+{
+	t_env_list *current_env;
+	int i;
+	char *tmp;
+
+	i = 0;
+	while (envp[i])
+	{
+		tmp = ft_strdup(envp[i]);
+		if (!tmp)
+			malloc_error(shell);
+		if (shell->env_head == NULL)
+		{
+			shell->env_head = create_env_node(shell, tmp);
+			shell->env_current = shell->env_head;
+		}
+		else
+		{
+			shell->env_current->next = create_env_node(shell, tmp);
+			shell->env_current = shell->env_current->next;
+		}
+		i++;
+	}
+	conf_second_env(shell, envp);
 	return (1);
 }
 
-int conf_env(t_shell *shell, char **env) {
-    t_env_list *envp;
-    int i;
-    char *temps;
+int	env_size(t_shell *shell)
+{
+	int size;
+	t_env_list *current;
 
-    if (!(*env)) {
-        printf("Environment is empty\n");
-        return (conf_second_env(shell));
-    }
-    i = -1;
-    envp = NULL;
-    while (env[++i]) {
-        temps = ft_strdup(env[i]);
-        if (!temps) {
-            printf("Failed to duplicate string\n");
-            return (free_list(&envp));
-        }
-        if (!add_back_env(&envp, temps)) {
-            printf("Failed to add environment variable: %s\n", temps);
-            return (free_list(&envp));
-        }
-    }
-    shell->env_head = envp;
-    printf("Environment setup complete\n");
-    return (1);
+	current = shell->env_head;
+	size = 0;
+	while (current)
+	{
+		size++;
+		current = current->next;
+	}
+	return (size);
+}
+
+void add_back_env(t_shell *shell, char *value)
+{
+	t_env_list *new_node;
+
+	new_node = create_env_node(shell, value);
+	shell->env_current = shell->env_head;
+	while (shell->env_current->next)
+		shell->env_current = shell->env_current->next;
+	shell->env_current->next = new_node;
 }
