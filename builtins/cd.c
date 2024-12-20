@@ -15,6 +15,7 @@
 
 #include "../minishell.h"
 
+
 static int	count_arg(char **params)
 {
 	int count;
@@ -38,15 +39,17 @@ static void	update_oldpwd(t_shell *shell)
 	int len;
 
 	tmp = shell->env_head;
+	len = 0;
 	while (tmp)
 	{
 		len++;
 		tmp = tmp->next;
 	}
+	tmp = shell->env_head;
 	test = NULL;
-	while (len--)
+	while (tmp && len--)
 	{
-		if (ft_strncmp(tmp->key, "PWD=", 3) == 0)
+		if (ft_strncmp(tmp->key, "PWD=", 4) == 0)
 			test = tmp->key;
 		tmp = tmp->next;
 	}
