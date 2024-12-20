@@ -15,7 +15,6 @@
 
 #include "../minishell.h"
 
-
 static int	count_arg(char **params)
 {
 	int count;

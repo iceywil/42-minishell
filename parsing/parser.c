@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:18:26 by a                 #+#    #+#             */
-/*   Updated: 2024/12/15 21:29:17 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/18 20:31:36 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ int	check_token_legit(t_shell *shell, t_first *current)
 				&& (current == shell->f_head || !current->next || (current->prev
 						&& !current->prev->cmd))) || (!current->cmd
 				&& ft_strcmp(current->line, "|") && (current->prev
-					&& !current->prev->cmd)))
+					&& !current->prev->cmd && ft_strcmp(current->prev->line,
+						"|"))))
 		{
 			printf("minishell : syntax error near unexpected token `%s'\n",
 				current->line);

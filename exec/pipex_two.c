@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:34:23 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/18 04:09:08 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/19 15:55:20 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,25 @@ void	builtin_cmd(t_shell *shell, char **envp)
 
 	if (!shell->s_current->cmd)
 		return ;
-	if (ft_strncmp(shell->s_current->args[0], "exit", INT_MAX) == 0)
-		(bl_exit(shell, shell->s_current->args), exit(shell->excode));
-	if (!ft_strncmp("echo", shell->s_current->args[0], INT_MAX))
-		(bl_echo(shell), exit(shell->excode));
-	else if (!ft_strncmp("pwd", shell->s_current->args[0], INT_MAX))
-		(bl_pwd(shell), exit(shell->excode));
-	else if (!ft_strncmp("cd", shell->s_current->args[0], 2))
-		(bl_cd(shell, shell->s_current->args), exit(shell->excode));
-	else if (!ft_strncmp("env", shell->s_current->args[0], INT_MAX))
-		(bl_env(shell), exit(shell->excode));
-	// else if (!ft_strncmp("export", shell->s_current->args[0], 6))
-	// 	(bl_export(shell), exit(shell->excode));
-	// else if (ft_strcmp(shell->s_current->args[0], "unset") == 0)
-	// {
-	// 	bl_unset(shell->s_current->args[1]);
-	// 	return (1);
-	// }
+	else if (!ft_strcmp("exit", shell->s_current->args[0]))
+		bl_exit(shell, shell->s_current->args);
+	else if (!ft_strcmp("echo", shell->s_current->args[0]))
+		bl_echo(shell);
+	else if (!ft_strcmp("pwd", shell->s_current->args[0]))
+		bl_pwd(shell);
+	else if (!ft_strcmp("cd", shell->s_current->args[0]))
+		bl_cd(shell, shell->s_current->args);
+	else if (!ft_strcmp("env", shell->s_current->args[0]))
+		bl_env(shell);
+	else
+		return ;
+	/* 			else if (!ft_strcmp("export", shell->s_current->args[0]))
+			(bl_export(shell), exit(shell->excode));
+		else if (!ft_strcmp("unset", shell->s_current->args[0]))
+			bl_unset(shell->s_current->args[1]); */
+	close(0);
+	close(1);
+	(free_shell(shell), exit(1));
 }
 
 void	exev(t_shell *shell, char **envp)
@@ -58,8 +60,9 @@ void	exev(t_shell *shell, char **envp)
 				envp))
 			print_err(shell->s_current->cmd, ": command error", 0, 0);
 	}
-	free_shell(shell);
-	exit(1);
+	close(0);
+	close(1);
+	(free_shell(shell), exit(1));
 }
 
 void	check_access(t_shell *shell)

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:35:26 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/18 03:41:02 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/18 18:16:14 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ void	create_own_pipes(t_shell *shell)
 
 void	close_own_pipes(t_shell *shell)
 {
-	close(shell->fds[shell->i][0]);
-	close(shell->fds[shell->i][1]);
+	if (shell->fds[shell->i][0] > 0)
+		close(shell->fds[shell->i][0]);
+	if (shell->fds[shell->i][1] > 0)
+		close(shell->fds[shell->i][1]);
 }
 
 void	close_last_pipes(t_shell *shell)

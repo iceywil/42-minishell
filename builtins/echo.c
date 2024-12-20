@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 16:06:04 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/03 15:58:59 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/19 01:40:38 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,5 @@ void	bl_echo(t_shell *shell)
 		x = shell->excode;
 	else
 		x = shell->unset;
-	free_shell(shell);
-	exit(x);
 }
 

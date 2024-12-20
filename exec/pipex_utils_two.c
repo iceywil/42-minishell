@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils_two.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:36:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/10 09:13:43 by a                ###   ########.fr       */
+/*   Updated: 2024/12/18 20:36:09 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	open_infile(t_shell *shell)
 {
-	if (shell->s_current->infile)
+	if (shell->s_current->infile != -1)
 		close(shell->s_current->infile);
 	shell->s_current->infile = -1;
 	if (access(shell->s_current->redir_current->line, F_OK) == -1)
@@ -44,7 +44,7 @@ int	open_outfile_append(t_shell *shell)
 	char	*line;
 
 	line = shell->s_current->redir_current->line;
-	if (shell->s_current->outfile)
+	if (shell->s_current->outfile != -1)
 		close(shell->s_current->outfile);
 	shell->s_current->outfile = -1;
 	if (access(line, F_OK) == 0)
@@ -75,7 +75,7 @@ int	open_outfile(t_shell *shell)
 	char	*line;
 
 	line = shell->s_current->redir_current->line;
-	if (shell->s_current->outfile)
+	if (shell->s_current->outfile != -1)
 		close(shell->s_current->outfile);
 	shell->s_current->outfile = -1;
 	if (access(line, F_OK) == 0)

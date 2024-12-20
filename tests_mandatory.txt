@@ -1,4 +1,10 @@
+valgrind --track-fds=yes --trace-children=yes --leak-check=full --show-leak-kinds=all --suppressions=ignore_readline.supp ./minishell
+
+valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all --suppressions=ignore_readline.supp ./minishell
+
 valgrind --leak-check=full --show-leak-kinds=all --suppressions=ignore_readline.supp ./minishell
+
+valgrind --track-fds=yes ./minishell
 
 
 - 1

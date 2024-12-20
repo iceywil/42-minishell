@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_delims.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/10 09:03:35 by a                ###   ########.fr       */
+/*   Updated: 2024/12/18 20:35:22 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	handle_redirs(t_shell *shell)
 			i = open_outfile(shell);
 		else if (!ft_strcmp(shell->s_current->redir_current->token, "<<"))
 		{
-			if (shell->s_current->infile)
+			if (shell->s_current->infile != -1)
 				close(shell->s_current->infile);
 			shell->s_current->infile = open("/tmp/.here_doc_a", O_RDONLY);
 		}

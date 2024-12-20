@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:29:59 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/16 16:35:58 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/19 01:38:46 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	one_command(t_shell *shell, char **envp)
 		error_exit(shell, "Fork Error", errno);
 	if (pid == 0)
 	{
-		shell->s_current = shell->s_head;
 		handle_redirs(shell);
 		if (shell->s_current->infile != -1)
 		{
