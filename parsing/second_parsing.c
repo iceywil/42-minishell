@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/18 03:48:24 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/20 15:17:04 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ void	s_add_arg(t_shell *shell, t_second *second)
 		malloc_error(shell);
 	new_node->next = NULL;
 	new_node->prev = NULL;
+	new_node->token = NULL;
 	new_node->cmd = 0;
 	if (!second->args_head)
 		second->args_head = new_node;
