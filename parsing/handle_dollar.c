@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 17:40:22 by a                 #+#    #+#             */
-/*   Updated: 2024/12/16 16:24:17 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/20 16:53:19 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ char	*f_handle_err(t_shell *shell, char *line, int start)
 		malloc_error(shell);
 	shell->i++;
 	new_line = f_replace_line(shell, line, var_value, start);
+	free(var_value);
 	free(line);
 	return (new_line);
 }

@@ -6,76 +6,75 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 00:00:43 by a                 #+#    #+#             */
-/*   Updated: 2024/12/16 16:09:22 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/20 16:35:58 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_shell	g_shell;
-
-/* void	ctrl_c(int var)
+void	handle_sig(int s)
 {
-	(void) var;
-	if (g_shell.switch_signal == 0)
+	g_sig = s;
+	if (wait(NULL) != -1)
+	{
+		if (s == SIGQUIT)
+			printf("Quit (core dumped)");
 		printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	if (g_shell.switch_signal == 0)
+	}
+	else if (s == SIGINT)
+	{
+		printf("^C\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
 		rl_redisplay();
+	}
+	else if (s == SIGQUIT)
+		g_sig = 0;
 }
 
-void	nothing(int signal)
+void	sig_heredoc(int s)
 {
-	(void)signal;
+	g_sig = s;
+	close(STDIN_FILENO);
+	ft_putendl_fd("^C", 2);
 }
 
-void	stop_heredoc(int signal)
+void	ft_sig_heredoc(void)
 {
-	(void)signal;
-	ft_putstr_fd("\n", STDERR_FILENO);
-	exit(130);
+	struct sigaction	sig;
+
+	sig.sa_flags = 0;
+	sig.sa_handler = &sig_heredoc;
+	sigemptyset(&sig.sa_mask);
+	sigaction(SIGINT, &sig, NULL);
 }
 
-void	newline(int signal)
+void	ft_signals(void)
 {
-	(void)signal;
-	ft_putstr_fd("\n", STDERR_FILENO);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-	g_shell.excode = 130;
+	struct sigaction	sig;
+
+	rl_catch_signals = 0;
+	sigemptyset(&sig.sa_mask);
+	sig.sa_flags = SA_RESTART;
+	sig.sa_handler = &handle_sig;
+	sigaction(SIGINT, &sig, NULL);
+	sigaction(SIGTERM, &sig, NULL);
+	sigaction(SIGQUIT, &sig, NULL);
 }
 
-void	ctrl_d(char *line)
+bool	catchsignals(t_shell *shell)
 {
-	free(line);
-	//free (shell->user);
-	//ft_free_tab(shell->env);
-	//ft_free_tab(shell->env_export);
-	rl_clear_history();
-	exit(0);
-} */
-void	sigint_handler(int signal)
-{
-	if (signal == SIGINT)
-		return ;
-	// printf("\nIntercepted SIGINT!\n");
-}
-
-void	set_signal_action(void)
-{
-	struct sigaction	act;
-
-	// Déclaration de la structure sigaction
-	// Met à 0 tous les bits dans la structure,
-	// sinon on aura de mauvaises surprises de valeurs
-	// non-initialisées...
-	ft_bzero(&act, sizeof(act));
-	// On voudrait invoquer la routine sigint_handler
-	// quand on reçoit le signal :
-	act.sa_handler = &sigint_handler;
-	// Applique cette structure avec la fonction à invoquer
-	// au signal SIGINT (ctrl-c)
-	sigaction(SIGINT, &act, NULL);
+	if (shell->g_sig == SIGINT)
+	{
+		shell->tmpexcode = 130;
+		shell->g_sig = 0;
+		return (true);
+	}
+	else if (shell->g_sig == SIGQUIT)
+	{
+		shell->tmpexcode = 131;
+		shell->g_sig = 0;
+		return (true);
+	}
+	return (false);
 }

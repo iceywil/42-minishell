@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:34:23 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/19 15:55:20 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/20 17:05:01 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ void	check_access(t_shell *shell)
 		shell->excode = 127;
 	else if (access(shell->s_current->cmd_path, X_OK) == -1)
 		shell->excode = 126;
+	else
+		shell->excode = 0;
 }
 
 void	malloc_fds(t_shell *shell)

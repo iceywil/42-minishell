@@ -6,18 +6,20 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/17 18:54:51 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/20 16:58:01 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		g_sig = 0;
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	shell;
 
 	init_all_start(&shell);
-	set_signal_action();
+	ft_signals();
 	while (1)
 	{
 		init_all(&shell);
@@ -89,8 +91,8 @@ void	copy_env(t_shell *shell)
 {
 	t_env_list	*current;
 	int			len;
-	int i;
-	
+	int			i;
+
 	len = env_size(shell);
 	current = shell->env_head;
 	shell->env_tab = ft_calloc(len + 1, sizeof(char *));
@@ -123,7 +125,6 @@ void	init_all(t_shell *shell)
 	shell->unset = 0;
 	shell->fds = NULL;
 	shell->paths = NULL;
-	shell->excode = 0;
 	shell->line = NULL;
 	shell->cwd = NULL;
 	shell->f_head = NULL;

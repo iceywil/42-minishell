@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/17 18:00:15 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/20 16:35:45 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,11 @@ typedef struct s_shell
 	t_env_list			*env_current;
 	char				**env_tab;
 	int					switch_signal;
+	int					tmpexcode;
+	int					g_sig;
 }						t_shell;
 
-extern t_shell			g_shell;
+extern int			g_sig;
 
 // MAIN
 char					*create_buffer(t_shell *shell);
@@ -213,12 +215,10 @@ int						bl_export(t_shell *shell);
 int						bl_cd(t_shell *shell, char **params);
 
 // SIGNALS
-void					ctrl_c(int var);
-void					nothing(int signal);
-void					stop_heredoc(int signal);
-void					newline(int signal);
-void					ctrl_d(char *line);
-void					set_signal_action(void);
-void					sigint_handler(int signal);
+void	handle_sig(int s);
+void	sig_heredoc(int s);
+void	ft_sig_heredoc(void);
+void	ft_signals(void);
+bool	catchsignals(t_shell *shell);
 
 #endif
