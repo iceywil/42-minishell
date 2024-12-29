@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 02:36:19 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/17 17:57:38 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/24 03:36:18 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	free_t_env(t_shell *shell, char *err, int ext)
 		free_list(shell);
 	if (err)
 		print_error(err);
-	rl_clear_history();
+	//rl_clear_history();
 	if (!access(".heredoc.tmp", F_OK))
 		unlink(".heredoc.tmp");
 	if (ext != -1)

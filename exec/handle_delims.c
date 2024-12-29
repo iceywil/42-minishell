@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_delims.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/18 20:35:22 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/24 20:41:17 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	handle_heredoc(t_shell *shell, t_second *current)
 		{
 			if (!ft_strcmp(redir->token, "<<"))
 			{
+				ft_sig_heredoc();
 				tmp = open("/tmp/.here_doc_a", O_WRONLY | O_CREAT | O_TRUNC,
 						0777);
 				str = readline("> ");

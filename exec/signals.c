@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 00:00:43 by a                 #+#    #+#             */
-/*   Updated: 2024/12/20 16:35:58 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/25 19:59:32 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <readline/readline.h>
+#include <readline/history.h>
 
 void	handle_sig(int s)
 {
@@ -53,7 +55,7 @@ void	ft_signals(void)
 {
 	struct sigaction	sig;
 
-	rl_catch_signals = 0;
+	//rl_catch_signals = 0;
 	sigemptyset(&sig.sa_mask);
 	sig.sa_flags = SA_RESTART;
 	sig.sa_handler = &handle_sig;

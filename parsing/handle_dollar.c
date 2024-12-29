@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_dollar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 17:40:22 by a                 #+#    #+#             */
-/*   Updated: 2024/12/20 16:53:19 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/24 12:44:37 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ char	*f_handle_err(t_shell *shell, char *line, int start)
 
 char	*f_find_var_value(t_shell *shell, char *var_start, int var_len)
 {
-	t_env_list *current;
-	
+	t_env_list	*current;
+
 	current = shell->env_head;
 	while (current)
 	{

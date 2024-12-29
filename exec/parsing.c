@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:44:15 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/17 16:18:26 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/24 12:45:11 by a                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	get_paths(t_shell *shell)
 {
-	int		i;
-	char	*first;
-	t_env_list *current;
+	int			i;
+	char		*first;
+	t_env_list	*current;
 
 	current = shell->env_head;
 	i = 0;
