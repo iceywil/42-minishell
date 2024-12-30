@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/20 16:35:45 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/30 16:57:10 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ typedef struct s_shell
 	int					g_sig;
 }						t_shell;
 
-extern int			g_sig;
+extern int				g_sig;
 
 // MAIN
 char					*create_buffer(t_shell *shell);
@@ -151,12 +151,13 @@ void					s_set_arg_zero(t_shell *shell, t_second *second);
 
 // FREE EXIT
 void					free_shell(t_shell *shell);
-void					check_exit(t_shell *shell);
 void					error_exit(t_shell *shell, char *msg, int error);
 void					malloc_error(t_shell *shell);
 void					print_err(char *msg, char *word, char redir, int flag);
 void					free_first(t_first *current);
 void					free_second(t_shell *shell);
+void					loop_free_shell(t_shell *shell);
+
 // PIPEX
 void					exec(t_shell *shell);
 void					get_paths(t_shell *shell);
@@ -167,6 +168,7 @@ void					dup_fd(t_shell *shell, int fd1, int fd2);
 void					check_access(t_shell *shell);
 
 // LOOP
+int						builtin_one_cmd(t_shell *shell);
 void					one_command(t_shell *shell, char **envp);
 void					first_cmd(t_shell *shell, char **envp);
 void					mid_cmd(t_shell *shell, char **envp);
@@ -190,6 +192,9 @@ void					bl_echo(t_shell *shell);
 void					bl_pwd(t_shell *shell);
 int						bl_env(t_shell *shell);
 void					bl_exit(t_shell *shell, char **args);
+int						bl_unset(t_shell *shell, char **args);
+int						bl_cd(t_shell *shell, char **params);
+
 int						check_newline(char **arg, int *flag);
 void					builtin_cmd(t_shell *shell, char **envp);
 void					suppr_space(char *str);
@@ -206,19 +211,19 @@ void					free_t_env(t_shell *shell, char *err, int ext);
 void					copy_env(t_shell *shell);
 int						env_size(t_shell *shell);
 void					add_back_env(t_shell *shell, char *value);
+t_env_list				*create_env_node(t_shell *shell, char *new);
 
 // export
 char					**lst_to_arr(t_shell *shell, t_env_list *env);
 void					sort_array(char **arr, int len);
 bool					export(t_shell *shell, char *str, t_env_list **env);
-int						bl_export(t_shell *shell);
-int						bl_cd(t_shell *shell, char **params);
+int						bl_export(t_shell *shell, char **str);
 
 // SIGNALS
-void	handle_sig(int s);
-void	sig_heredoc(int s);
-void	ft_sig_heredoc(void);
-void	ft_signals(void);
-bool	catchsignals(t_shell *shell);
+void					handle_sig(int s);
+void					sig_heredoc(int s);
+void					ft_sig_heredoc(void);
+void					ft_signals(void);
+bool					catchsignals(t_shell *shell);
 
 #endif

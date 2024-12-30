@@ -15,10 +15,9 @@
 
 #include "../minishell.h"
 
-
 static int	count_arg(char **params)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	while (params[count])
@@ -34,9 +33,9 @@ static void	error_malloc(void)
 
 static void	update_oldpwd(t_shell *shell)
 {
-	t_env_list *tmp;
-	char *test;
-	int len;
+	t_env_list	*tmp;
+	char		*test;
+	int			len;
 
 	tmp = shell->env_head;
 	len = 0;
@@ -65,76 +64,65 @@ static void	update_oldpwd(t_shell *shell)
 	free(test);
 }
 
-static void	update_pwd(t_shell *shell, char *param)
+static void	update_pwd(t_shell *shell, char *new_path)
 {
-	char cwd[PATH_MAX];
-	char *pwd;
-	char *oldpwd;
+	char	old_pwd[PATH_MAX];
+	char	*pwd_var;
+	char	*oldpwd_var;
 
-	update_oldpwd(shell);
-	if (getcwd(cwd, PATH_MAX) == NULL)
-	{
-		perror(param);
+	if (getcwd(old_pwd, PATH_MAX) == NULL)
 		return ;
+	oldpwd_var = ft_strjoin("OLDPWD=", old_pwd);
+	if (oldpwd_var)
+	{
+		export(shell, oldpwd_var, &shell->env_head);
+		free(oldpwd_var);
 	}
-	pwd = ft_strjoin("PWD=", cwd);
-	if (!pwd)
-		return (error_malloc());
-	export(shell, pwd, &shell->env_head);
-	free(pwd);
+	pwd_var = ft_strjoin("PWD=", new_path);
+	if (pwd_var)
+	{
+		export(shell, pwd_var, &shell->env_head);
+		free(pwd_var);
+	}
 }
 
 static int	ft_cdhome(t_shell *shell)
 {
-	t_env_list *tmp;
-	char *home;
-	int len;
+	t_env_list	*tmp;
+	char		*home;
 
 	tmp = shell->env_head;
 	while (tmp)
 	{
-		len++;
-		tmp = tmp->next;
-	}
-	home = NULL;
-	while (len--)
-	{
 		if (ft_strncmp(tmp->key, "HOME=", 5) == 0)
 		{
 			home = tmp->key + 5;
-			break ;
+			if (chdir(home) == 0)
+			{
+				update_pwd(shell, home);
+				return (0);
+			}
+			perror(home);
+			return (1);
 		}
 		tmp = tmp->next;
 	}
-	if (!home)
-	{
-		ft_putstr_fd("cd: HOME not set\n", 2);
-		return (1);
-	}
-	if (chdir(home) == 0)
-		update_pwd(shell, home);
-	else
-		perror(home);
-	return (0);
+	ft_putstr_fd("cd: HOME not set\n", 2);
+	return (1);
 }
 
 int	bl_cd(t_shell *shell, char **params)
 {
-	int res;
+	char	*path;
 
-	if (count_arg(params) == 1)
+	if (!params[1] || !ft_strcmp(params[1], "~"))
 		return (ft_cdhome(shell));
-	if (count_arg(params) == 2)
+	path = params[1];
+	if (chdir(path) == 0)
 	{
-		res = chdir(params[1]);
-		if (res == 0)
-			update_pwd(shell, params[1]);
-		if (res == -1)
-			res *= -1;
-		if (res == 1)
-			perror(params[1]);
-		return (res);
+		update_pwd(shell, path);
+		return (0);
 	}
-	ft_putstr_fd("cd: too many arguments\n", 2);
+	perror(path);
 	return (1);
 }

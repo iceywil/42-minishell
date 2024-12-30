@@ -6,13 +6,13 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:10:56 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/18 03:54:07 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/30 16:53:45 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	free_shell(t_shell *shell)
+void	loop_free_shell(t_shell *shell)
 {
 	if (shell->paths)
 		ft_free_double_tab(&shell->paths);
@@ -31,20 +31,16 @@ void	free_shell(t_shell *shell)
 		free_second(shell);
 	if (shell->cwd)
 		free(shell->cwd);
-	if (shell->env_head)
-		free_list(shell);
-	if (shell->env_tab)
-		ft_free_double_tab(&shell->env_tab);
 }
 
-void	check_exit(t_shell *shell)
+void	free_shell(t_shell *shell)
 {
-	if (ft_strncmp(shell->line, "exit", 4) == 0)
-	{
-		shell->excode = 0;
-		free_shell(shell);
-		exit(0);
-	}
+	loop_free_shell(shell);
+	if (shell->env_tab)
+		ft_free_double_tab(&shell->env_tab);
+	if (shell->env_head)
+		free_list(shell);
+	free(shell);
 }
 
 void	error_exit(t_shell *shell, char *msg, int error)

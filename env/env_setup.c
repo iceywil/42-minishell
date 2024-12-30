@@ -102,6 +102,11 @@ void add_back_env(t_shell *shell, char *value)
 
 	new_node = create_env_node(shell, value);
 	shell->env_current = shell->env_head;
+	if (!shell->env_current)
+	{
+		shell->env_head = new_node;
+		return ;
+	}
 	while (shell->env_current->next)
 		shell->env_current = shell->env_current->next;
 	shell->env_current->next = new_node;

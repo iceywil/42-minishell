@@ -14,21 +14,14 @@
 
 int bl_env(t_shell *shell)
 {
-	t_env_list	*temp;
-	t_env_list	*env;
+    t_env_list *temp;
 
-	env = shell->env_head;
-	temp = env;
-	if (!temp)
-		return (0);
-	if (ft_strchr(temp->key, '='))
-		printf("%s\n", temp->key);
-	temp = temp->next;
-	while (temp != env)
-	{
-		if (ft_strchr(temp->key, '='))
-			ft_printf("%s\n", temp->key);
-		temp = temp->next;
-	}
-	return (0);
+    temp = shell->env_head;
+    while (temp)
+    {
+        if (ft_strchr(temp->key, '='))
+            ft_printf("%s\n", temp->key);
+        temp = temp->next;
+    }
+    return (0);
 }

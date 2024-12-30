@@ -86,13 +86,13 @@ static int	exist(char *str, t_env_list *env)
 
 bool	export(t_shell *shell, char *str, t_env_list **env)
 {
-	int			pos;
-	char		*value;
-	t_env_list	*current;
+	char *value;
+	t_env_list *current;
 
 	value = ft_strdup(str);
 	if (!value)
 		return (false);
+
 	current = *env;
 	while (current)
 	{
@@ -104,32 +104,33 @@ bool	export(t_shell *shell, char *str, t_env_list **env)
 		}
 		current = current->next;
 	}
-	return (add_back_env(shell, value), true);
+	create_env_node(shell, value);
+	return (true);
 }
 
-// int	bl_export(char **str, t_env_list **env)
-// {
-// 	int	exit_code;
-// 	int	i;
+int	bl_export(t_shell *shell, char **str)
+{
+	int	exit_code;
+	int	i;
 
-// 	exit_code = 0;
-// 	i = 1;
-// 	if (!str || !str[i])
-// 	{
-// 		if (*env && !export_no_args((*env)))
-// 			return (print_error("Error: malloc failed"));
-// 		return (0);
-// 	}
-// 	while (str[i])
-// 	{
-// 		if (!valid_identifier(str[i]))
-// 		{
-// 			print_error("export: invalid identifier\n");
-// 			exit_code = 1;
-// 		}
-// 		else if (!export(str[i], env))
-// 			return (print_error("Error: malloc failed"));
-// 		i++;
-// 	}
-// 	return (exit_code);
-// }
+	exit_code = 0;
+	i = 1;
+	if (!str || !str[i])
+	{
+		if (shell->env_current && !export_no_args(shell, shell->env_current))
+			return (print_error("Error: malloc failed"));
+		return (0);
+	}
+	while (str[i])
+	{
+		if (!valid_identifier(str[i]))
+		{
+			print_error("export: invalid identifier\n");
+			exit_code = 1;
+		}
+		else if (!export(shell, str[i], &shell->env_current))
+			return (print_error("Error: malloc failed"));
+		i++;
+	}
+	return (exit_code);
+}
