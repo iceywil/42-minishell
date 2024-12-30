@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "files.associations": {
 	"libft.h": "c",
 	"unistd.h": "c",
@@ -6,6 +7,8 @@
 	"minishell.h": "c",
 	"sstream": "c"
 },
+=======
+>>>>>>> 280b4be4839c7f3e8f04de649af599194b15836c
   "C_Cpp_Runner.cCompilerPath": "gcc",
   "C_Cpp_Runner.cppCompilerPath": "g++",
   "C_Cpp_Runner.debuggerPath": "gdb",

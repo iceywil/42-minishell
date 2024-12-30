@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 00:00:43 by a                 #+#    #+#             */
-/*   Updated: 2024/12/25 19:59:32 by a                ###   ########.fr       */
+/*   Updated: 2024/12/30 17:44:17 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <readline/readline.h>
 #include <readline/history.h>
+#include <readline/readline.h>
 
 void	handle_sig(int s)
 {
@@ -55,7 +55,7 @@ void	ft_signals(void)
 {
 	struct sigaction	sig;
 
-	//rl_catch_signals = 0;
+	rl_catch_signals = 0;
 	sigemptyset(&sig.sa_mask);
 	sig.sa_flags = SA_RESTART;
 	sig.sa_handler = &handle_sig;
@@ -70,12 +70,15 @@ bool	catchsignals(t_shell *shell)
 	{
 		shell->tmpexcode = 130;
 		shell->g_sig = 0;
+		free_shell(shell);
 		return (true);
 	}
 	else if (shell->g_sig == SIGQUIT)
 	{
 		shell->tmpexcode = 131;
 		shell->g_sig = 0;
+				free_shell(shell);
+
 		return (true);
 	}
 	return (false);

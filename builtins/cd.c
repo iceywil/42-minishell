@@ -15,9 +15,10 @@
 
 #include "../minishell.h"
 
+
 static int	count_arg(char **params)
 {
-	int	count;
+	int count;
 
 	count = 0;
 	while (params[count])
@@ -33,9 +34,9 @@ static void	error_malloc(void)
 
 static void	update_oldpwd(t_shell *shell)
 {
-	t_env_list	*tmp;
-	char		*test;
-	int			len;
+	t_env_list *tmp;
+	char *test;
+	int len;
 
 	tmp = shell->env_head;
 	len = 0;
@@ -66,18 +67,22 @@ static void	update_oldpwd(t_shell *shell)
 
 static void	update_pwd(t_shell *shell, char *new_path)
 {
-	char	old_pwd[PATH_MAX];
-	char	*pwd_var;
-	char	*oldpwd_var;
+	char old_pwd[PATH_MAX];
+	char *pwd_var;
+	char *oldpwd_var;
 
 	if (getcwd(old_pwd, PATH_MAX) == NULL)
-		return ;
+		return;
+
+	// Mettre à jour OLDPWD
 	oldpwd_var = ft_strjoin("OLDPWD=", old_pwd);
 	if (oldpwd_var)
 	{
 		export(shell, oldpwd_var, &shell->env_head);
 		free(oldpwd_var);
 	}
+
+	// Mettre à jour PWD
 	pwd_var = ft_strjoin("PWD=", new_path);
 	if (pwd_var)
 	{
@@ -88,8 +93,8 @@ static void	update_pwd(t_shell *shell, char *new_path)
 
 static int	ft_cdhome(t_shell *shell)
 {
-	t_env_list	*tmp;
-	char		*home;
+	t_env_list *tmp;
+	char *home;
 
 	tmp = shell->env_head;
 	while (tmp)
@@ -113,10 +118,11 @@ static int	ft_cdhome(t_shell *shell)
 
 int	bl_cd(t_shell *shell, char **params)
 {
-	char	*path;
-
+	char *path;
+	
 	if (!params[1] || !ft_strcmp(params[1], "~"))
 		return (ft_cdhome(shell));
+
 	path = params[1];
 	if (chdir(path) == 0)
 	{

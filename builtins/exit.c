@@ -46,6 +46,7 @@ static int get_exit_status(t_shell *shell, char **args, int *should_exit)
     *should_exit = 1;
     if (!args[1])
         return (shell->excode);
+
     i = atoi_exit(args[1], &j);
     if (j)
     {

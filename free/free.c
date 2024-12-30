@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:10:56 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/30 16:53:45 by codespace        ###   ########.fr       */
+/*   Updated: 2024/12/30 17:42:57 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	free_shell(t_shell *shell)
 		ft_free_double_tab(&shell->env_tab);
 	if (shell->env_head)
 		free_list(shell);
-	free(shell);
 }
 
 void	error_exit(t_shell *shell, char *msg, int error)
