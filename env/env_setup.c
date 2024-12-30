@@ -98,11 +98,13 @@ int	env_size(t_shell *shell)
 
 void add_back_env(t_shell *shell, char *value)
 {
-	t_env_list *new_node;
+    t_env_list *new_node;
 
-	new_node = create_env_node(shell, value);
-	shell->env_current = shell->env_head;
-	while (shell->env_current->next)
-		shell->env_current = shell->env_current->next;
-	shell->env_current->next = new_node;
+    printf("Debug: Adding new env var: %s\n", value);  // Debug
+    new_node = create_env_node(shell, value);
+    shell->env_current = shell->env_head;
+    while (shell->env_current->next)
+        shell->env_current = shell->env_current->next;
+    shell->env_current->next = new_node;
+    printf("Debug: Added successfully\n");  // Debug
 }

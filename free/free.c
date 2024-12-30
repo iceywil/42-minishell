@@ -51,7 +51,7 @@ void	error_exit(t_shell *shell, char *msg, int error)
 {
 	ft_putendl_fd(msg, 2);
 	free_shell(shell);
-	exit(shell->excode);
+	exit(error);
 }
 
 void	malloc_error(t_shell *shell)

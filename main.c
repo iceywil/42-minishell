@@ -18,6 +18,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_shell	shell;
 
+
 	init_all_start(&shell);
 	ft_signals();
 	while (1)
@@ -31,7 +32,6 @@ int	main(int argc, char **argv, char **envp)
 		shell.line = readline(shell.cwd);
 		if (!shell.line)
 			break ;
-		check_exit(&shell);
 		if (!check_empty_line(&shell) && !parsing(&shell))
 			execute(&shell);
 		add_history(shell.line);

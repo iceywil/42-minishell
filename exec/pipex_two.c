@@ -18,25 +18,15 @@ void	builtin_cmd(t_shell *shell, char **envp)
 
 	if (!shell->s_current->cmd)
 		return ;
-	else if (!ft_strcmp("exit", shell->s_current->args[0]))
-		bl_exit(shell, shell->s_current->args);
 	else if (!ft_strcmp("echo", shell->s_current->args[0]))
 		bl_echo(shell);
 	else if (!ft_strcmp("pwd", shell->s_current->args[0]))
 		bl_pwd(shell);
-	else if (!ft_strcmp("cd", shell->s_current->args[0]))
-		bl_cd(shell, shell->s_current->args);
-	else if (!ft_strcmp("env", shell->s_current->args[0]))
-		bl_env(shell);
 	else
-		return ;
-	/* 			else if (!ft_strcmp("export", shell->s_current->args[0]))
-			(bl_export(shell), exit(shell->excode));
-		else if (!ft_strcmp("unset", shell->s_current->args[0]))
-			bl_unset(shell->s_current->args[1]); */
+		return;
 	close(0);
 	close(1);
-	(free_shell(shell), exit(1));
+	(free_shell(shell), exit(shell->excode));
 }
 
 void	exev(t_shell *shell, char **envp)

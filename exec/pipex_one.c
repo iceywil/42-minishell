@@ -16,6 +16,17 @@ void	one_command(t_shell *shell, char **envp)
 {
 	pid_t	pid;
 
+	if (shell->s_current->cmd)
+	{
+		if (!ft_strcmp("exit", shell->s_current->args[0]))
+			return ((void)bl_exit(shell, shell->s_current->args));
+		else if (!ft_strcmp("cd", shell->s_current->args[0]))
+			return ((void)bl_cd(shell, shell->s_current->args));
+		else if (!ft_strcmp("export", shell->s_current->args[0]))
+			return ((void)bl_export(shell, shell->s_current->args));
+		else if (!ft_strcmp("unset", shell->s_current->args[0]))
+			return ((void)bl_unset(shell, shell->s_current->args));
+	}
 	check_access(shell);
 	pid = fork();
 	if (pid == -1)

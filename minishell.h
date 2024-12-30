@@ -198,6 +198,7 @@ void					add_or_update_env(t_env_list **env, char *arg,
 							char *value, t_shell *shell);
 
 // Env
+t_env_list				*create_env_node(t_shell *shell, char *new);
 int						conf_env(t_shell *shell, char **env);
 void					conf_second_env(t_shell *shell, char **envp);
 void					free_list(t_shell *shell);
@@ -211,7 +212,7 @@ void					add_back_env(t_shell *shell, char *value);
 char					**lst_to_arr(t_shell *shell, t_env_list *env);
 void					sort_array(char **arr, int len);
 bool					export(t_shell *shell, char *str, t_env_list **env);
-int						bl_export(t_shell *shell);
+int						bl_export(t_shell *shell, char **str);
 int						bl_cd(t_shell *shell, char **params);
 
 // SIGNALS
@@ -220,5 +221,8 @@ void	sig_heredoc(int s);
 void	ft_sig_heredoc(void);
 void	ft_signals(void);
 bool	catchsignals(t_shell *shell);
+
+// Ajouter dans la section des prototypes des builtins
+int     bl_unset(t_shell *shell, char **args);
 
 #endif
