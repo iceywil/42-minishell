@@ -1,0 +1,17 @@
+Makefile
+README.md
+a
+aa
+aaa
+builtins
+env
+exec
+free
+ignore_readline.supp
+libft
+main.c
+main.o
+minishell
+minishell.h
+parsing
+tests_mandatory.txt

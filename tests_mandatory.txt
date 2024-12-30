@@ -1,0 +1,135 @@
+valgrind --track-fds=yes --trace-children=yes --leak-check=full --track-origins=yes --show-leak-kinds=all --suppressions=ignore_readline.supp ./minishell
+
+valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all --suppressions=ignore_readline.supp ./minishell
+
+valgrind --leak-check=full --show-leak-kinds=all --suppressions=ignore_readline.supp ./minishell
+
+valgrind --track-fds=yes ./minishell
+
+
+- 1
+path absolu sans option
+/bin/ls 
+
+
+- 2
+combien de variables globales, pk etc...
+
+
+- 3
+commande vide
+
+
+- 4
+seulement espaces et tabs
+// pb tabs
+
+
+-5
+path absolu avec option
+sans single ou double quotes 
+repeter avec diff commandes et diff args
+
+
+-6
+echo avec et sans args ou options ou -n 
+repeter avec diff args 
+//echo a test
+
+
+- 7
+exit avec et sans args 
+repeter avec diff args
+//exit a test
+
+- 8
+commandes simples chemin absolu
+ou nimporte quelle commande avec args mais sans single ou double
+puis lancer echo $? verifier la valeur
+repeter avec diff commands et diff args
+tester commandes qui ne fonctionne pas comme /bin/ls fichiernul
+essayer $? + $?
+//
+
+
+- 9
+control c dans prompt vide affiche newline newprompt
+control slash dans prompt vide affiche rien
+control d exit minishell
+control c dans un prompte non vide affiche newline newprompt + buffer vide et entrer
+control d dans un prompt non vide rien faire
+control slash dans un prompt non vide rien faire
+control c apre commande bloquante comme cat ou grep sans args
+control d apres commande bloquante comme cat ou grep sans args
+control slash apres commande bloquante comme cat ou grep sans args
+repeter plusieurs fois avec diff commandes
+
+- 10
+commande simple avec args mais utiliser guillemets, rajouter ; et des espaces entre guillemets
+essayer echo "cat lol.c | cat > lol.c"
+n'essayer pas $
+
+- 11
+executer commandes avec single quote dans les args
+essayer args vides
+tester des var env, des espaces, pipe, redir entre guillemets
+tester echo '$USER' doit afficher '$USER'
+
+- 12
+verif que env affiche env
+
+- 13
+export les var d'env dont certaines pour remplacer les anciennes
+
+- 14
+export var env dont certaines pour remplacer les anciennes
+utiliser unset pour en retirer
+
+- 15
+utiliser cd pour se deplacer
+utiliser /bin/ls pour verifier que le path est correct
+repeter avec des cd qui fonctionne et ne fonctionne pas
+essayer aussi . et .. en args
+
+- 16
+essayer pwd avec et sans arguments
+repeter dans diff repertoires
+
+- 17
+exec des commandes en utilisant chemin relatif
+repeter dans diff repertoires avec bcp de ..
+
+- 18
+exec des commandes sans path (ls, wc, awk...)
+retirer $PATH et verifier si les commandes ne fonctionnent plus
+mettez plusieurs repertoires a path directory1:directory2
+verifier qu'ils sont bien evaluer de gauche a droite
+
+- 19
+exec des commandes avec les redirs < et/ou >
+repeter avec diff commandes et diff args et >> au lieu de >
+verifier si plusieurs instances de la meme redir echoue
+tester les << (pas forcement update histo)
+
+- 20
+exec des commandes avec pipe comme cat file | grep bla | more
+repeter avec diff commandes et diff args
+essayer des commandes qui echoue comme ls fichiernul | grep bla | more
+mixer pipe et redir
+
+- 21
+entrer une commande puis control c puis entree
+buffer doit etrevide et rien a exec
+naviguer histo avec haut bas
+exec commandes qui ne fonctionne pas pas comme dsdsdsds et verif que tout donction
+cat | cat | ls doit fonctionner
+essauer des commandes longies avec tonnes de args
+
+- 22 vat env 
+exec echo avec des var d'emv en args
+$ doit marcher
+verifier guillemets autour des $var fonctionne
+si USER existe pas definie le
+echo "$USER" doit afficher $USER
+
+-
