@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/30 16:57:10 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/02 18:17:49 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,21 +77,17 @@ typedef struct s_env_list
 typedef struct s_shell
 {
 	int					i;
-	// Execute
 	int					unset;
 	int					err;
 	int					cmd_nbr;
 	char				**paths;
 	int					**fds;
-	// Minishell
 	int					excode;
 	char				*line;
-	// Parser
 	t_first				*f_head;
 	t_first				*f_current;
 	t_second			*s_head;
 	t_second			*s_current;
-	// Env
 	char				*cwd;
 	t_env_list			*env_head;
 	t_env_list			*env_current;
@@ -116,8 +112,7 @@ int						check_token_legit(t_shell *shell, t_first *current);
 
 // utils
 int						is_token(char c);
-int						check_open_quotes(t_shell *shell, char *input,
-							int flag);
+int						check_open_quotes(t_shell *shell, char *input);
 int						count_args(char *cmd);
 
 // first parser
@@ -128,7 +123,7 @@ void					f_add_node(t_shell *shell, char *line, int cmd);
 int						f_no_quotes(t_shell *shell, char *input, int start,
 							int i);
 char					*f_handle_env_cmd(t_shell *shell, char *line);
-int						f_handle_token(t_shell *shell, char *input, int start,
+int						f_handle_token(t_shell *shell, char *input,
 							int i);
 char					*f_handle_env_cmd(t_shell *shell, char *line);
 char					*f_find_var_value(t_shell *shell, char *var_start,
@@ -153,7 +148,7 @@ void					s_set_arg_zero(t_shell *shell, t_second *second);
 void					free_shell(t_shell *shell);
 void					error_exit(t_shell *shell, char *msg, int error);
 void					malloc_error(t_shell *shell);
-void					print_err(char *msg, char *word, char redir, int flag);
+void					print_err(char *msg, char *word, int flag);
 void					free_first(t_first *current);
 void					free_second(t_shell *shell);
 void					loop_free_shell(t_shell *shell);
@@ -184,7 +179,7 @@ void					malloc_fds(t_shell *shell);
 int						open_infile(t_shell *shell);
 int						open_outfile(t_shell *shell);
 int						open_outfile_append(t_shell *shell);
-void					handle_heredoc(t_shell *shell, t_second *current);
+void					handle_heredoc(t_second *current);
 void					handle_redirs(t_shell *shell);
 
 // BUILTINS
@@ -196,11 +191,7 @@ int						bl_unset(t_shell *shell, char **args);
 int						bl_cd(t_shell *shell, char **params);
 
 int						check_newline(char **arg, int *flag);
-void					builtin_cmd(t_shell *shell, char **envp);
-void					suppr_space(char *str);
-t_env_list				*new_env(char *key, char *value, t_shell *shell);
-void					add_or_update_env(t_env_list **env, char *arg,
-							char *value, t_shell *shell);
+void					builtin_cmd(t_shell *shell);
 
 // Env
 int						conf_env(t_shell *shell, char **env);

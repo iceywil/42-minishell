@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:44:15 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/24 12:45:11 by a                ###   ########.fr       */
+/*   Updated: 2025/01/02 18:22:44 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 
 void	get_paths(t_shell *shell)
 {
-	int			i;
 	char		*first;
 	t_env_list	*current;
 
 	current = shell->env_head;
-	i = 0;
 	shell->unset = 0;
 	if (!shell->env_head || !shell->env_head->key || !shell->env_head->key[0])
 		return ;
@@ -42,7 +40,6 @@ void	get_paths(t_shell *shell)
 
 void	parse_paths(t_shell *shell)
 {
-	int			i;
 	int			j;
 	t_second	*s_current;
 
@@ -87,4 +84,21 @@ void	join_path(t_shell *shell, t_second *s_current, char *path)
 	if (!s_current->cmd_path)
 		malloc_error(shell);
 	free(part_path);
+}
+
+void	execute(t_shell *shell)
+{
+	get_paths(shell);
+	parse_paths(shell);
+	handle_heredoc(shell->s_head);
+	copy_env(shell);
+	shell->s_current = shell->s_head;
+	if (shell->cmd_nbr == 1)
+	{
+		if (builtin_one_cmd(shell))
+			return ;
+		one_command(shell, shell->env_tab);
+	}
+	else
+		exec(shell);
 }

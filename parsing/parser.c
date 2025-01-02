@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:18:26 by a                 #+#    #+#             */
-/*   Updated: 2024/12/18 20:31:36 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/02 18:48:22 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	parsing(t_shell *shell)
 {
-	if (check_open_quotes(shell, shell->line, 0))
+	if (check_open_quotes(shell, shell->line))
 		return (1);
 	f_parsing(shell, shell->line);
 	clean_empty_and_quotes(shell, shell->f_head);
@@ -56,4 +56,27 @@ int	check_token_legit(t_shell *shell, t_first *current)
 		current = current->next;
 	}
 	return (0);
+}
+
+void	s_set_arg_zero(t_shell *shell, t_second *second)
+{
+	int	i;
+	int	start;
+
+	i = 0;
+	start = -1;
+	if (second->cmd[0] == '/')
+	{
+		while (second->cmd[i])
+		{
+			if (second->cmd[i] == '/')
+				start = i + 1;
+			i++;
+		}
+		second->args[0] = ft_strdup(second->cmd + start);
+	}
+	else
+		second->args[0] = ft_strdup(second->cmd);
+	if (!second->args[0])
+		malloc_error(shell);
 }

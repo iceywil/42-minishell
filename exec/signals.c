@@ -6,13 +6,11 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 00:00:43 by a                 #+#    #+#             */
-/*   Updated: 2024/12/30 17:44:17 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/02 18:41:21 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <readline/history.h>
-#include <readline/readline.h>
 
 void	handle_sig(int s)
 {
@@ -77,8 +75,7 @@ bool	catchsignals(t_shell *shell)
 	{
 		shell->tmpexcode = 131;
 		shell->g_sig = 0;
-				free_shell(shell);
-
+		free_shell(shell);
 		return (true);
 	}
 	return (false);

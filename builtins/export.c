@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/06 18:07:20 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/17 16:35:29 by codespace        ###   ########.fr       */
+/*   Created: 2025/01/02 18:52:22 by codespace         #+#    #+#             */
+/*   Updated: 2025/01/02 18:59:54 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,44 +55,14 @@ static bool	valid_identifier(char *str)
 	return (true);
 }
 
-static int	exist(char *str, t_env_list *env)
-{
-	int			i;
-	int			j;
-	t_env_list	*tmp;
-
-	if (!env)
-		return (-1);
-	i = 0;
-	while (str[i] && str[i] != '=')
-		i++;
-	j = 0;
-	tmp = env;
-	if (!ft_strncmp(tmp->key, str, i) && (tmp->key[i] == '\0'
-			|| tmp->key[i] == '='))
-		return (j);
-	tmp = tmp->next;
-	j++;
-	while (tmp != env)
-	{
-		if (!ft_strncmp(tmp->key, str, i) && (tmp->key[i] == '\0'
-				|| tmp->key[i] == '='))
-			return (j);
-		tmp = tmp->next;
-		j++;
-	}
-	return (-1);
-}
-
 bool	export(t_shell *shell, char *str, t_env_list **env)
 {
-	char *value;
-	t_env_list *current;
+	char		*value;
+	t_env_list	*current;
 
 	value = ft_strdup(str);
 	if (!value)
 		return (false);
-
 	current = *env;
 	while (current)
 	{
@@ -118,18 +88,18 @@ int	bl_export(t_shell *shell, char **str)
 	if (!str || !str[i])
 	{
 		if (shell->env_current && !export_no_args(shell, shell->env_current))
-			return (print_error("Error: malloc failed"));
+			malloc_error(shell);
 		return (0);
 	}
 	while (str[i])
 	{
 		if (!valid_identifier(str[i]))
 		{
-			print_error("export: invalid identifier\n");
+			ft_putstr_fd("export: invalid identifier\n", 2);
 			exit_code = 1;
 		}
 		else if (!export(shell, str[i], &shell->env_current))
-			return (print_error("Error: malloc failed"));
+			malloc_error(shell);
 		i++;
 	}
 	return (exit_code);

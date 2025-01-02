@@ -5,35 +5,36 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/09 16:06:04 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/19 01:40:38 by codespace        ###   ########.fr       */
+/*   Created: 2025/01/02 18:54:14 by codespace         #+#    #+#             */
+/*   Updated: 2025/01/02 18:54:24 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int check_newline(char **args, int *flag)
+int	check_newline(char **args, int *flag)
 {
-	int n = 1;
+	int	n;
+	int	i;
+
+	n = 1;
 	while (args[n] && args[n][0] == '-' && args[n][1] == 'n')
 	{
-		int i = 1;
+		i = 1;
 		while (args[n][i] == 'n')
 			i++;
 		if (args[n][i] != '\0')
-			break;
+			break ;
 		*flag = 1;
 		n++;
 	}
-	return n;
+	return (n);
 }
 
 void	bl_echo(t_shell *shell)
 {
 	int	i;
 	int	flag;
-	int	x;
-	
 
 	flag = 0;
 	i = check_newline(shell->s_current->args, &flag);
@@ -48,9 +49,4 @@ void	bl_echo(t_shell *shell)
 	}
 	if (!flag)
 		ft_printf("\n");
-	if (shell->s_current->next)
-		x = shell->excode;
-	else
-		x = shell->unset;
 }
-

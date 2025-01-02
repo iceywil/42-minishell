@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/04 01:25:01 by a                ###   ########.fr       */
+/*   Updated: 2025/01/02 18:40:15 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	check_open_quotes(t_shell *shell, char *input, int flag)
+int	check_open_quotes(t_shell *shell, char *input)
 {
 	int	i;
 	int	single;
@@ -116,8 +116,8 @@ void	remove_quotes(char *str)
 	while (str[i])
 	{
 		len = ft_strlen(str + i + 1);
-		if (str[i] == '\'' || str[i] == '\"' && (!quote_char
-			|| quote_char == str[i]))
+		if ((str[i] == '\'' || str[i] == '\"') && (!quote_char
+				|| quote_char == str[i]))
 		{
 			if (!quote_char)
 				quote_char = str[i];

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 02:36:19 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/24 03:36:18 by a                ###   ########.fr       */
+/*   Updated: 2025/01/02 18:59:47 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	free_list(t_shell *shell)
 {
 	t_env_list	*current;
 	t_env_list	*next;
+
 	current = shell->env_head;
 	while (current)
 	{
@@ -28,11 +29,18 @@ void	free_list(t_shell *shell)
 	shell->env_head = NULL;
 }
 
-bool	print_error(char *str)
+void	error_exit(t_shell *shell, char *msg, int error)
 {
-	if (str)
-		write(2, str, ft_strlen(str));
-	return (true);
+	ft_putendl_fd(msg, 2);
+	free_shell(shell);
+	exit(error);
+}
+
+void	malloc_error(t_shell *shell)
+{
+	ft_putendl_fd("Malloc error", 2);
+	free_shell(shell);
+	exit(1);
 }
 
 void	free_t_env(t_shell *shell, char *err, int ext)
@@ -40,8 +48,8 @@ void	free_t_env(t_shell *shell, char *err, int ext)
 	if (shell->env_head)
 		free_list(shell);
 	if (err)
-		print_error(err);
-	//rl_clear_history();
+		ft_putstr_fd(err, 2);
+	rl_clear_history();
 	if (!access(".heredoc.tmp", F_OK))
 		unlink(".heredoc.tmp");
 	if (ext != -1)

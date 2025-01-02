@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:10:56 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/30 18:00:22 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/02 18:46:42 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,7 @@ void	free_shell(t_shell *shell)
 		free_list(shell);
 }
 
-void	error_exit(t_shell *shell, char *msg, int error)
-{
-	ft_putendl_fd(msg, 2);
-	free_shell(shell);
-	exit(shell->excode);
-}
-
-void	malloc_error(t_shell *shell)
-{
-	ft_putendl_fd("Malloc error", 2);
-	free_shell(shell);
-	exit(1);
-}
-
-void	print_err(char *word, char *msg, char redir, int flag)
+void	print_err(char *word, char *msg, int flag)
 {
 	if (flag == 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/30 17:55:46 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/02 18:22:38 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_shell	shell;
 
-	if (argc == 1)
+	if (argc == 1 && (argv || !argv))
 	{
 		(init_all_start(&shell), ft_signals());
 		if (!conf_env(&shell, envp))
@@ -72,71 +72,6 @@ char	*create_buffer(t_shell *shell)
 		return (free(buffer), malloc_error(shell), NULL);
 	free(buffer);
 	return (str);
-}
-
-void	execute(t_shell *shell)
-{
-	get_paths(shell);
-	parse_paths(shell);
-	handle_heredoc(shell, shell->s_head);
-	copy_env(shell);
-	shell->s_current = shell->s_head;
-	if (shell->cmd_nbr == 1)
-	{
-		if (builtin_one_cmd(shell))
-			return ;
-		one_command(shell, shell->env_tab);
-	}
-	else
-		exec(shell);
-}
-
-int	builtin_one_cmd(t_shell *shell)
-{
-	if (!ft_strcmp(shell->s_head->cmd, "exit") || !ft_strcmp(shell->s_head->cmd,
-			"cd") || !ft_strcmp(shell->s_head->cmd, "export")
-		|| !ft_strcmp(shell->s_head->cmd, "unset"))
-	{
-		handle_redirs(shell);
-		if (shell->s_current->infile > 0)
-			close(shell->s_current->infile);
-		if (shell->s_current->outfile > 0)
-			close(shell->s_current->outfile);
-		if (!ft_strcmp(shell->s_head->cmd, "exit"))
-			bl_exit(shell, shell->s_head->args);
-		else if (!ft_strcmp(shell->s_head->cmd, "cd"))
-			bl_cd(shell, shell->s_head->args);
-		else if (!ft_strcmp(shell->s_head->cmd, "export"))
-			bl_export(shell, shell->s_head->args);
-		else if (!ft_strcmp(shell->s_head->cmd, "unset"))
-			bl_unset(shell, shell->s_head->args);
-		return (1);
-	}
-	return (0);
-}
-
-void	copy_env(t_shell *shell)
-{
-	t_env_list	*current;
-	int			len;
-	int			i;
-
-	len = env_size(shell);
-	current = shell->env_head;
-	shell->env_tab = ft_calloc(len + 1, sizeof(char *));
-	if (!shell->env_tab)
-		return (malloc_error(shell));
-	current = shell->env_head;
-	i = 0;
-	while (current)
-	{
-		shell->env_tab[i] = ft_strdup(current->key);
-		if (!shell->env_tab[i])
-			return (malloc_error(shell));
-		i++;
-		current = current->next;
-	}
-	shell->env_tab[i] = NULL;
 }
 
 void	init_all_start(t_shell *shell)

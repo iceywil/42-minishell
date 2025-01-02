@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:29:59 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/30 16:42:04 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/02 18:04:48 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	one_command(t_shell *shell, char **envp)
 			dup_fd(shell, shell->s_current->outfile, STDOUT_FILENO);
 			close(shell->s_current->outfile);
 		}
-		builtin_cmd(shell, envp);
+		builtin_cmd(shell);
 		exev(shell, envp);
 	}
 	wait_childrens();
@@ -82,7 +82,7 @@ void	first_cmd(t_shell *shell, char **envp)
 		}
 		else
 			dup_fd(shell, shell->fds[shell->i][1], STDOUT_FILENO);
-		(close_own_pipes(shell), builtin_cmd(shell, envp), exev(shell, envp));
+		(close_own_pipes(shell), builtin_cmd(shell), exev(shell, envp));
 	}
 	close(shell->fds[0][1]);
 }
@@ -110,7 +110,7 @@ void	mid_cmd(t_shell *shell, char **envp)
 		else
 			dup_fd(shell, shell->fds[shell->i][1], STDOUT_FILENO);
 		(close_own_pipes(shell), close_last_pipes(shell));
-		(builtin_cmd(shell, envp), exev(shell, envp));
+		(builtin_cmd(shell), exev(shell, envp));
 	}
 	(close(shell->fds[shell->i][1]), close(shell->fds[shell->i - 1][0]));
 }
@@ -139,7 +139,7 @@ void	last_cmd(t_shell *shell, char **envp)
 			close(shell->s_current->outfile);
 		}
 		(close_own_pipes(shell), close_last_pipes(shell));
-		(builtin_cmd(shell, envp), exev(shell, envp));
+		(builtin_cmd(shell), exev(shell, envp));
 	}
 	(close(shell->fds[shell->i][1]), close(shell->fds[shell->i - 1][0]));
 }

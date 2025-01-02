@@ -1,15 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2024/10/25 10:59:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/10/25 13:29:08 by codespace        ###   ########.fr       */
+/*   env_setup.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/02 18:49:35 by codespace         #+#    #+#             */
+/*   Updated: 2025/01/02 18:49:38 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +14,7 @@
 
 t_env_list	*create_env_node(t_shell *shell, char *new)
 {
-	t_env_list *new_node;
+	t_env_list	*new_node;
 
 	new_node = malloc(sizeof(t_env_list));
 	if (!new_node)
@@ -29,9 +26,9 @@ t_env_list	*create_env_node(t_shell *shell, char *new)
 
 void	conf_second_env(t_shell *shell, char **envp)
 {
-	char path[PATH_MAX];
-	char *tmp;
-	int i;
+	char	path[PATH_MAX];
+	char	*tmp;
+	int		i;
 
 	i = 0;
 	while (ft_strncmp(envp[i], "OLDPWD=", 7))
@@ -55,12 +52,10 @@ void	conf_second_env(t_shell *shell, char **envp)
 
 int	conf_env(t_shell *shell, char **envp)
 {
-	t_env_list *current_env;
-	int i;
-	char *tmp;
+	int		i;
+	char	*tmp;
 
 	i = 0;
-	while (envp[i])
 	{
 		tmp = ft_strdup(envp[i]);
 		if (!tmp)
@@ -83,8 +78,8 @@ int	conf_env(t_shell *shell, char **envp)
 
 int	env_size(t_shell *shell)
 {
-	int size;
-	t_env_list *current;
+	int			size;
+	t_env_list	*current;
 
 	current = shell->env_head;
 	size = 0;
@@ -96,9 +91,9 @@ int	env_size(t_shell *shell)
 	return (size);
 }
 
-void add_back_env(t_shell *shell, char *value)
+void	add_back_env(t_shell *shell, char *value)
 {
-	t_env_list *new_node;
+	t_env_list	*new_node;
 
 	new_node = create_env_node(shell, value);
 	shell->env_current = shell->env_head;

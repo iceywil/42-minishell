@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_delims.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/24 20:41:17 by a                ###   ########.fr       */
+/*   Updated: 2025/01/02 17:55:24 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	handle_redirs(t_shell *shell)
 	}
 }
 
-void	handle_heredoc(t_shell *shell, t_second *current)
+void	handle_heredoc(t_second *current)
 {
 	t_first	*redir;
 	int		tmp;

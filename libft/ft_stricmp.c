@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_stricmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:54:44 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/29 14:54:44 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/02 18:56:45 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 int	ft_stricmp(const char *s1, const char *s2)
 {
-    if (!s1 || !s2)
-        return (1);
-    while (*s1 && *s2)
-    {
-        if (*s1 != *s2)
-            return (0);
-        s1++;
-        s2++;
-    }
-    if (*s1 == *s2)
-        return (0);
-    return (1);
+	if (!s1 || !s2)
+		return (1);
+	while (*s1 && *s2)
+	{
+		if (*s1 != *s2)
+			return (0);
+		s1++;
+		s2++;
+	}
+	if (*s1 == *s2)
+		return (0);
+	return (1);
 }

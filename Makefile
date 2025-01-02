@@ -6,7 +6,7 @@
 #    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 20:46:06 by codespace         #+#    #+#              #
-#    Updated: 2024/12/17 02:16:41 by codespace        ###   ########.fr        #
+#    Updated: 2025/01/02 18:14:25 by codespace        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,8 +56,11 @@ OBJS    =   $(C_FILES:.c=.o)
 $(LIBFT_LIB):
 	make -C $(LIBFT_PATH)
 
+%.o: %.c
+	$(CC) $(FLAG) -c $< -o $@
+
 $(NAME):    $(LIBFT_LIB) $(OBJS)
-	$(CC) $(OBJS) $(FLAG) $(LIBFT_LIB) -o $(NAME)
+	$(CC) $(OBJS) $(LIBFT_LIB) -o $(NAME) $(FLAG)
 
 clean:
 	make clean -C $(LIBFT_PATH)

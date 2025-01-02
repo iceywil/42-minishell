@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   first_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: a <a@student.42.fr>                        +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2024/11/10 23:53:35 by a                ###   ########.fr       */
+/*   Updated: 2025/01/02 17:53:36 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,11 @@ int	f_split_loop(t_shell *shell, char *input, int start, int i)
 
 int	f_no_quotes(t_shell *shell, char *input, int start, int i)
 {
-	char	current_token;
-	char	prev_token;
-
 	if (is_token(input[i]))
 	{
 		if (i > start)
 			f_add_node(shell, ft_substr(input, start, i - start), 1);
-		return (f_handle_token(shell, input, start, i));
+		return (f_handle_token(shell, input, i));
 	}
 	else if (input[i] == ' ')
 	{
@@ -79,7 +76,7 @@ int	f_no_quotes(t_shell *shell, char *input, int start, int i)
 	return (i);
 }
 
-int	f_handle_token(t_shell *shell, char *input, int start, int i)
+int	f_handle_token(t_shell *shell, char *input, int i)
 {
 	int		token_start;
 	int		token_count;

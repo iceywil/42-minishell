@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/10 23:12:18 by marvin            #+#    #+#             */
-/*   Updated: 2024/12/17 16:35:12 by codespace        ###   ########.fr       */
+/*   Created: 2025/01/02 18:52:49 by codespace         #+#    #+#             */
+/*   Updated: 2025/01/02 18:56:05 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 char	**lst_to_arr(t_shell *shell, t_env_list *env)
 {
 	t_env_list	*lst;
-	char	**dest;
-	int		i;
+	char		**dest;
+	int			i;
 
 	dest = NULL;
 	i = 0;
@@ -66,6 +66,6 @@ void	sort_array(char **arr, int len)
 			}
 			j++;
 		}
-	i++;
+		i++;
 	}
 }
