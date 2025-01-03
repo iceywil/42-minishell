@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:49:35 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/02 18:49:38 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/03 00:22:32 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	conf_env(t_shell *shell, char **envp)
 	char	*tmp;
 
 	i = 0;
+	while (envp[i])
 	{
 		tmp = ft_strdup(envp[i]);
 		if (!tmp)
