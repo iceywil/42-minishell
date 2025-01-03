@@ -6,7 +6,7 @@
 #    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 20:46:06 by codespace         #+#    #+#              #
-#    Updated: 2025/01/02 18:14:25 by codespace        ###   ########.fr        #
+#    Updated: 2025/01/03 18:29:22 by codespace        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,9 +14,9 @@ NAME        =   minishell
 
 CC          =   cc
 
-FLAG        =   -g3 -Wall -Wextra -Werror -lreadline
+FLAG        =   -Wall -Wextra -Werror
 
-LDFLAGS     =   
+LDFLAGS     =   -lreadline
 
 LIBFT_PATH  =   libft
 
@@ -60,7 +60,7 @@ $(LIBFT_LIB):
 	$(CC) $(FLAG) -c $< -o $@
 
 $(NAME):    $(LIBFT_LIB) $(OBJS)
-	$(CC) $(OBJS) $(LIBFT_LIB) -o $(NAME) $(FLAG)
+	$(CC) $(OBJS) $(LIBFT_LIB) -o $(NAME) $(LDFLAGS)
 
 clean:
 	make clean -C $(LIBFT_PATH)

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/03 02:34:27 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/03 18:21:36 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,7 @@ t_env_list				*create_env_node(t_shell *shell, char *new);
 // export
 char					**lst_to_arr(t_shell *shell, t_env_list *env);
 void					sort_array(char **arr);
-bool					export(t_shell *shell, char *str, t_env_list **env);
+void					export(t_shell *shell, char *str);
 int						bl_export(t_shell *shell, char **str);
 
 // SIGNALS

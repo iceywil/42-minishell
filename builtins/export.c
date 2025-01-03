@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:52:22 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/03 02:40:54 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/03 18:30:38 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,27 +55,28 @@ static bool	valid_identifier(char *str)
 	return (true);
 }
 
-bool	export(t_shell *shell, char *str, t_env_list **env)
+void	export(t_shell *shell, char *str)
 {
 	char		*value;
 	t_env_list	*current;
+	t_env_list	*last;
 
 	value = ft_strdup(str);
 	if (!value)
 		malloc_error(shell);
-	current = *env;
+	current = shell->env_head;
 	while (current)
 	{
+		last = current;
 		if (ft_strncmp(current->key, str, ft_strchr(str, '=') - str) == 0)
 		{
 			free(current->key);
 			current->key = value;
-			return (true);
+			return ;
 		}
 		current = current->next;
 	}
-	create_env_node(shell, value);
-	return (true);
+	last->next = create_env_node(shell, value);
 }
 
 int	bl_export(t_shell *shell, char **str)
@@ -98,8 +99,8 @@ int	bl_export(t_shell *shell, char **str)
 			ft_putstr_fd("export: invalid identifier\n", 2);
 			exit_code = 1;
 		}
-		else if (!export(shell, str[i], &shell->env_current))
-			malloc_error(shell);
+		else
+			export(shell, str[i]);
 		i++;
 	}
 	return (exit_code);

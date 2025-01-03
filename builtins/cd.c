@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:43:46 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/02 18:43:48 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/03 18:28:55 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ static void	update_pwd(t_shell *shell, char *new_path)
 	oldpwd_var = ft_strjoin("OLDPWD=", old_pwd);
 	if (oldpwd_var)
 	{
-		export(shell, oldpwd_var, &shell->env_head);
+		export(shell, oldpwd_var);
 		free(oldpwd_var);
 	}
 	pwd_var = ft_strjoin("PWD=", new_path);
 	if (pwd_var)
 	{
-		export(shell, pwd_var, &shell->env_head);
+		export(shell, pwd_var);
 		free(pwd_var);
 	}
 }
