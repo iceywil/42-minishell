@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:52:49 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/02 18:56:05 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/03 02:32:55 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,18 @@
 
 char	**lst_to_arr(t_shell *shell, t_env_list *env)
 {
-	t_env_list	*lst;
 	char		**dest;
 	int			i;
 
 	dest = NULL;
 	i = 0;
-	lst = env;
 	dest = (char **)malloc(sizeof(char *) * (env_size(shell) + 1));
 	if (!dest)
 		return (NULL);
-	dest[i] = (lst->key);
-	lst = lst->next;
-	i++;
-	while (lst != env)
+	while (env)
 	{
-		dest[i] = (lst->key);
-		lst = lst->next;
+		dest[i] = (env->key);
+		env = env->next;
 		i++;
 	}
 	dest[i] = NULL;
@@ -46,19 +41,19 @@ static void	ft_swap_str_tab(int i, int j, char **tab)
 	tab[j] = temp;
 }
 
-void	sort_array(char **arr, int len)
+void	sort_array(char **arr)
 {
 	int	i;
 	int	j;
 	int	diff;
 
 	i = 0;
-	while (i < len)
+	while (arr[i])
 	{
 		j = i + 1;
-		while (j < len)
+		while (arr[j])
 		{
-			diff = ft_strncmp(arr[i], arr[j], __INT_MAX__);
+			diff = ft_strcmp(arr[i], arr[j]);
 			if (diff > 0)
 			{
 				ft_swap_str_tab(i, j, arr);
