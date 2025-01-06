@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:43:46 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/03 18:28:55 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/06 21:52:08 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,22 @@ int	bl_cd(t_shell *shell, char **params)
 {
 	char	*path;
 
+	if (params[1] && params[2])
+	{
+		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
+		shell->excode = 1;
+		return (1);
+	}
 	if (!params[1] || !ft_strcmp(params[1], "~"))
 		return (ft_cdhome(shell));
 	path = params[1];
 	if (chdir(path) == 0)
 	{
 		update_pwd(shell, path);
+		shell->excode = 0;
 		return (0);
 	}
 	perror(path);
+	shell->excode = 1;
 	return (1);
 }

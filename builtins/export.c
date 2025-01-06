@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:52:22 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/03 18:30:38 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/06 21:53:01 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static bool	export_no_args(t_shell *shell, t_env_list *env)
+static bool export_no_args(t_shell *shell, t_env_list *env)
 {
-	char	**arr;
-	int		i;
-	int		j;
+	char **arr;
+	int i;
+	int j;
 
 	arr = lst_to_arr(shell, env);
 	if (!arr)
@@ -39,9 +39,9 @@ static bool	export_no_args(t_shell *shell, t_env_list *env)
 	return (true);
 }
 
-static bool	valid_identifier(char *str)
+static bool valid_identifier(char *str)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (!str[0] || (str[0] != '_' && !ft_isalpha(str[0])))
@@ -55,11 +55,11 @@ static bool	valid_identifier(char *str)
 	return (true);
 }
 
-void	export(t_shell *shell, char *str)
+void export(t_shell *shell, char *str)
 {
-	char		*value;
-	t_env_list	*current;
-	t_env_list	*last;
+	char *value;
+	t_env_list *current;
+	t_env_list *last;
 
 	value = ft_strdup(str);
 	if (!value)
@@ -72,17 +72,17 @@ void	export(t_shell *shell, char *str)
 		{
 			free(current->key);
 			current->key = value;
-			return ;
+			return;
 		}
 		current = current->next;
 	}
 	last->next = create_env_node(shell, value);
 }
 
-int	bl_export(t_shell *shell, char **str)
+int bl_export(t_shell *shell, char **str)
 {
-	int	exit_code;
-	int	i;
+	int exit_code;
+	int i;
 
 	exit_code = 0;
 	i = 1;
@@ -96,8 +96,9 @@ int	bl_export(t_shell *shell, char **str)
 	{
 		if (!valid_identifier(str[i]))
 		{
-			ft_putstr_fd("export: invalid identifier\n", 2);
-			exit_code = 1;
+			ft_putstr_fd("export: not a valid identifier\n", 2);
+			shell->excode = 1;
+			return (1);
 		}
 		else
 			export(shell, str[i]);
