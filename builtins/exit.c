@@ -49,13 +49,15 @@ static int	get_exit_status(t_shell *shell, char **args, int *should_exit)
 	i = atoi_exit(args[1], &j);
 	if (j)
 	{
-		print_err("exit: ", args[1], 1);
-		print_err(": numeric argument required\n", 0, 1);
+		ft_putstr_fd("exit\n", 2);
+		ft_putstr_fd("exit: ", 2);
+		ft_putstr_fd(args[1], 2);
+		ft_putstr_fd(": numeric argument required\n", 2);
 		return (2);
 	}
 	if (args[2])
 	{
-		print_err("exit: too many arguments\n", 0, 1);
+		ft_putstr_fd("exit: too many arguments\n", 2);
 		shell->excode = 1;
 		*should_exit = 0;
 		return (1);
@@ -72,7 +74,6 @@ void	bl_exit(t_shell *shell, char **args)
 	exit_status = get_exit_status(shell, args, &should_exit);
 	if (!should_exit)
 		return ;
-	ft_putstr_fd("exit\n", 2);
 	free_shell(shell);
 	exit(exit_status);
 }
