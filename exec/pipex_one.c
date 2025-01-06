@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:29:59 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/06 03:34:32 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/06 03:45:27 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,10 +117,13 @@ void	mid_cmd(t_shell *shell, char **envp)
 
 void	last_cmd(t_shell *shell, char **envp)
 {
+		pid_t	pid;
+
 	(create_own_pipes(shell), check_access(shell));
-	if (!fork())
+	pid = fork();
+	if (pid == -1)
 		error_exit(shell, "Fork Error", errno);
-	else
+	if (pid == 0)
 	{
 		if (handle_redirs(shell))
 			return (close_own_pipes(shell), exit(1));

@@ -6,11 +6,12 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:34:23 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/06 03:35:01 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/06 03:59:57 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <sys/stat.h>
 
 void	builtin_cmd(t_shell *shell)
 {
@@ -39,10 +40,14 @@ void	builtin_cmd(t_shell *shell)
 
 void	exev(t_shell *shell, char **envp)
 {
+	struct stat	st;
+
 	if (shell->s_current->cmd)
 	{
 		if (!shell->s_current->cmd_path)
 			print_err(shell->s_current->cmd, ": command not found", 0);
+		else if (stat(shell->s_current->cmd_path, &st) == 0 && S_ISDIR(st.st_mode))
+			print_err(shell->s_current->cmd, ": Is a directory", 0);
 		else if (access(shell->s_current->cmd_path, F_OK) == -1)
 		{
 			if (shell->s_current->cmd[0] == '/'
@@ -58,21 +63,25 @@ void	exev(t_shell *shell, char **envp)
 				envp))
 			print_err(shell->s_current->cmd, ": command error", 0);
 	}
-	close(0);
-	close(1);
-	(free_shell(shell), exit(1));
+	(close(0), close(1), free_shell(shell), exit(1));
 }
 
 void	check_access(t_shell *shell)
 {
+	struct stat	st;
+
 	if (shell->s_current->cmd)
 	{
 		if (!shell->s_current->cmd_path)
 			shell->excode = 127;
+		else if (stat(shell->s_current->cmd_path, &st) == 0 && S_ISDIR(st.st_mode))
+			shell->excode = 126;
 		else if (access(shell->s_current->cmd_path, F_OK) == -1)
 			shell->excode = 127;
 		else if (access(shell->s_current->cmd_path, X_OK) == -1)
 			shell->excode = 126;
+		else
+			shell->excode = 0;
 	}
 }
 
