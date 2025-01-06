@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:34:23 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/06 03:59:57 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/06 04:48:45 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	exev(t_shell *shell, char **envp)
 	{
 		if (!shell->s_current->cmd_path)
 			print_err(shell->s_current->cmd, ": command not found", 0);
-		else if (stat(shell->s_current->cmd_path, &st) == 0 && S_ISDIR(st.st_mode))
+		else if (stat(shell->s_current->cmd_path, &st) == 0
+			&& S_ISDIR(st.st_mode))
 			print_err(shell->s_current->cmd, ": Is a directory", 0);
 		else if (access(shell->s_current->cmd_path, F_OK) == -1)
 		{
@@ -59,8 +60,7 @@ void	exev(t_shell *shell, char **envp)
 		}
 		else if (access(shell->s_current->cmd_path, X_OK) == -1)
 			print_err(shell->s_current->cmd, ": Permission denied", 0);
-		else if (!execve(shell->s_current->cmd_path, shell->s_current->args,
-				envp))
+		if (!execve(shell->s_current->cmd_path, shell->s_current->args, envp))
 			print_err(shell->s_current->cmd, ": command error", 0);
 	}
 	(close(0), close(1), free_shell(shell), exit(1));
@@ -74,7 +74,8 @@ void	check_access(t_shell *shell)
 	{
 		if (!shell->s_current->cmd_path)
 			shell->excode = 127;
-		else if (stat(shell->s_current->cmd_path, &st) == 0 && S_ISDIR(st.st_mode))
+		else if (stat(shell->s_current->cmd_path, &st) == 0
+			&& S_ISDIR(st.st_mode))
 			shell->excode = 126;
 		else if (access(shell->s_current->cmd_path, F_OK) == -1)
 			shell->excode = 127;
@@ -114,6 +115,7 @@ int	builtin_one_cmd(t_shell *shell)
 			"cd") || !ft_strcmp(shell->s_head->cmd, "export")
 		|| !ft_strcmp(shell->s_head->cmd, "unset"))
 	{
+		check_files(shell);
 		if (handle_redirs(shell))
 			return (1);
 		if (shell->s_current->infile > 0)

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 03:16:31 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/06 03:36:27 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/06 04:54:25 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,19 @@
 
 void	check_files(t_shell *shell)
 {
-	shell->s_current = shell->s_head;
-	shell->s_current->redir_current = shell->s_current->redir_head;
-	while (shell->s_current->redir_current)
+	t_second *tmp;
+	
+	tmp = shell->s_current;
+	tmp->redir_current = tmp->redir_head;
+	while (tmp->redir_current)
 	{
-		if (!ft_strcmp(shell->s_current->redir_current->token, "<"))
+		if (!ft_strcmp(tmp->redir_current->token, "<"))
 			check_infile(shell);
-		else if (!ft_strcmp(shell->s_current->redir_current->token, ">>"))
+		else if (!ft_strcmp(tmp->redir_current->token, ">>"))
 			check_outfile_append(shell);
-		else if (!ft_strcmp(shell->s_current->redir_current->token, ">"))
+		else if (!ft_strcmp(tmp->redir_current->token, ">"))
 			check_outfile(shell);
-		shell->s_current->redir_current = shell->s_current->redir_current->next;
+		tmp->redir_current = tmp->redir_current->next;
 	}
 }
 
