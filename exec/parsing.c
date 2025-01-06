@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:44:15 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/02 18:22:44 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/06 02:48:51 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	parse_paths(t_shell *shell)
 			{
 				join_path(shell, s_current, shell->paths[j++]);
 				if (access(s_current->cmd_path, F_OK) == 0
-					|| s_current->cmd[0] == '/')
+					|| s_current->cmd[0] == '.' || s_current->cmd[0] == '/')
 					break ;
 				if (s_current->cmd_path)
 					free(s_current->cmd_path);
@@ -70,7 +70,7 @@ void	join_path(t_shell *shell, t_second *s_current, char *path)
 	char	*part_path;
 
 	part_path = NULL;
-	if (s_current->cmd[0] == '/')
+	if (s_current->cmd[0] == '.' || s_current->cmd[0] == '/')
 	{
 		s_current->cmd_path = ft_strdup(s_current->cmd);
 		if (!s_current->cmd_path)
