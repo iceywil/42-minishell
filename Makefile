@@ -6,7 +6,7 @@
 #    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 20:46:06 by codespace         #+#    #+#              #
-#    Updated: 2025/01/03 18:29:22 by codespace        ###   ########.fr        #
+#    Updated: 2025/01/06 03:17:10 by codespace        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ C_FILES     =   main.c \
 				exec/pipex_utils_one.c \
 				exec/pipex_utils_two.c \
 				exec/signals.c \
+				exec/check_files.c \
 				builtins/echo.c \
 				builtins/cd.c \
 				builtins/pwd.c \

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/03 18:21:36 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/06 03:31:21 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,7 @@ void					f_add_node(t_shell *shell, char *line, int cmd);
 int						f_no_quotes(t_shell *shell, char *input, int start,
 							int i);
 char					*f_handle_env_cmd(t_shell *shell, char *line);
-int						f_handle_token(t_shell *shell, char *input,
-							int i);
+int						f_handle_token(t_shell *shell, char *input, int i);
 char					*f_handle_env_cmd(t_shell *shell, char *line);
 char					*f_find_var_value(t_shell *shell, char *var_start,
 							int var_len);
@@ -180,7 +179,14 @@ int						open_infile(t_shell *shell);
 int						open_outfile(t_shell *shell);
 int						open_outfile_append(t_shell *shell);
 void					handle_heredoc(t_second *current);
-void					handle_redirs(t_shell *shell);
+int						handle_redirs(t_shell *shell);
+
+// CHECK FILES
+void					check_files(t_shell *shell);
+void					check_infile(t_shell *shell);
+void					check_outfile(t_shell *shell);
+void					check_outfile_append(t_shell *shell);
+void					close_files(t_shell *shell);
 
 // BUILTINS
 void					bl_echo(t_shell *shell);

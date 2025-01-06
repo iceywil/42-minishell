@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:29:59 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/02 18:04:48 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/06 03:34:32 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	one_command(t_shell *shell, char **envp)
 		error_exit(shell, "Fork Error", errno);
 	if (pid == 0)
 	{
-		handle_redirs(shell);
+		if (handle_redirs(shell))
+			return (close_own_pipes(shell), exit(1));
 		if (shell->s_current->infile != -1)
 		{
 			dup_fd(shell, shell->s_current->infile, STDIN_FILENO);
@@ -33,8 +34,7 @@ void	one_command(t_shell *shell, char **envp)
 			dup_fd(shell, shell->s_current->outfile, STDOUT_FILENO);
 			close(shell->s_current->outfile);
 		}
-		builtin_cmd(shell);
-		exev(shell, envp);
+		(builtin_cmd(shell), exev(shell, envp));
 	}
 	wait_childrens();
 }
@@ -62,14 +62,14 @@ void	first_cmd(t_shell *shell, char **envp)
 {
 	pid_t	pid;
 
-	create_own_pipes(shell);
-	check_access(shell);
+	(create_own_pipes(shell), check_access(shell));
 	pid = fork();
 	if (pid == -1)
 		error_exit(shell, "Fork Error", errno);
 	if (pid == 0)
 	{
-		handle_redirs(shell);
+		if (handle_redirs(shell))
+			return (close_own_pipes(shell), exit(1));
 		if (shell->s_current->infile != -1)
 		{
 			dup_fd(shell, shell->s_current->infile, STDIN_FILENO);
@@ -91,14 +91,14 @@ void	mid_cmd(t_shell *shell, char **envp)
 {
 	pid_t	pid;
 
-	create_own_pipes(shell);
-	check_access(shell);
+	(create_own_pipes(shell), check_access(shell));
 	pid = fork();
 	if (pid == -1)
 		error_exit(shell, "Fork Error", errno);
 	if (pid == 0)
 	{
-		handle_redirs(shell);
+		if (handle_redirs(shell))
+			return (close_own_pipes(shell), exit(1));
 		if (shell->s_current->infile != -1)
 			(dup_fd(shell, shell->s_current->infile, STDIN_FILENO),
 				close(shell->s_current->infile));
@@ -117,15 +117,13 @@ void	mid_cmd(t_shell *shell, char **envp)
 
 void	last_cmd(t_shell *shell, char **envp)
 {
-	pid_t	pid;
-
 	(create_own_pipes(shell), check_access(shell));
-	pid = fork();
-	if (pid == -1)
+	if (!fork())
 		error_exit(shell, "Fork Error", errno);
-	if (pid == 0)
+	else
 	{
-		handle_redirs(shell);
+		if (handle_redirs(shell))
+			return (close_own_pipes(shell), exit(1));
 		if (shell->s_current->infile != -1)
 		{
 			dup_fd(shell, shell->s_current->infile, STDIN_FILENO);

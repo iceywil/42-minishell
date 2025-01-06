@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:44:15 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/06 02:48:51 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/06 03:18:11 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void	execute(t_shell *shell)
 	parse_paths(shell);
 	handle_heredoc(shell->s_head);
 	copy_env(shell);
+	check_files(shell);
 	shell->s_current = shell->s_head;
 	if (shell->cmd_nbr == 1)
 	{

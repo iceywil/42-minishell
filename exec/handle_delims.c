@@ -6,13 +6,13 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/02 17:55:24 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/06 03:30:43 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	handle_redirs(t_shell *shell)
+int	handle_redirs(t_shell *shell)
 {
 	int	i;
 
@@ -33,9 +33,18 @@ void	handle_redirs(t_shell *shell)
 			shell->s_current->infile = open("/tmp/.here_doc_a", O_RDONLY);
 		}
 		if (i)
-			return (close_own_pipes(shell), exit(1));
+			return (close_files(shell), 1);
 		shell->s_current->redir_current = shell->s_current->redir_current->next;
 	}
+	return (0);
+}
+
+void	close_files(t_shell *shell)
+{
+	if (shell->s_current->infile > 0)
+		close(shell->s_current->infile);
+	if (shell->s_current->outfile > 0)
+		close(shell->s_current->outfile);
 }
 
 void	handle_heredoc(t_second *current)

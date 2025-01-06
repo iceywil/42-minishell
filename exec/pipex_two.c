@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:34:23 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/03 00:12:22 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/06 03:35:01 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,15 @@ void	exev(t_shell *shell, char **envp)
 
 void	check_access(t_shell *shell)
 {
-	if (!shell->s_current->cmd_path)
-		shell->excode = 127;
-	else if (access(shell->s_current->cmd_path, F_OK) == -1)
-		shell->excode = 127;
-	else if (access(shell->s_current->cmd_path, X_OK) == -1)
-		shell->excode = 126;
-	else
-		shell->excode = 0;
+	if (shell->s_current->cmd)
+	{
+		if (!shell->s_current->cmd_path)
+			shell->excode = 127;
+		else if (access(shell->s_current->cmd_path, F_OK) == -1)
+			shell->excode = 127;
+		else if (access(shell->s_current->cmd_path, X_OK) == -1)
+			shell->excode = 126;
+	}
 }
 
 void	malloc_fds(t_shell *shell)
@@ -104,7 +105,8 @@ int	builtin_one_cmd(t_shell *shell)
 			"cd") || !ft_strcmp(shell->s_head->cmd, "export")
 		|| !ft_strcmp(shell->s_head->cmd, "unset"))
 	{
-		handle_redirs(shell);
+		if (handle_redirs(shell))
+			return (1);
 		if (shell->s_current->infile > 0)
 			close(shell->s_current->infile);
 		if (shell->s_current->outfile > 0)
