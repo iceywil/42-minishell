@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:29:59 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/06 04:47:16 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/07 01:03:03 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	one_command(t_shell *shell, char **envp)
 			dup_fd(shell, shell->s_current->outfile, STDOUT_FILENO);
 			close(shell->s_current->outfile);
 		}
-		(builtin_cmd(shell), exev(shell, envp));
+		exev(shell, envp);
 	}
 	wait_childrens();
 }

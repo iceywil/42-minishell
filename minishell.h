@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/06 03:31:21 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/07 01:40:31 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ void					dup_fd(t_shell *shell, int fd1, int fd2);
 void					check_access(t_shell *shell);
 
 // LOOP
-int						builtin_one_cmd(t_shell *shell);
+void					builtin_one_cmd(t_shell *shell);
 void					one_command(t_shell *shell, char **envp);
 void					first_cmd(t_shell *shell, char **envp);
 void					mid_cmd(t_shell *shell, char **envp);

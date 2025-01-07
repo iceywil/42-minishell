@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:44:15 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/06 04:06:29 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/07 01:04:16 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,27 @@ void	execute(t_shell *shell)
 	shell->s_current = shell->s_head;
 	if (shell->cmd_nbr == 1)
 	{
-		if (builtin_one_cmd(shell))
-			return ;
-		one_command(shell, shell->env_tab);
+		if (!ft_strcmp(shell->s_head->cmd, "exit")
+			|| !ft_strcmp(shell->s_head->cmd, "cd")
+			|| !ft_strcmp(shell->s_head->cmd, "export")
+			|| !ft_strcmp(shell->s_head->cmd, "unset")
+			|| !ft_strcmp(shell->s_head->cmd, "echo")
+			|| !ft_strcmp(shell->s_head->cmd, "pwd")
+			|| !ft_strcmp(shell->s_head->cmd, "env"))
+			builtin_one_cmd(shell);
+		else
+			one_command(shell, shell->env_tab);
 	}
 	else
 		exec(shell);
+}
+
+void	exit_code_builtin(t_shell *shell)
+{
+	if (!ft_strcmp(shell->s_head->cmd, "echo") || !ft_strcmp(shell->s_head->cmd,
+			"cd") || !ft_strcmp(shell->s_head->cmd, "export")
+		|| !ft_strcmp(shell->s_head->cmd, "unset"))
+	{
+		shell->excode = 0;
+	}
 }

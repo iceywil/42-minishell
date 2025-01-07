@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 00:00:43 by a                 #+#    #+#             */
-/*   Updated: 2025/01/02 18:41:21 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/07 01:47:15 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,18 +64,18 @@ void	ft_signals(void)
 
 bool	catchsignals(t_shell *shell)
 {
-	if (shell->g_sig == SIGINT)
+	if (g_sig == SIGINT)
 	{
+		shell->excode = 130;
 		shell->tmpexcode = 130;
-		shell->g_sig = 0;
-		free_shell(shell);
+		g_sig = 0;
 		return (true);
 	}
-	else if (shell->g_sig == SIGQUIT)
+	else if (g_sig == SIGQUIT)
 	{
+		shell->excode = 131;
 		shell->tmpexcode = 131;
-		shell->g_sig = 0;
-		free_shell(shell);
+		g_sig = 0;
 		return (true);
 	}
 	return (false);

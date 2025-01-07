@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/06 03:30:43 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/07 00:20:04 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	handle_heredoc(t_second *current)
 				while (str && ft_strcmp(redir->line, str))
 					(ft_putendl_fd(str, tmp), free(str), str = readline("> "));
 				close(tmp);
+				ft_signals();
 			}
 			redir = redir->next;
 		}

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/02 18:22:38 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/07 00:42:56 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	main(int argc, char **argv, char **envp)
 			shell.line = readline(shell.cwd);
 			if (!shell.line)
 				break ;
+			catchsignals(&shell);
 			if (!check_empty_line(&shell) && !parsing(&shell))
 				execute(&shell);
 			add_history(shell.line);
@@ -77,6 +78,7 @@ char	*create_buffer(t_shell *shell)
 void	init_all_start(t_shell *shell)
 {
 	shell->excode = 0;
+	shell->tmpexcode = 0;
 	shell->switch_signal = 0;
 	shell->env_head = NULL;
 	shell->env_current = NULL;
@@ -89,6 +91,7 @@ void	init_all_start(t_shell *shell)
 	shell->s_head = NULL;
 	shell->s_current = NULL;
 	shell->env_tab = NULL;
+	shell->g_sig = 0;
 }
 
 void	init_all(t_shell *shell)
@@ -104,4 +107,5 @@ void	init_all(t_shell *shell)
 	shell->s_head = NULL;
 	shell->s_current = NULL;
 	shell->env_tab = NULL;
+	shell->tmpexcode = 0;
 }

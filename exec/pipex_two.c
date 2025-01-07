@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:34:23 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/06 04:48:45 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/07 02:59:15 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	exev(t_shell *shell, char **envp)
 		}
 		else if (access(shell->s_current->cmd_path, X_OK) == -1)
 			print_err(shell->s_current->cmd, ": Permission denied", 0);
-		if (!execve(shell->s_current->cmd_path, shell->s_current->args, envp))
+		else if (!execve(shell->s_current->cmd_path, shell->s_current->args, envp))
 			print_err(shell->s_current->cmd, ": command error", 0);
 	}
 	(close(0), close(1), free_shell(shell), exit(1));
@@ -109,28 +109,28 @@ void	malloc_fds(t_shell *shell)
 	shell->fds = fds;
 }
 
-int	builtin_one_cmd(t_shell *shell)
+void	builtin_one_cmd(t_shell *shell)
 {
-	if (!ft_strcmp(shell->s_head->cmd, "exit") || !ft_strcmp(shell->s_head->cmd,
-			"cd") || !ft_strcmp(shell->s_head->cmd, "export")
-		|| !ft_strcmp(shell->s_head->cmd, "unset"))
-	{
-		check_files(shell);
-		if (handle_redirs(shell))
-			return (1);
-		if (shell->s_current->infile > 0)
-			close(shell->s_current->infile);
-		if (shell->s_current->outfile > 0)
-			close(shell->s_current->outfile);
-		if (!ft_strcmp(shell->s_head->cmd, "exit"))
-			bl_exit(shell, shell->s_head->args);
-		else if (!ft_strcmp(shell->s_head->cmd, "cd"))
-			bl_cd(shell, shell->s_head->args);
-		else if (!ft_strcmp(shell->s_head->cmd, "export"))
-			bl_export(shell, shell->s_head->args);
-		else if (!ft_strcmp(shell->s_head->cmd, "unset"))
-			bl_unset(shell, shell->s_head->args);
-		return (1);
-	}
-	return (0);
+	check_files(shell);
+	if (handle_redirs(shell))
+		return ;
+	if (shell->s_current->infile > 0)
+		close(shell->s_current->infile);
+	if (shell->s_current->outfile > 0)
+		close(shell->s_current->outfile);
+	if (!ft_strcmp(shell->s_head->cmd, "exit"))
+		bl_exit(shell, shell->s_head->args);
+	else if (!ft_strcmp(shell->s_head->cmd, "cd"))
+		bl_cd(shell, shell->s_head->args);
+	else if (!ft_strcmp(shell->s_head->cmd, "export"))
+		bl_export(shell, shell->s_head->args);
+	else if (!ft_strcmp(shell->s_head->cmd, "unset"))
+		bl_unset(shell, shell->s_head->args);
+	else if (!ft_strcmp(shell->s_head->cmd, "echo"))
+		bl_echo(shell);
+	else if (!ft_strcmp(shell->s_head->cmd, "pwd"))
+		bl_pwd(shell);
+	else if (!ft_strcmp(shell->s_head->cmd, "env"))
+		bl_env(shell);
+	shell->excode = 0;
 }
