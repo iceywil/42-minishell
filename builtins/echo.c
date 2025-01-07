@@ -42,7 +42,7 @@ void	bl_echo(t_shell *shell)
 	{
 		while (shell->s_current->args[i])
 		{
-			if (i > 1)
+			if (i > check_newline(shell->s_current->args, &flag))
 				ft_printf(" ");
 			ft_printf("%s", shell->s_current->args[i++]);
 		}
