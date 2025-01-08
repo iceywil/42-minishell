@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:34:23 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/07 02:59:15 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/07 17:18:07 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,10 +114,7 @@ void	builtin_one_cmd(t_shell *shell)
 	check_files(shell);
 	if (handle_redirs(shell))
 		return ;
-	if (shell->s_current->infile > 0)
-		close(shell->s_current->infile);
-	if (shell->s_current->outfile > 0)
-		close(shell->s_current->outfile);
+	close_files(shell);
 	if (!ft_strcmp(shell->s_head->cmd, "exit"))
 		bl_exit(shell, shell->s_head->args);
 	else if (!ft_strcmp(shell->s_head->cmd, "cd"))
@@ -126,8 +123,6 @@ void	builtin_one_cmd(t_shell *shell)
 		bl_export(shell, shell->s_head->args);
 	else if (!ft_strcmp(shell->s_head->cmd, "unset"))
 		bl_unset(shell, shell->s_head->args);
-	else if (!ft_strcmp(shell->s_head->cmd, "echo"))
-		bl_echo(shell);
 	else if (!ft_strcmp(shell->s_head->cmd, "pwd"))
 		bl_pwd(shell);
 	else if (!ft_strcmp(shell->s_head->cmd, "env"))

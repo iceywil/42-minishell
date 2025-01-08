@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/07 01:40:31 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/07 19:16:11 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ typedef struct s_env_list
 typedef struct s_shell
 {
 	int					i;
+	int					x;
 	int					unset;
 	int					err;
 	int					cmd_nbr;
@@ -200,7 +201,7 @@ int						check_newline(char **arg, int *flag);
 void					builtin_cmd(t_shell *shell);
 
 // Env
-int						conf_env(t_shell *shell, char **env);
+void					conf_env(t_shell *shell, char **env);
 void					conf_second_env(t_shell *shell, char **envp);
 void					free_list(t_shell *shell);
 bool					print_error(char *str);

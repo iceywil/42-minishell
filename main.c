@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/07 00:42:56 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/07 19:27:47 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc == 1 && (argv || !argv))
 	{
-		(init_all_start(&shell), ft_signals());
-		if (!conf_env(&shell, envp))
-			return (free_shell(&shell), 1);
+		(init_all_start(&shell), ft_signals()), (conf_env(&shell, envp));
 		while (1)
 		{
 			init_all(&shell);

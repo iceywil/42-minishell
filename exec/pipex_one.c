@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:29:59 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/07 01:03:03 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/07 17:19:39 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	one_command(t_shell *shell, char **envp)
 	if (pid == 0)
 	{
 		if (handle_redirs(shell))
-			return (close_own_pipes(shell), exit(1));
+			return (close_own_pipes(shell), free_shell(shell), exit(1));
 		if (shell->s_current->infile != -1)
 		{
 			dup_fd(shell, shell->s_current->infile, STDIN_FILENO);
@@ -34,7 +34,7 @@ void	one_command(t_shell *shell, char **envp)
 			dup_fd(shell, shell->s_current->outfile, STDOUT_FILENO);
 			close(shell->s_current->outfile);
 		}
-		exev(shell, envp);
+		(builtin_cmd(shell), exev(shell, envp));
 	}
 	wait_childrens();
 }
@@ -69,7 +69,7 @@ void	first_cmd(t_shell *shell, char **envp)
 	if (pid == 0)
 	{
 		if (handle_redirs(shell))
-			return (close_own_pipes(shell), exit(1));
+			return (close_own_pipes(shell), free_shell(shell), exit(1));
 		if (shell->s_current->infile != -1)
 		{
 			dup_fd(shell, shell->s_current->infile, STDIN_FILENO);
@@ -98,7 +98,8 @@ void	mid_cmd(t_shell *shell, char **envp)
 	if (pid == 0)
 	{
 		if (handle_redirs(shell))
-			return (close_own_pipes(shell), exit(1));
+			return (close_own_pipes(shell), close_last_pipes(shell),
+				free_shell(shell), exit(1));
 		if (shell->s_current->infile != -1)
 			(dup_fd(shell, shell->s_current->infile, STDIN_FILENO),
 				close(shell->s_current->infile));
@@ -126,7 +127,8 @@ void	last_cmd(t_shell *shell, char **envp)
 	if (pid == 0)
 	{
 		if (handle_redirs(shell))
-			return (close_own_pipes(shell), exit(1));
+			return (close_own_pipes(shell), close_last_pipes(shell),
+				free_shell(shell), exit(1));
 		if (shell->s_current->infile != -1)
 		{
 			dup_fd(shell, shell->s_current->infile, STDIN_FILENO);

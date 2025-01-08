@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:49:35 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/06 04:57:11 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/07 22:12:56 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,43 +38,36 @@ void	conf_second_env(t_shell *shell, char **envp)
 		tmp = ft_strdup(envp[i]);
 		if (!tmp)
 			malloc_error(shell);
-		shell->env_current->next = create_env_node(shell, tmp);
-		shell->env_current = shell->env_current->next;
+		add_back_env(shell, tmp);
 	}
 	if (!getcwd(path, PATH_MAX))
 		error_exit(shell, "getcwd error", 1);
-	tmp = NULL;
 	tmp = ft_strjoin("PWD=", path);
-	if (!tmp)
-		malloc_error(shell);
-	shell->env_current->next = create_env_node(shell, tmp);
+	add_back_env(shell, tmp);
 }
 
-int	conf_env(t_shell *shell, char **envp)
+void	conf_env(t_shell *shell, char **envp)
 {
-	int		i;
 	char	*tmp;
+	char	path[PATH_MAX];
 
-	i = 0;
-	while (envp[i])
+	shell->x = 0;
+	if (!envp || !envp[0])
 	{
-		tmp = ft_strdup(envp[i]);
+		if (!getcwd(path, PATH_MAX))
+			error_exit(shell, "getcwd error", 1);
+		tmp = ft_strjoin("PWD=", path);
+		add_back_env(shell, tmp);
+		return ;
+	}
+	while (envp[shell->x])
+	{
+		tmp = ft_strdup(envp[shell->x++]);
 		if (!tmp)
 			malloc_error(shell);
-		if (shell->env_head == NULL)
-		{
-			shell->env_head = create_env_node(shell, tmp);
-			shell->env_current = shell->env_head;
-		}
-		else
-		{
-			shell->env_current->next = create_env_node(shell, tmp);
-			shell->env_current = shell->env_current->next;
-		}
-		i++;
+		add_back_env(shell, tmp);
 	}
 	conf_second_env(shell, envp);
-	return (1);
 }
 
 int	env_size(t_shell *shell)
