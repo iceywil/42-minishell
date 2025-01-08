@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 03:16:31 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/06 04:54:25 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/08 18:55:21 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	check_files(t_shell *shell)
 {
-	t_second *tmp;
-	
+	t_second	*tmp;
+
 	tmp = shell->s_current;
 	tmp->redir_current = tmp->redir_head;
 	while (tmp->redir_current)

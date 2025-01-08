@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:29:59 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/07 17:19:39 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/08 18:55:44 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,10 +130,8 @@ void	last_cmd(t_shell *shell, char **envp)
 			return (close_own_pipes(shell), close_last_pipes(shell),
 				free_shell(shell), exit(1));
 		if (shell->s_current->infile != -1)
-		{
-			dup_fd(shell, shell->s_current->infile, STDIN_FILENO);
-			close(shell->s_current->infile);
-		}
+			(dup_fd(shell, shell->s_current->infile, STDIN_FILENO),
+				close(shell->s_current->infile));
 		else
 			dup_fd(shell, shell->fds[shell->i - 1][0], STDIN_FILENO);
 		if (shell->s_current->outfile != -1)

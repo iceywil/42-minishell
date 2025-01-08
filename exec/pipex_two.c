@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:34:23 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/07 17:18:07 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/08 19:05:16 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void	exev(t_shell *shell, char **envp)
 		}
 		else if (access(shell->s_current->cmd_path, X_OK) == -1)
 			print_err(shell->s_current->cmd, ": Permission denied", 0);
-		else if (!execve(shell->s_current->cmd_path, shell->s_current->args, envp))
+		else if (!execve(shell->s_current->cmd_path, shell->s_current->args,
+				envp))
 			print_err(shell->s_current->cmd, ": command error", 0);
 	}
 	(close(0), close(1), free_shell(shell), exit(1));
@@ -111,6 +112,9 @@ void	malloc_fds(t_shell *shell)
 
 void	builtin_one_cmd(t_shell *shell)
 {
+	int	i;
+
+	i = 0;
 	check_files(shell);
 	if (handle_redirs(shell))
 		return ;
@@ -118,14 +122,14 @@ void	builtin_one_cmd(t_shell *shell)
 	if (!ft_strcmp(shell->s_head->cmd, "exit"))
 		bl_exit(shell, shell->s_head->args);
 	else if (!ft_strcmp(shell->s_head->cmd, "cd"))
-		bl_cd(shell, shell->s_head->args);
+		i = bl_cd(shell, shell->s_head->args);
 	else if (!ft_strcmp(shell->s_head->cmd, "export"))
-		bl_export(shell, shell->s_head->args);
+		i = bl_export(shell, shell->s_head->args);
 	else if (!ft_strcmp(shell->s_head->cmd, "unset"))
 		bl_unset(shell, shell->s_head->args);
 	else if (!ft_strcmp(shell->s_head->cmd, "pwd"))
 		bl_pwd(shell);
 	else if (!ft_strcmp(shell->s_head->cmd, "env"))
 		bl_env(shell);
-	shell->excode = 0;
+	shell->excode = i;
 }

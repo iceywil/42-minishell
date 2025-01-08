@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:18:26 by a                 #+#    #+#             */
-/*   Updated: 2025/01/08 18:04:20 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/08 19:10:01 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,45 @@ void	s_set_arg_zero(t_shell *shell, t_second *second)
 		second->args[0] = ft_strdup(second->cmd);
 	if (!second->args[0])
 		malloc_error(shell);
+}
+
+void	fix_quotes_space(t_shell *shell, t_first *current)
+{
+	while (current)
+	{
+		if (current != shell->f_head && current->prev)
+		{
+			shell->x = 0;
+			shell->i = 0;
+			while (current->prev->line[shell->x])
+			{
+				if (current->prev->line[shell->x] == '\''
+					|| current->prev->line[shell->x] == '"')
+					shell->i = -1;
+				if (current->prev->line[shell->x] != ' '
+					&& current->prev->line[shell->x] != '\''
+					&& current->prev->line[shell->x] != '"')
+				{
+					shell->x = -1;
+					break ;
+				}
+				shell->x++;
+			}
+			if (shell->x != -1 && shell->i == -1)
+				fix_current(shell, current);
+		}
+		current = current->next;
+	}
+}
+
+void	fix_current(t_shell *shell, t_first *current)
+{
+	char	*tmp;
+
+	tmp = malloc(ft_strlen(current->line) + 2);
+	if (!current->line)
+		malloc_error(shell);
+	tmp[0] = ' ';
+	(ft_strcpy(tmp + 1, current->line), free(current->line));
+	current->line = tmp;
 }

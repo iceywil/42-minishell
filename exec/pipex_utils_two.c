@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:36:40 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/06 21:38:43 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/08 18:55:00 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	open_infile(t_shell *shell)
 
 int	open_outfile_append(t_shell *shell)
 {
-if (shell->s_current->outfile != -1)
+	if (shell->s_current->outfile != -1)
 		close(shell->s_current->outfile);
 	shell->s_current->outfile = -1;
 	if (access(shell->s_current->redir_current->line, F_OK) == 0)
@@ -50,7 +50,8 @@ if (shell->s_current->outfile != -1)
 				O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (shell->s_current->outfile == -1)
 		{
-			print_err(shell->s_current->redir_current->line, ": Permission denied", 0);
+			print_err(shell->s_current->redir_current->line,
+				": Permission denied", 0);
 			return (1);
 		}
 	}
@@ -78,7 +79,8 @@ int	open_outfile(t_shell *shell)
 				O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (shell->s_current->outfile == -1)
 		{
-			print_err(shell->s_current->redir_current->line, ": Permission denied", 0);
+			print_err(shell->s_current->redir_current->line,
+				": Permission denied", 0);
 			return (1);
 		}
 	}
