@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:18:26 by a                 #+#    #+#             */
-/*   Updated: 2025/01/08 17:29:19 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/08 18:04:20 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	parsing(t_shell *shell)
 	if (check_open_quotes(shell, shell->line))
 		return (1);
 	f_parsing(shell, shell->line);
+	fix_quotes_space(shell, shell->f_head);
 	clean_empty_and_quotes(shell, shell->f_head);
 	if (check_token_legit(shell, shell->f_head))
 		return (1);

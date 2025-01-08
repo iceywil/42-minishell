@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/07 19:16:11 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/08 18:36:16 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ void					init_all(t_shell *shell);
 void					init_all_start(t_shell *shell);
 void					execute(t_shell *shell);
 int						check_empty_line(t_shell *shell);
+void					fix_quotes_space(t_shell *shell, t_first *current);
+void					fix_current(t_shell *shell, t_first *current);
 
 // PARSING
 int						parsing(t_shell *shell);
