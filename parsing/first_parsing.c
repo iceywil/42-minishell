@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/02 17:53:36 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/08 17:11:34 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	f_add_node(t_shell *shell, char *content, int cmd)
 		(free(content), malloc_error(shell));
 	new_node->cmd = cmd;
 	new_node->line = f_handle_env_cmd(shell, content);
-	new_node->prev = shell->f_current;
+	new_node->prev = NULL;
 	new_node->next = NULL;
 	new_node->token = NULL;
 	if (!shell->f_head)

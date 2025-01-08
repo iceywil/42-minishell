@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/02 18:40:15 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/08 17:16:34 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,29 +79,27 @@ int	count_args(char *cmd)
 
 void	clean_empty_and_quotes(t_shell *shell, t_first *current)
 {
-	t_first	*prev;
-	t_first	*next;
+	t_first	*next_node;
 
-	prev = NULL;
 	while (current)
 	{
 		remove_quotes(current->line);
 		if (current->line[0] == '\0')
 		{
-			next = current->next;
-			free(current->line);
-			free(current);
-			if (prev)
-				prev->next = next;
+			next_node = current->next;
+			if (current != shell->f_head)
+			{
+				current->prev->next = current->next;
+				if (current->next)
+					current->next->prev = current->prev;
+			}
 			else
-				shell->f_head = next;
-			current = next;
+				shell->f_head = current->next;
+			(free(current->line), free(current));
+			current = next_node;
 		}
 		else
-		{
-			prev = current;
 			current = current->next;
-		}
 	}
 }
 
