@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 17:40:22 by a                 #+#    #+#             */
-/*   Updated: 2025/01/08 17:22:47 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/08 18:53:44 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ char	*f_handle_env_cmd(t_shell *shell, char *line)
 	shell->i = 0;
 	while (line[shell->i])
 	{
-		if (line[shell->i] == '$' && !single_quote && ft_isalpha(line[shell->i
-				+ 1]))
+		if (line[shell->i] == '$' && !single_quote && (ft_isalpha(line[shell->i
+					+ 1]) || line[shell->i + 1] == '?'))
 			line = f_set_shard(shell, line);
 		else if (line[shell->i] == '\'' && single_quote == 0)
 			single_quote = 1;

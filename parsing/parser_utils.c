@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/08 18:33:38 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/08 18:50:23 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,8 +136,12 @@ void	fix_quotes_space(t_shell *shell, t_first *current)
 		if (current != shell->f_head && current->prev)
 		{
 			shell->x = 0;
+			shell->i = 0;
 			while (current->prev->line[shell->x])
 			{
+				if (current->prev->line[shell->x] == '\''
+					|| current->prev->line[shell->x] == '"')
+					shell->i = -1;
 				if (current->prev->line[shell->x] != ' '
 					&& current->prev->line[shell->x] != '\''
 					&& current->prev->line[shell->x] != '"')
@@ -147,7 +151,7 @@ void	fix_quotes_space(t_shell *shell, t_first *current)
 				}
 				shell->x++;
 			}
-			if (shell->x != -1)
+			if (shell->x != -1 && shell->i == -1)
 				fix_current(shell, current);
 		}
 		current = current->next;
