@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/08 18:36:16 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/08 20:24:31 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,6 @@ void					builtin_cmd(t_shell *shell);
 void					conf_env(t_shell *shell, char **env);
 void					conf_second_env(t_shell *shell, char **envp);
 void					free_list(t_shell *shell);
-bool					print_error(char *str);
 void					free_t_env(t_shell *shell, char *err, int ext);
 void					copy_env(t_shell *shell);
 int						env_size(t_shell *shell);
@@ -218,6 +217,7 @@ char					**lst_to_arr(t_shell *shell, t_env_list *env);
 void					sort_array(char **arr);
 void					export(t_shell *shell, char *str);
 int						bl_export(t_shell *shell, char **str);
+char					*remove_space_export(char *str);
 
 // SIGNALS
 void					handle_sig(int s);

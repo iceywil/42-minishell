@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:52:22 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/08 19:04:28 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/08 20:23:57 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ static bool	export_no_args(t_shell *shell, t_env_list *env)
 	int		j;
 
 	arr = lst_to_arr(shell, env);
-	if (!arr)
-		return (false);
 	sort_array(arr);
 	i = 0;
 	while (arr[i])
@@ -61,6 +59,7 @@ void	export(t_shell *shell, char *str)
 	t_env_list	*current;
 	t_env_list	*last;
 
+	str = remove_space_export(str);
 	value = ft_strdup(str);
 	if (!value)
 		malloc_error(shell);
@@ -77,6 +76,23 @@ void	export(t_shell *shell, char *str)
 		current = current->next;
 	}
 	last->next = create_env_node(shell, value);
+}
+
+char	*remove_space_export(char *str)
+{
+	int	i;
+	int	x;
+
+	i = 0;
+	while (str[i] != '=' && str[i] != '\0')
+		i++;
+	if (str[i] == '\0')
+		return (str);
+	x = i + 1;
+	while (str[x] == ' ')
+		x++;
+	ft_memmove(str + i + 1, str + x, ft_strlen(str + x) + 1);
+	return (str);
 }
 
 int	bl_export(t_shell *shell, char **str)

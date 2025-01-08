@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:52:49 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/03 02:32:55 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/08 19:58:32 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	**lst_to_arr(t_shell *shell, t_env_list *env)
 	i = 0;
 	dest = (char **)malloc(sizeof(char *) * (env_size(shell) + 1));
 	if (!dest)
-		return (NULL);
+		malloc_error(shell);
 	while (env)
 	{
 		dest[i] = (env->key);

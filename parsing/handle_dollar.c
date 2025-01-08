@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 17:40:22 by a                 #+#    #+#             */
-/*   Updated: 2025/01/08 19:09:18 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/08 20:18:38 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ char	*f_handle_env_cmd(t_shell *shell, char *line)
 	shell->i = 0;
 	while (line[shell->i])
 	{
-		if (line[shell->i] == '$' && (ft_isalpha(line[shell->i + 1])
-				|| line[shell->i + 1] == '?') && !single_quote)
+		if ((line[shell->i] == '$' && !single_quote) || ((line[shell->i] == '$'
+					&& single_quote && double_quote)))
 			line = f_set_shard(shell, line);
 		else if (line[shell->i] == '\'' && single_quote == 0)
 			single_quote = 1;
@@ -49,11 +49,13 @@ char	*f_set_shard(t_shell *shell, char *line)
 		return (f_handle_err(shell, line, start));
 	else
 	{
-		if (!line[shell->i + 1])
-			return (line);
+		shell->x = 0;
 		while (line[++shell->i])
 		{
-			if (!ft_isalpha(line[shell->i]))
+			if (ft_isdigit(line[shell->i]))
+				shell->x = 1;
+			if ((!ft_isalnum(line[shell->i]) && line[shell->i] != '_')
+				|| (ft_isalpha(line[shell->i]) && shell->x == 1))
 				break ;
 		}
 		shell->i--;
