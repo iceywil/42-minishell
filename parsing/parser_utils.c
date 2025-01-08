@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/08 17:16:34 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/08 17:37:00 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,24 +106,24 @@ void	clean_empty_and_quotes(t_shell *shell, t_first *current)
 void	remove_quotes(char *str)
 {
 	int		i;
+	int		j;
 	char	quote_char;
-	int		len;
 
 	i = 0;
+	j = 0;
 	quote_char = 0;
 	while (str[i])
 	{
-		len = ft_strlen(str + i + 1);
-		if ((str[i] == '\'' || str[i] == '\"') && (!quote_char
-				|| quote_char == str[i]))
+		if ((str[i] == '\'' || str[i] == '\"') && (!quote_char || quote_char == str[i]))
 		{
 			if (!quote_char)
 				quote_char = str[i];
 			else if (str[i] == quote_char)
 				quote_char = 0;
-			ft_memmove(str + i, str + i + 1, len + 1);
-			continue ;
 		}
+		else
+			str[j++] = str[i];
 		i++;
 	}
+	str[j] = '\0';
 }
