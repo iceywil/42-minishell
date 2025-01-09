@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:34:23 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/09 00:28:45 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/09 18:07:54 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,6 @@ void	exev(t_shell *shell, char **envp)
 			print_dup(shell->s_current->cmd, ": command error");
 	}
 	(close(0), close(1), free_shell(shell), exit(1));
-}
-
-void print_dup(char *cmd, char *msg)
-{
-	dup2(2, 1);
-	printf("minishell: %s%s\n", cmd, msg);
-	close(2);
 }
 
 void	check_access(t_shell *shell)

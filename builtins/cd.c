@@ -3,19 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:43:46 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/08 19:05:59 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/06 21:52:08 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	update_pwd(t_shell *shell, char *new_path)
+static void	update_oldpwd(t_shell *shell)
 {
 	char	old_pwd[PATH_MAX];
-	char	*pwd_var;
 	char	*oldpwd_var;
 
 	if (getcwd(old_pwd, PATH_MAX) == NULL)
@@ -26,6 +25,12 @@ static void	update_pwd(t_shell *shell, char *new_path)
 		export(shell, oldpwd_var);
 		free(oldpwd_var);
 	}
+}
+
+static void	update_pwd(t_shell *shell, char *new_path)
+{
+	char	*pwd_var;
+
 	pwd_var = ft_strjoin("PWD=", new_path);
 	if (pwd_var)
 	{
@@ -45,6 +50,7 @@ static int	ft_cdhome(t_shell *shell)
 		if (ft_strncmp(tmp->key, "HOME=", 5) == 0)
 		{
 			home = tmp->key + 5;
+			update_oldpwd(shell);
 			if (chdir(home) == 0)
 			{
 				update_pwd(shell, home);
@@ -71,6 +77,7 @@ int	bl_cd(t_shell *shell, char **params)
 	if (!params[1] || !ft_strcmp(params[1], "~"))
 		return (ft_cdhome(shell));
 	path = params[1];
+	update_oldpwd(shell);
 	if (chdir(path) == 0)
 	{
 		update_pwd(shell, path);

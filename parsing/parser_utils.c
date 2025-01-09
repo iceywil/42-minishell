@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/09 00:02:04 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/09 17:49:03 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,17 +97,20 @@ void	remove_quotes(char *str)
 	quote_char = 0;
 	while (str[i])
 	{
-		if ((str[i] == '\'' || str[i] == '\"') && (!quote_char
-				|| quote_char == str[i]))
+		if ((str[i] == '\'' || str[i] == '\"'))
 		{
 			if (!quote_char)
 				quote_char = str[i];
 			else if (str[i] == quote_char)
 				quote_char = 0;
+			else
+				str[j++] = str[i];
 		}
 		else
 			str[j++] = str[i];
 		i++;
 	}
+	if (quote_char)
+		str[j++] = quote_char;
 	str[j] = '\0';
 }

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:36:40 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/08 18:55:00 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/09 18:08:03 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,11 @@ int	open_outfile(t_shell *shell)
 		}
 	}
 	return (0);
+}
+
+void	print_dup(char *cmd, char *msg)
+{
+	dup2(2, 1);
+	printf("minishell: %s%s\n", cmd, msg);
+	close(2);
 }
