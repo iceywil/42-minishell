@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/08 20:24:31 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/09 00:31:07 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,8 +137,7 @@ char					*f_set_shard(t_shell *shell, char *line);
 
 // second parser
 void					s_parsing(t_shell *shell);
-void					clean_empty_and_quotes(t_shell *shell,
-							t_first *current);
+void					clean_empty_and_quotes(t_first *current);
 void					remove_quotes(char *str);
 void					s_create_node(t_shell *shell, t_second *new_node);
 void					s_add_redir(t_shell *shell, t_second *second);
@@ -154,6 +153,7 @@ void					print_err(char *msg, char *word, int flag);
 void					free_first(t_first *current);
 void					free_second(t_shell *shell);
 void					loop_free_shell(t_shell *shell);
+void					print_dup(char *cmd, char *msg);
 
 // PIPEX
 void					exec(t_shell *shell);
@@ -163,6 +163,7 @@ void					join_path(t_shell *shell, t_second *s_current,
 							char *path);
 void					dup_fd(t_shell *shell, int fd1, int fd2);
 void					check_access(t_shell *shell);
+int						is_empty(char *str);
 
 // LOOP
 void					builtin_one_cmd(t_shell *shell);

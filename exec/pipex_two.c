@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:34:23 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/08 19:05:16 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/09 00:28:45 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,27 +44,33 @@ void	exev(t_shell *shell, char **envp)
 
 	if (shell->s_current->cmd)
 	{
-		if (!shell->s_current->cmd_path)
-			print_err(shell->s_current->cmd, ": command not found", 0);
+		if (!shell->s_current->cmd_path || is_empty(shell->s_current->cmd))
+			print_dup(shell->s_current->cmd, ": command not found");
 		else if (stat(shell->s_current->cmd_path, &st) == 0
 			&& S_ISDIR(st.st_mode))
-			print_err(shell->s_current->cmd, ": Is a directory", 0);
+			print_dup(shell->s_current->cmd, ": Is a directory");
 		else if (access(shell->s_current->cmd_path, F_OK) == -1)
 		{
 			if (shell->s_current->cmd[0] == '/'
 				|| shell->s_current->cmd[0] == '.')
-				print_err(shell->s_current->cmd, ": No such file or directory",
-					0);
+				print_dup(shell->s_current->cmd, ": No such file or directory");
 			else
-				print_err(shell->s_current->cmd, ": command not found", 0);
+				print_dup(shell->s_current->cmd, ": command not found");
 		}
 		else if (access(shell->s_current->cmd_path, X_OK) == -1)
-			print_err(shell->s_current->cmd, ": Permission denied", 0);
+			print_dup(shell->s_current->cmd, ": Permission denied");
 		else if (!execve(shell->s_current->cmd_path, shell->s_current->args,
 				envp))
-			print_err(shell->s_current->cmd, ": command error", 0);
+			print_dup(shell->s_current->cmd, ": command error");
 	}
 	(close(0), close(1), free_shell(shell), exit(1));
+}
+
+void print_dup(char *cmd, char *msg)
+{
+	dup2(2, 1);
+	printf("minishell: %s%s\n", cmd, msg);
+	close(2);
 }
 
 void	check_access(t_shell *shell)

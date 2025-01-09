@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 03:16:31 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/08 18:55:21 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/09 00:30:22 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,18 @@ void	check_outfile_append(t_shell *shell)
 		close(shell->s_current->outfile);
 		shell->s_current->outfile = -1;
 	}
+}
+
+int	is_empty(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != ' ')
+			return (0);
+		i++;
+	}
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/08 19:09:51 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/09 00:02:04 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,29 +77,12 @@ int	count_args(char *cmd)
 	return (count);
 }
 
-void	clean_empty_and_quotes(t_shell *shell, t_first *current)
+void	clean_empty_and_quotes(t_first *current)
 {
-	t_first	*next_node;
-
 	while (current)
 	{
 		remove_quotes(current->line);
-		if (current->line[0] == '\0')
-		{
-			next_node = current->next;
-			if (current != shell->f_head)
-			{
-				current->prev->next = current->next;
-				if (current->next)
-					current->next->prev = current->prev;
-			}
-			else
-				shell->f_head = current->next;
-			(free(current->line), free(current));
-			current = next_node;
-		}
-		else
-			current = current->next;
+		current = current->next;
 	}
 }
 

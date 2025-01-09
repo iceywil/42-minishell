@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/07 19:27:47 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/08 22:39:30 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,10 @@ int	main(int argc, char **argv, char **envp)
 			if (!shell.line)
 				break ;
 			catchsignals(&shell);
-			if (!check_empty_line(&shell) && !parsing(&shell))
+			if (!check_empty_line(&shell))
+				add_history(shell.line);
+			if (!parsing(&shell))
 				execute(&shell);
-			add_history(shell.line);
-			if (shell.line)
-				(free(shell.line), shell.line = NULL);
 			loop_free_shell(&shell);
 		}
 		return (ft_putstr_fd("exit\n", 1), free_shell(&shell), 0);
