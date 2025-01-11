@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:50:30 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/06 21:52:47 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/11 18:17:27 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,23 +44,24 @@ static int	get_exit_status(t_shell *shell, char **args, int *should_exit)
 	int	j;
 
 	*should_exit = 1;
-	if (!args[1])
-		return (shell->excode);
 	i = atoi_exit(args[1], &j);
+	if (!j)
+	{
+		while (args[1][i] && args[1][i] == ' ')
+			i++;
+		if (!args[1][i])
+			j = 1;
+	}
 	if (j)
 	{
-		ft_putstr_fd("exit\n", 2);
-		ft_putstr_fd("exit: ", 2);
-		ft_putstr_fd(args[1], 2);
-		ft_putstr_fd(": numeric argument required\n", 2);
-		return (2);
+		(ft_putstr_fd("exit\nexit: ", 2), ft_putstr_fd(args[1], 2));
+		return (ft_putstr_fd(": numeric argument required\n", 2), 2);
 	}
 	if (args[2])
 	{
-		ft_putstr_fd("exit: too many arguments\n", 2);
 		shell->excode = 1;
 		*should_exit = 0;
-		return (1);
+		return (ft_putstr_fd("exit: too many arguments\n", 2), 1);
 	}
 	return (i);
 }
@@ -71,6 +72,11 @@ void	bl_exit(t_shell *shell, char **args)
 	int	should_exit;
 
 	should_exit = 0;
+	if (!args[1])
+	{
+		free_shell(shell);
+		exit(shell->excode);
+	}
 	exit_status = get_exit_status(shell, args, &should_exit);
 	if (!should_exit)
 		return ;
