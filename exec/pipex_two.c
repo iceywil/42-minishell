@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:34:23 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/11 19:33:18 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/11 21:35:56 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,10 +125,10 @@ void	builtin_one_cmd(t_shell *shell)
 	else if (!ft_strcmp(shell->s_head->cmd, "export"))
 		i = bl_export(shell, shell->s_head->args);
 	else if (!ft_strcmp(shell->s_head->cmd, "unset"))
-		bl_unset(shell, shell->s_head->args);
+		i = bl_unset(shell, shell->s_head->args);
 	else if (!ft_strcmp(shell->s_head->cmd, "pwd"))
-		bl_pwd(shell);
+		i = bl_pwd(shell);
 	else if (!ft_strcmp(shell->s_head->cmd, "env"))
-		bl_env(shell);
+		i = bl_env(shell);
 	shell->excode = i;
 }

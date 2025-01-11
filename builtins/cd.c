@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2025/01/02 18:43:46 by codespace         #+#    #+#             */
 /*   Updated: 2025/01/06 21:52:08 by marvin           ###   ########.fr       */
 /*                                                                            */
@@ -12,10 +15,11 @@
 
 #include "../minishell.h"
 
+
 static void	update_oldpwd(t_shell *shell)
 {
-	char	old_pwd[PATH_MAX];
-	char	*oldpwd_var;
+	char old_pwd[PATH_MAX];
+	char *oldpwd_var;
 
 	if (getcwd(old_pwd, PATH_MAX) == NULL)
 		return ;
@@ -29,7 +33,7 @@ static void	update_oldpwd(t_shell *shell)
 
 static void	update_pwd(t_shell *shell, char *new_path)
 {
-	char	*pwd_var;
+	char *pwd_var;
 
 	pwd_var = ft_strjoin("PWD=", new_path);
 	if (pwd_var)
@@ -41,13 +45,13 @@ static void	update_pwd(t_shell *shell, char *new_path)
 
 static int	ft_cdhome(t_shell *shell)
 {
-	t_env_list	*tmp;
-	char		*home;
+	t_env_list *tmp;
+	char *home;
 
 	tmp = shell->env_head;
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->key, "HOME=", 5) == 0)
+		if (!ft_strncmp(tmp->key, "HOME=", 5))
 		{
 			home = tmp->key + 5;
 			update_oldpwd(shell);
@@ -67,7 +71,7 @@ static int	ft_cdhome(t_shell *shell)
 
 int	bl_cd(t_shell *shell, char **params)
 {
-	char	*path;
+	char *path;
 
 	if (params[1] && params[2])
 	{
@@ -78,11 +82,18 @@ int	bl_cd(t_shell *shell, char **params)
 		return (ft_cdhome(shell));
 	path = params[1];
 	update_oldpwd(shell);
-	if (chdir(path) == 0)
+	if (!chdir(path))
 	{
 		update_pwd(shell, path);
-		return (0);
+		if (!getcwd(NULL, 0))
+		{
+			ft_putstr_fd("cd: error retrieving current directory: getcwd:", 2);
+			ft_putstr_fd("cannot access parent directories: No such file or directory\n",
+				2);
+			return (0);
+		}
+		else
+			return (0);
 	}
-	perror(path);
-	return (1);
+	return (perror(path), 1);
 }
