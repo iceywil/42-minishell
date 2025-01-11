@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:36:40 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/09 18:08:03 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/11 21:45:09 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	open_outfile_append(t_shell *shell)
 	if (access(shell->s_current->redir_current->line, F_OK) == 0)
 	{
 		shell->s_current->outfile = open(shell->s_current->redir_current->line,
-				O_WRONLY | O_CREAT | O_TRUNC, 0644);
+				O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (shell->s_current->outfile == -1)
 		{
 			print_err(shell->s_current->redir_current->line,
