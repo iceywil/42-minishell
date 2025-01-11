@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:29:59 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/08 18:55:44 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/11 18:40:14 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	one_command(t_shell *shell, char **envp)
 		}
 		(builtin_cmd(shell), exev(shell, envp));
 	}
-	wait_childrens();
+	wait_childrens(shell);
 }
 
 void	exec(t_shell *shell)
@@ -53,7 +53,7 @@ void	exec(t_shell *shell)
 		shell->s_current = shell->s_current->next;
 	}
 	last_cmd(shell, shell->env_tab);
-	wait_childrens();
+	wait_childrens(shell);
 	close_last_pipes(shell);
 	close_own_pipes(shell);
 }

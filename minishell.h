@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/09 18:05:52 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/11 18:40:25 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,7 @@ void					last_cmd(t_shell *shell, char **envp);
 void					exev(t_shell *shell, char **envp);
 void					create_own_pipes(t_shell *shell);
 void					close_own_pipes(t_shell *shell);
-void					wait_childrens(void);
+void					wait_childrens(t_shell *shell);
 void					close_last_pipes(t_shell *shell);
 void					malloc_fds(t_shell *shell);
 int						open_infile(t_shell *shell);

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:34:23 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/09 18:07:54 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/11 19:33:18 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	exev(t_shell *shell, char **envp)
 				envp))
 			print_dup(shell->s_current->cmd, ": command error");
 	}
-	(close(0), close(1), free_shell(shell), exit(1));
+	(close(0), close(1), free_shell(shell), exit(0));
 }
 
 void	check_access(t_shell *shell)

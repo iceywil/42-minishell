@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:35:26 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/18 18:16:14 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/11 19:35:46 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,22 @@ void	close_last_pipes(t_shell *shell)
 	}
 }
 
-void	wait_childrens(void)
+void	wait_childrens(t_shell *shell)
 {
 	int	status;
+	int	tmp;
 
 	while (1)
 	{
 		if (waitpid(-1, &status, 0) == -1)
 		{
-			if (errno == ECHILD)
+			if (errno == ECHILD && WIFEXITED(status))
+			{
+				tmp = WEXITSTATUS(status);
+				if (tmp != 0)
+					shell->excode = tmp;
 				break ;
+			}
 		}
 	}
 }
