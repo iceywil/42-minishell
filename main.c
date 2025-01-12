@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/12 14:01:15 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/12 14:19:21 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ int	check_empty_line(t_shell *shell)
 	i = 0;
 	while (shell->line[i])
 	{
-		if (shell->line[i] != ' ' && shell->line[i] != '\t')
+		if (shell->line[i] != ' ' && shell->line[i] != '\t'
+			&& shell->line[i] != '\r' && shell->line[i] != '\v'
+			&& shell->line[i] != '\f')
 			return (0);
 		i++;
 	}
