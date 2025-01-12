@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:18:26 by a                 #+#    #+#             */
-/*   Updated: 2025/01/12 14:12:25 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/12 16:58:39 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,35 @@ int	parsing(t_shell *shell)
 {
 	shell->line = f_handle_env_cmd(shell, shell->line);
 	f_parsing(shell, shell->line);
+/* 	shell->f_current = shell->f_head;
+	while (shell->f_current)
+	{
+		printf("Parsed segment: '%s'\n", shell->f_current->line);
+		printf("Parsed segment cmd: '%d'\n", shell->f_current->cmd);
+		shell->f_current = shell->f_current->next;
+	} */
 	fix_quotes_space(shell, shell->f_head);
 	clean_empty_and_quotes(shell->f_head);
 	if (check_token_legit(shell, shell->f_head))
 		return (1);
 	s_parsing(shell);
+	/* shell->s_current = shell->s_head;
+	while (shell->s_current)
+	{
+		printf("Parsed segment cmd: '%s'\n", shell->s_current->cmd);
+		printf("Parsed segment args 0: '%s'\n", shell->s_current->args[0]);
+		printf("Parsed segment args 1: '%s'\n", shell->s_current->args[1]);
+		printf("Parsed segment args 2: '%s'\n", shell->s_current->args[2]);
+		printf("Parsed segment args 3: '%s'\n", shell->s_current->args[3]);
+		printf("Parsed segment args 4: '%s'\n", shell->s_current->args[4]);
+		shell->s_current->redir_current = shell->s_current->redir_head;
+		while (shell->s_current->redir_current)
+		{
+			printf("Parsed redir: '%s'\n", shell->s_current->redir_current->line);
+			shell->s_current->redir_current = shell->s_current->redir_current->next;
+		}
+		shell->s_current = shell->s_current->next;
+	} */
 	shell->s_current = shell->s_head;
 	shell->cmd_nbr = 0;
 	while (shell->s_current)

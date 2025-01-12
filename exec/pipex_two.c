@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:34:23 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/11 21:35:56 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/12 17:09:44 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,5 +130,7 @@ void	builtin_one_cmd(t_shell *shell)
 		i = bl_pwd(shell);
 	else if (!ft_strcmp(shell->s_head->cmd, "env"))
 		i = bl_env(shell);
+	else if (!ft_strcmp(shell->s_head->cmd, "echo"))
+		bl_echo(shell);
 	shell->excode = i;
 }

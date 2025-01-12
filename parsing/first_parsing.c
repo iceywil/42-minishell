@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/12 15:00:52 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/12 16:53:55 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,26 +38,22 @@ void	f_parsing(t_shell *shell, char *input)
 
 int	f_split_loop(t_shell *shell, char *input, int start, int i)
 {
-	static int	in_quotes = 0;
-	static char	quote_char = 0;
+	static int	in_quotes;
+	static char	quote_char;
 
-	if (start == 0 && i == 0) {
+	if (start == 0 && i == 0)
+	{
 		in_quotes = 0;
 		quote_char = 0;
 	}
-
 	if (input[i] == '"' || input[i] == '\'')
+		handle_quotes(input[i], &in_quotes, &quote_char);
+	else if (in_quotes && input[i + 1] == '|')
 	{
-		if (!in_quotes)
-		{
-			in_quotes = 1;
-			quote_char = input[i];
-		}
-		else if (input[i] == quote_char)
-		{
-			in_quotes = 0;
-			quote_char = 0;
-		}
+		if (i > start)
+			f_add_node(shell, ft_substr(input, start, i - start), 1);
+		in_quotes = 0;
+		return (i + 1);
 	}
 	else if (!in_quotes)
 		return (f_no_quotes(shell, input, start, i));

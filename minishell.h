@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/11 22:21:33 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/12 16:22:46 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,8 @@ char					*f_replace_line(t_shell *shell, char *line,
 							char *var_value, int start);
 char					*f_handle_err(t_shell *shell, char *line, int start);
 char					*f_set_shard(t_shell *shell, char *line);
+void					handle_quotes(char input, int *in_quotes,
+							char *quote_char);
 
 // second parser
 void					s_parsing(t_shell *shell);
