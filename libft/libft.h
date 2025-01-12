@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 16:02:51 by wscherre          #+#    #+#             */
-/*   Updated: 2025/01/02 18:56:22 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/12 14:38:36 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int					ft_strcmp(const char *s1, const char *s2);
 int					ft_strncpy(char *dest, const char *src, int n);
 char				*ft_strcpy(char *dest, const char *src);
 char				*ft_strndup(const char *s, size_t n);
+int					ft_isspace(char c);
 
 typedef struct s_list
 {
