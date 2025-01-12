@@ -26,9 +26,6 @@ void	create_own_pipes(t_shell *shell)
 
 void	close_own_pipes(t_shell *shell)
 {
-	ft_printf("asddsa");
-	ft_printf("%d", shell->i);
-	ft_printf("%d", shell->fds[shell->i][0]);
 	if (shell->fds[shell->i][0] != -1)
 		close(shell->fds[shell->i][0]);
 	if (shell->fds[shell->i][1] != 0)
