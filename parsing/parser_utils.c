@@ -6,40 +6,11 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/09 17:49:03 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/12 14:01:03 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	check_open_quotes(t_shell *shell, char *input)
-{
-	int	i;
-	int	single;
-	int	doublee;
-
-	single = 0;
-	doublee = 0;
-	i = -1;
-	while (input[++i])
-	{
-		if (input[i] == '\"' && doublee == 0 && single == 0)
-			doublee = 1;
-		else if (input[i] == '\"' && doublee == 1)
-			doublee = 0;
-		else if (input[i] == '\'' && single == 0 && doublee == 0)
-			single = 1;
-		else if (input[i] == '\'' && single == 1)
-			single = 0;
-	}
-	if (single || doublee)
-	{
-		shell->excode = 2;
-		ft_putstr_fd("minishell: syntax error quotes not closed\n", 2);
-		return (1);
-	}
-	return (0);
-}
 
 int	is_token(char c)
 {

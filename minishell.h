@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/11 21:37:06 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/11 22:21:33 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ int						check_token_legit(t_shell *shell, t_first *current);
 
 // utils
 int						is_token(char c);
-int						check_open_quotes(t_shell *shell, char *input);
 int						count_args(char *cmd);
 
 // first parser

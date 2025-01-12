@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/09 00:42:15 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/12 14:08:11 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ int	f_split_loop(t_shell *shell, char *input, int start, int i)
 {
 	static int	in_quotes = 0;
 	static char	quote_char = 0;
+
+	if (start == 0 && i == 0) {
+		in_quotes = 0;
+		quote_char = 0;
+	}
 
 	if (input[i] == '"' || input[i] == '\'')
 	{
