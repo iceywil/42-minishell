@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/12 16:58:11 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/12 17:34:26 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,17 @@ int	count_args(char *cmd)
 
 void	clean_empty_and_quotes(t_first *current)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (current)
 	{
-		if(!current->cmd)
+		if (!current->cmd)
 		{
-			while(current->line[i] == ' ' || current->line[i] == '\t')
+			while (current->line[i] == ' ' || current->line[i] == '\t')
 			{
-				ft_memmove(current->line, current->line + 1, ft_strlen(current->line));
+				ft_memmove(current->line, current->line + 1,
+					ft_strlen(current->line));
 				i++;
 			}
 		}
@@ -97,8 +98,7 @@ void	remove_quotes(char *str)
 	str[j] = '\0';
 }
 
-void	handle_quotes(char input, int *in_quotes,
-		char *quote_char)
+void	handle_quotes(char input, int *in_quotes, char *quote_char)
 {
 	if (!*in_quotes)
 	{

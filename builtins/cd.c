@@ -2,24 +2,20 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2025/01/02 18:43:46 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/06 21:52:08 by marvin           ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/12 17:36:08 by codespace         #+#    #+#             */
+/*   Updated: 2025/01/12 17:39:26 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
 static void	update_oldpwd(t_shell *shell)
 {
-	char old_pwd[PATH_MAX];
-	char *oldpwd_var;
+	char	old_pwd[PATH_MAX];
+	char	*oldpwd_var;
 
 	if (getcwd(old_pwd, PATH_MAX) == NULL)
 		return ;
@@ -33,7 +29,7 @@ static void	update_oldpwd(t_shell *shell)
 
 static void	update_pwd(t_shell *shell, char *new_path)
 {
-	char *pwd_var;
+	char	*pwd_var;
 
 	pwd_var = ft_strjoin("PWD=", new_path);
 	if (pwd_var)
@@ -45,8 +41,8 @@ static void	update_pwd(t_shell *shell, char *new_path)
 
 static int	ft_cdhome(t_shell *shell)
 {
-	t_env_list *tmp;
-	char *home;
+	t_env_list	*tmp;
+	char		*home;
 
 	tmp = shell->env_head;
 	while (tmp)
@@ -71,13 +67,10 @@ static int	ft_cdhome(t_shell *shell)
 
 int	bl_cd(t_shell *shell, char **params)
 {
-	char *path;
+	char	*path;
 
 	if (params[1] && params[2])
-	{
-		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
-		return (1);
-	}
+		return (ft_putstr_fd("minishell: cd: too many arguments\n", 2), 1);
 	if (!params[1] || !ft_strcmp(params[1], "~"))
 		return (ft_cdhome(shell));
 	path = params[1];
@@ -87,10 +80,11 @@ int	bl_cd(t_shell *shell, char **params)
 		update_pwd(shell, path);
 		if (!getcwd(NULL, 0))
 		{
-			ft_putstr_fd("chdir: error retrieving current directory: getcwd:", 2);
-			ft_putstr_fd("cannot access parent directories: No such file or directory\n",
+			ft_putstr_fd("chdir: error retrieving current directory: getcwd:",
 				2);
-			return (0);
+			ft_putstr_fd(" cannot access parent directories: No such file\n",
+				2);
+			return (ft_putstr_fd(" or directory\n", 2), 0);
 		}
 		else
 			return (0);

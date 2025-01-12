@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 18:44:15 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/12 17:09:23 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/12 17:20:32 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,7 @@ void	execute(t_shell *shell)
 			|| !ft_strcmp(shell->s_head->cmd, "export")
 			|| !ft_strcmp(shell->s_head->cmd, "unset")
 			|| !ft_strcmp(shell->s_head->cmd, "pwd")
-			|| !ft_strcmp(shell->s_head->cmd, "env")
-			|| !ft_strcmp(shell->s_head->cmd, "echo"))
+			|| !ft_strcmp(shell->s_head->cmd, "env"))
 			builtin_one_cmd(shell);
 		else
 			one_command(shell, shell->env_tab);

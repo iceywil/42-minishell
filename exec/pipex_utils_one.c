@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:35:26 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/11 19:35:46 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/12 17:25:57 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,12 @@ void	create_own_pipes(t_shell *shell)
 
 void	close_own_pipes(t_shell *shell)
 {
-	if (shell->fds[shell->i][0] > 0)
+	ft_printf("asddsa");
+	ft_printf("%d", shell->i);
+	ft_printf("%d", shell->fds[shell->i][0]);
+	if (shell->fds[shell->i][0] != -1)
 		close(shell->fds[shell->i][0]);
-	if (shell->fds[shell->i][1] > 0)
+	if (shell->fds[shell->i][1] != 0)
 		close(shell->fds[shell->i][1]);
 }
 
@@ -39,9 +42,9 @@ void	close_last_pipes(t_shell *shell)
 	i = 0;
 	while (i < shell->cmd_nbr)
 	{
-		if (shell->fds[shell->i - 1][0] > 0)
+		if (shell->fds[shell->i - 1][0] != -1)
 			close(shell->fds[shell->i - 1][0]);
-		if (shell->fds[shell->i - 1][1] > 0)
+		if (shell->fds[shell->i - 1][1] != -1)
 			close(shell->fds[shell->i - 1][1]);
 		i++;
 	}

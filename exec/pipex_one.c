@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:29:59 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/12 17:07:52 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/12 17:26:56 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	one_command(t_shell *shell, char **envp)
 	if (pid == 0)
 	{
 		if (handle_redirs(shell))
-			return (close_own_pipes(shell), free_shell(shell), exit(1));
+			return (free_shell(shell), exit(1));
 		if (shell->s_current->infile != -1)
 		{
 			dup_fd(shell, shell->s_current->infile, STDIN_FILENO);
