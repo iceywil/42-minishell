@@ -57,10 +57,11 @@ static int	get_exit_status(t_shell *shell, char **args, int *should_exit)
 		(ft_putstr_fd("exit\nexit: ", 2), ft_putstr_fd(args[1], 2));
 		return (ft_putstr_fd(": numeric argument required\n", 2), 2);
 	}
-	if (args[2])
+	if (args[1] && args[2])
 	{
 		shell->excode = 1;
 		*should_exit = 0;
+		ft_putstr_fd("exit\n", 2);
 		return (ft_putstr_fd("exit: too many arguments\n", 2), 1);
 	}
 	return (i);

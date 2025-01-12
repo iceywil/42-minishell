@@ -87,7 +87,7 @@ int	bl_cd(t_shell *shell, char **params)
 		update_pwd(shell, path);
 		if (!getcwd(NULL, 0))
 		{
-			ft_putstr_fd("cd: error retrieving current directory: getcwd:", 2);
+			ft_putstr_fd("chdir: error retrieving current directory: getcwd:", 2);
 			ft_putstr_fd("cannot access parent directories: No such file or directory\n",
 				2);
 			return (0);
