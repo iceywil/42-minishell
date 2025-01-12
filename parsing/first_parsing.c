@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/12 14:08:11 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/12 15:00:52 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	f_no_quotes(t_shell *shell, char *input, int start, int i)
 			f_add_node(shell, ft_substr(input, start, i - start), 1);
 		return (f_handle_token(shell, input, i));
 	}
-	else if (input[i] == ' ')
+	else if (ft_isspace(input[i]))
 	{
 		if (i > start)
 			f_add_node(shell, ft_substr(input, start, i - start), 1);
