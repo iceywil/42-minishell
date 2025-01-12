@@ -75,6 +75,7 @@ void	bl_exit(t_shell *shell, char **args)
 	should_exit = 0;
 	if (!args[1])
 	{
+		ft_putstr_fd("exit\n", 2);
 		free_shell(shell);
 		exit(shell->excode);
 	}
