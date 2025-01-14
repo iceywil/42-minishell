@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/12 14:56:53 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/13 03:49:17 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int argc, char **argv, char **envp)
 			shell.line = readline(shell.cwd);
 			if (!shell.line)
 				break ;
-			catchsignals(&shell);
+			(free(shell.cwd), catchsignals(&shell));
 			if (!check_empty_line(&shell))
 			{
 				add_history(shell.line);
@@ -62,17 +62,13 @@ int	check_empty_line(t_shell *shell)
 char	*create_buffer(t_shell *shell)
 {
 	char	*str;
-	char	*buffer;
+	char	buffer[PATH_MAX];
+	char	*tmp;
 
-	buffer = NULL;
-	buffer = ft_calloc(PATH_MAX, sizeof(char *));
-	if (!buffer)
-		return (malloc_error(shell), NULL);
-	buffer = getcwd(buffer, PATH_MAX);
-	str = ft_strjoin(buffer, "> ");
+	tmp = getcwd(buffer, PATH_MAX);
+	str = ft_strjoin(tmp, "> ");
 	if (!str)
-		return (free(buffer), malloc_error(shell), NULL);
-	free(buffer);
+		return (malloc_error(shell), NULL);
 	return (str);
 }
 

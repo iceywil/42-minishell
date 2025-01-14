@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 17:36:08 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/12 17:39:26 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/13 03:47:04 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,26 +68,25 @@ static int	ft_cdhome(t_shell *shell)
 int	bl_cd(t_shell *shell, char **params)
 {
 	char	*path;
+	char	tmp[PATH_MAX];
 
 	if (params[1] && params[2])
 		return (ft_putstr_fd("minishell: cd: too many arguments\n", 2), 1);
 	if (!params[1] || !ft_strcmp(params[1], "~"))
 		return (ft_cdhome(shell));
-	path = params[1];
-	update_oldpwd(shell);
+	(path = params[1], update_oldpwd(shell));
 	if (!chdir(path))
 	{
 		update_pwd(shell, path);
-		if (!getcwd(NULL, 0))
+		path = getcwd(tmp, PATH_MAX);
+		if (!path)
 		{
-			ft_putstr_fd("chdir: error retrieving current directory: getcwd:",
-				2);
-			ft_putstr_fd(" cannot access parent directories: No such file\n",
-				2);
-			return (ft_putstr_fd(" or directory\n", 2), 0);
-		}
-		else
-			return (0);
+			ft_putstr_fd("chdir: error retrieving current directory: ge", 2);
+			ft_putstr_fd("tcwd: cannot access parent directories: No suc", 2);
+			return (ft_putstr_fd("h file or directory\n", 2), 0);
+		}	
 	}
-	return (perror(path), 1);
+	else
+		return (perror(path), 1);
+	return (0);
 }

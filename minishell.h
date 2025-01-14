@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/12 16:22:46 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/13 02:11:49 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,8 +183,9 @@ void					malloc_fds(t_shell *shell);
 int						open_infile(t_shell *shell);
 int						open_outfile(t_shell *shell);
 int						open_outfile_append(t_shell *shell);
-void					handle_heredoc(t_second *current);
+void					handle_heredoc(t_shell *shell, t_second *current);
 int						handle_redirs(t_shell *shell);
+void					here_doc(t_shell *shell, t_first *redir);
 
 // CHECK FILES
 void					check_files(t_shell *shell);
@@ -227,5 +228,6 @@ void					sig_heredoc(int s);
 void					ft_sig_heredoc(void);
 void					ft_signals(void);
 bool					catchsignals(t_shell *shell);
+void					ctrlc(t_shell *shell, int fd, int fd2);
 
 #endif

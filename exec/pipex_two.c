@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:34:23 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/12 17:20:21 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/13 03:32:41 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,15 @@ void	builtin_cmd(t_shell *shell)
 	else if (!ft_strcmp("echo", shell->s_current->args[0]))
 		bl_echo(shell);
 	else if (!ft_strcmp("pwd", shell->s_current->args[0]))
-		bl_pwd(shell);
+		shell->excode = bl_pwd(shell);
 	else if (!ft_strcmp("cd", shell->s_current->args[0]))
-		bl_cd(shell, shell->s_current->args);
+		shell->excode = bl_cd(shell, shell->s_current->args);
 	else if (!ft_strcmp("env", shell->s_current->args[0]))
 		bl_env(shell);
 	else if (!ft_strcmp("export", shell->s_current->args[0]))
-		bl_export(shell, shell->s_current->args);
+		shell->excode = bl_export(shell, shell->s_current->args);
 	else if (!ft_strcmp("unset", shell->s_current->args[0]))
-		bl_unset(shell, shell->s_current->args);
+		shell->excode = bl_unset(shell, shell->s_current->args);
 	else
 		return ;
 	close(0);

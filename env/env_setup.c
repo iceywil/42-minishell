@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:49:35 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/07 22:12:56 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/13 02:57:58 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	conf_second_env(t_shell *shell, char **envp)
 	int		i;
 
 	i = 0;
-	while (ft_strncmp(envp[i], "OLDPWD=", 7))
+	while (envp[i] && ft_strncmp(envp[i], "OLDPWD=", 7))
 		i++;
 	if (envp[i])
 	{

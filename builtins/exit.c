@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:50:30 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/11 18:17:27 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/13 00:33:59 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ static int	atoi_exit(const char *str, int *err)
 	}
 	while (str[i] >= '0' && str[i] <= '9')
 		result = result * 10 + (str[i++] - '0');
-	if (str[i] != '\0' || result > LONG_MAX)
+	if (str[i] != '\0' || result > LONG_MAX || (str[i] == '\0' && i == 0)
+		|| !ft_isspace(str[i]))
 		*err = 1;
 	else
 		*err = 0;
@@ -45,13 +46,6 @@ static int	get_exit_status(t_shell *shell, char **args, int *should_exit)
 
 	*should_exit = 1;
 	i = atoi_exit(args[1], &j);
-	if (!j)
-	{
-		while (args[1][i] && args[1][i] == ' ')
-			i++;
-		if (!args[1][i])
-			j = 1;
-	}
 	if (j)
 	{
 		(ft_putstr_fd("exit\nexit: ", 2), ft_putstr_fd(args[1], 2));

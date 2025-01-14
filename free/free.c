@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:10:56 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/02 18:46:42 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/13 03:43:58 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ void	loop_free_shell(t_shell *shell)
 		free_first(shell->f_head);
 	if (shell->s_head)
 		free_second(shell);
-	if (shell->cwd)
-		free(shell->cwd);
 	if (shell->env_tab)
 		ft_free_double_tab(&shell->env_tab);
 }

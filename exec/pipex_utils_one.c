@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 13:35:26 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/12 17:25:57 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/12 19:37:46 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	wait_childrens(t_shell *shell)
 	int	status;
 	int	tmp;
 
+	status = 0;
 	while (1)
 	{
 		if (waitpid(-1, &status, 0) == -1)

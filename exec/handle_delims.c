@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/07 16:54:20 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/13 02:36:04 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,9 @@ void	close_files(t_shell *shell)
 		close(shell->s_current->outfile);
 }
 
-void	handle_heredoc(t_second *current)
+void	handle_heredoc(t_shell *shell, t_second *current)
 {
 	t_first	*redir;
-	int		tmp;
-	char	*str;
 
 	while (current)
 	{
@@ -57,18 +55,39 @@ void	handle_heredoc(t_second *current)
 		while (redir)
 		{
 			if (!ft_strcmp(redir->token, "<<"))
-			{
-				ft_sig_heredoc();
-				tmp = open("/tmp/.here_doc_a", O_WRONLY | O_CREAT | O_TRUNC,
-						0777);
-				str = readline("> ");
-				while (str && ft_strcmp(redir->line, str))
-					(ft_putendl_fd(str, tmp), free(str), str = readline("> "));
-				close(tmp);
-				ft_signals();
-			}
+				(ft_sig_heredoc(), here_doc(shell, redir), ft_signals());
 			redir = redir->next;
 		}
 		current = current->next;
+	}
+}
+
+void	here_doc(t_shell *shell, t_first *redir)
+{
+	char	*str;
+	int		fd;
+	int		fd2;
+
+	fd = open("/tmp/.here_doc_a", O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (!fd)
+		(print_err("open: ", "/tmp/.here_doc_a", 1), exit(1));
+	fd2 = dup(STDIN_FILENO);
+	str = readline("> ");
+	while (str && ft_strcmp(redir->line, str))
+		(ft_putendl_fd(str, fd), free(str), str = readline("> "));
+	ctrlc(shell, fd, fd2);
+	(close(fd), free(str), close(fd2));
+}
+
+void	ctrlc(t_shell *shell, int fd, int fd2)
+{
+	if (g_sig == SIGINT)
+	{
+		shell->excode = 130;
+		g_sig = 0;
+		close(fd);
+		dup2(fd2, STDIN_FILENO);
+		unlink("/tmp/.here_doc_a");
+		shell->tmpexcode = 130;
 	}
 }
