@@ -14,6 +14,24 @@
 
 int		g_sig = 0;
 
+static int	handle_command(t_shell *shell)
+{
+	if (!shell->line)
+	{
+		free(shell->cwd);
+		return (0);
+	}
+	(free(shell->cwd), catchsignals(shell));
+	if (!check_empty_line(shell))
+	{
+		add_history(shell->line);
+		if (!parsing(shell))
+			execute(shell);
+	}
+	loop_free_shell(shell);
+	return (1);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	shell;
@@ -28,16 +46,8 @@ int	main(int argc, char **argv, char **envp)
 			if (!shell.cwd)
 				return (free_shell(&shell), 1);
 			shell.line = readline(shell.cwd);
-			if (!shell.line)
+			if (!handle_command(&shell))
 				break ;
-			(free(shell.cwd), catchsignals(&shell));
-			if (!check_empty_line(&shell))
-			{
-				add_history(shell.line);
-				if (!parsing(&shell))
-					execute(&shell);
-			}
-			loop_free_shell(&shell);
 		}
 		return (ft_putstr_fd("exit\n", 1), free_shell(&shell), 0);
 	}
@@ -91,18 +101,3 @@ void	init_all_start(t_shell *shell)
 	shell->g_sig = 0;
 }
 
-void	init_all(t_shell *shell)
-{
-	shell->i = 0;
-	shell->unset = 0;
-	shell->fds = NULL;
-	shell->paths = NULL;
-	shell->line = NULL;
-	shell->cwd = NULL;
-	shell->f_head = NULL;
-	shell->f_current = NULL;
-	shell->s_head = NULL;
-	shell->s_current = NULL;
-	shell->env_tab = NULL;
-	shell->tmpexcode = 0;
-}
