@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:38:08 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/12 14:38:16 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/14 15:42:59 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,8 @@
 
 int	ft_isspace(char c)
 {
-	return (c == ' ' || c == '\t' || c == '\r' || c == '\v' || c == '\f');
+	if (c == ' ' || c == '\t' || c == '\r' || c == '\v' || c == '\f')
+		return (1);
+	else
+		return (0);
 }

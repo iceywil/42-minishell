@@ -5,76 +5,85 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/12 16:53:55 by codespace        ###   ########.fr       */
+/*   Created: 2025/01/14 12:16:14 by codespace         #+#    #+#             */
+/*   Updated: 2025/01/14 20:41:40 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	f_parsing(t_shell *shell, char *input)
+void	f_parse(t_shell *shell)
 {
-	int	i;
-	int	start;
-	int	new_start;
+	int		inquotes;
+	char	quote_char;
+	int		start;
 
-	i = 0;
-	start = 0;
-	f_split_loop(shell, "", 0, 0);
-	while (input[i])
+	shell->i = 0;
+	inquotes = 0;
+	quote_char = 0;
+	start = -1;
+	while (shell->line[shell->i])
 	{
-		new_start = f_split_loop(shell, input, start, i);
-		if (new_start > i)
+		if (start == -1 && !ft_isspace(shell->line[shell->i]))
+			start = shell->i;
+		f_quotes(shell, &inquotes, &quote_char);
+		f_if(shell, &start, inquotes);
+		shell->i++;
+	}
+}
+
+void	f_quotes(t_shell *shell, int *inquotes, char *quote_char)
+{
+	int	quote;
+
+	if (shell->line[shell->i] == '"' || shell->line[shell->i] == '\'')
+	{
+		if (*inquotes == 0)
 		{
-			i = new_start;
-			start = i;
+			*quote_char = shell->line[shell->i];
+			quote = shell->i;
+			while (shell->line[++quote])
+			{
+				if (shell->line[quote] == *quote_char)
+					break ;
+			}
+			if (shell->line[quote] == '\0')
+				*inquotes = 0;
+			else
+				*inquotes = 1;
 		}
-		else
-			i++;
+		else if (*inquotes == 1 && shell->line[shell->i] == *quote_char)
+		{
+			*inquotes = 0;
+			*quote_char = 0;
+		}
 	}
-	if (i > start)
-		f_add_node(shell, ft_substr(input, start, i - start), 1);
 }
 
-int	f_split_loop(t_shell *shell, char *input, int start, int i)
+void	f_if(t_shell *shell, int *start, int inquotes)
 {
-	static int	in_quotes;
-	static char	quote_char;
-
-	if (start == 0 && i == 0)
+	if (shell->line[shell->i + 1] == '\0')
 	{
-		in_quotes = 0;
-		quote_char = 0;
+		f_add_node(shell, ft_substr(shell->line, *start, shell->i - *start + 1),
+			1);
 	}
-	if (input[i] == '"' || input[i] == '\'')
-		handle_quotes(input[i], &in_quotes, &quote_char);
-	else if (in_quotes && input[i + 1] == '|')
+	else if (ft_isspace(shell->line[shell->i]) && inquotes == 0)
 	{
-		if (i > start)
-			f_add_node(shell, ft_substr(input, start, i - start), 1);
-		in_quotes = 0;
-		return (i + 1);
+		f_add_node(shell, ft_substr(shell->line, *start, shell->i - *start), 1);
+		*start = -1;
 	}
-	else if (!in_quotes)
-		return (f_no_quotes(shell, input, start, i));
-	return (i);
-}
-
-int	f_no_quotes(t_shell *shell, char *input, int start, int i)
-{
-	if (is_token(input[i]))
+	else if (!is_token(shell->line[shell->i]) && is_token(shell->line[shell->i
+			+ 1]) && inquotes == 0)
 	{
-		if (i > start)
-			f_add_node(shell, ft_substr(input, start, i - start), 1);
-		return (f_handle_token(shell, input, i));
+		f_add_node(shell, ft_substr(shell->line, *start, shell->i - *start + 1),
+			1);
+		*start = -1;
 	}
-	else if (ft_isspace(input[i]))
+	else if (is_token(shell->line[shell->i]) && inquotes == 0)
 	{
-		if (i > start)
-			f_add_node(shell, ft_substr(input, start, i - start), 1);
-		return (i + 1);
+		shell->i = f_handle_token(shell, shell->line, shell->i);
+		*start = -1;
 	}
-	return (i);
 }
 
 int	f_handle_token(t_shell *shell, char *input, int i)
@@ -101,7 +110,7 @@ int	f_handle_token(t_shell *shell, char *input, int i)
 	}
 	if (token_count > 0)
 		f_add_node(shell, ft_substr(input, token_start, token_count), 0);
-	return (i);
+	return (i - 1);
 }
 
 void	f_add_node(t_shell *shell, char *content, int cmd)

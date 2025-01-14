@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/13 02:11:49 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/14 20:32:34 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,12 @@ void					fix_current(t_shell *shell, t_first *current);
 // PARSING
 int						parsing(t_shell *shell);
 int						check_token_legit(t_shell *shell, t_first *current);
+
+void					f_parse(t_shell *shell);
+void					f_loop(t_shell *shell);
+void					f_quotes(t_shell *shell, int *inquotes,
+							char *quote_char);
+void					f_if(t_shell *shell, int *start, int inquotes);
 
 // utils
 int						is_token(char c);
