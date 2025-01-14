@@ -49,3 +49,19 @@ void	copy_env(t_shell *shell)
 	}
 	shell->env_tab[i] = NULL;
 }
+
+void	init_all(t_shell *shell)
+{
+	shell->i = 0;
+	shell->unset = 0;
+	shell->fds = NULL;
+	shell->paths = NULL;
+	shell->line = NULL;
+	shell->cwd = NULL;
+	shell->f_head = NULL;
+	shell->f_current = NULL;
+	shell->s_head = NULL;
+	shell->s_current = NULL;
+	shell->env_tab = NULL;
+	shell->tmpexcode = 0;
+}
