@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
 /*   Updated: 2025/01/12 17:34:26 by codespace        ###   ########.fr       */
 /*                                                                            */
@@ -19,95 +22,58 @@ int	is_token(char c)
 	return (0);
 }
 
-int	count_args(char *cmd)
+void	clean_empty_and_quotes(t_shell *shell, t_first *current)
 {
-	char	quote_char;
-	int		count;
-	int		i;
-
-	count = 0;
-	i = 0;
-	quote_char = 0;
-	while (cmd[i])
-	{
-		while (cmd[i] == ' ' || cmd[i] == '\t')
-			i++;
-		if (cmd[i])
-		{
-			count++;
-			while (cmd[i] && (quote_char || (cmd[i] != ' ' && cmd[i] != '\t')))
-			{
-				if ((cmd[i] == '\'' || cmd[i] == '\"') && !quote_char)
-					quote_char = cmd[i];
-				else if (cmd[i] == quote_char)
-					quote_char = 0;
-				i++;
-			}
-		}
-	}
-	return (count);
-}
-
-void	clean_empty_and_quotes(t_first *current)
-{
-	int	i;
+	int i;
 
 	i = 0;
 	while (current)
 	{
 		if (!current->cmd)
 		{
-			while (current->line[i] == ' ' || current->line[i] == '\t')
+			while (current->line[i] && ft_isspace(current->line[i]))
 			{
 				ft_memmove(current->line, current->line + 1,
 					ft_strlen(current->line));
 				i++;
 			}
 		}
-		remove_quotes(current->line);
+		remove_quotes(shell, current);
 		current = current->next;
 	}
 }
 
-void	remove_quotes(char *str)
+void	remove_quotes(t_shell *shell, t_first *cur)
 {
-	int		i;
-	int		j;
-	char	quote_char;
+	char quote_char;
+	int pos;
 
-	i = 0;
-	j = 0;
+	shell->i = 0;
+	pos = 0;
 	quote_char = 0;
-	while (str[i])
+	while (cur->line[shell->i])
 	{
-		if ((str[i] == '\'' || str[i] == '\"'))
+		if ((cur->line[shell->i] == '\'' || cur->line[shell->i] == '\"'))
 		{
-			if (!quote_char)
-				quote_char = str[i];
-			else if (str[i] == quote_char)
-				quote_char = 0;
+			pos = shell->i;
+			quote_char = cur->line[shell->i++];
+			while (cur->line[shell->i] && cur->line[shell->i] != quote_char)
+				shell->i++;
+			if (cur->line[shell->i])
+				remove_quotes_two(shell, cur, pos);
 			else
-				str[j++] = str[i];
+				shell->i = pos + 1;
 		}
 		else
-			str[j++] = str[i];
-		i++;
+			shell->i++;
 	}
-	if (quote_char)
-		str[j++] = quote_char;
-	str[j] = '\0';
 }
 
-void	handle_quotes(char input, int *in_quotes, char *quote_char)
+void	remove_quotes_two(t_shell *shell, t_first *cur, int pos)
 {
-	if (!*in_quotes)
-	{
-		*in_quotes = 1;
-		*quote_char = input;
-	}
-	else if (input == *quote_char)
-	{
-		*in_quotes = 0;
-		*quote_char = 0;
-	}
+	ft_memmove(cur->line + pos, cur->line + pos + 1, ft_strlen(cur->line
+			+ pos));
+	ft_memmove(cur->line + shell->i - 1, cur->line + shell->i,
+		ft_strlen(cur->line + shell->i - 1));
+	shell->i = shell->i - pos - 1;
 }

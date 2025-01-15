@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/14 20:46:41 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/15 19:30:55 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,22 +114,19 @@ int						parsing(t_shell *shell);
 int						check_token_legit(t_shell *shell, t_first *current);
 
 void					f_parse(t_shell *shell);
-void					f_loop(t_shell *shell);
 void					f_quotes(t_shell *shell, int *inquotes,
 							char *quote_char);
 void					f_if(t_shell *shell, int *start, int inquotes);
-
+void					clean_empty_and_quotes(t_shell *shell,
+							t_first *current);
+void					remove_quotes(t_shell *shell, t_first *cur);
+void					remove_quotes_two(t_shell *shell, t_first *cur,
+							int pos);
 // utils
 int						is_token(char c);
-int						count_args(char *cmd);
 
 // first parser
-void					f_parsing(t_shell *shell, char *input);
-int						f_split_loop(t_shell *shell, char *input, int start,
-							int i);
 void					f_add_node(t_shell *shell, char *line, int cmd);
-int						f_no_quotes(t_shell *shell, char *input, int start,
-							int i);
 char					*f_handle_env_cmd(t_shell *shell, char *line);
 int						f_handle_token(t_shell *shell, char *input, int i);
 char					*f_handle_env_cmd(t_shell *shell, char *line);
@@ -139,13 +136,9 @@ char					*f_replace_line(t_shell *shell, char *line,
 							char *var_value, int start);
 char					*f_handle_err(t_shell *shell, char *line, int start);
 char					*f_set_shard(t_shell *shell, char *line);
-void					handle_quotes(char input, int *in_quotes,
-							char *quote_char);
 
 // second parser
 void					s_parsing(t_shell *shell);
-void					clean_empty_and_quotes(t_first *current);
-void					remove_quotes(char *str);
 void					s_create_node(t_shell *shell, t_second *new_node);
 void					s_add_redir(t_shell *shell, t_second *second);
 void					s_add_arg(t_shell *shell, t_second *second);
