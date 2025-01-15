@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:18:26 by a                 #+#    #+#             */
-/*   Updated: 2025/01/14 20:45:45 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/15 14:11:05 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ int	parsing(t_shell *shell)
 {
 	shell->line = f_handle_env_cmd(shell, shell->line);
 	f_parse(shell);
-	/* shell->f_current = shell->f_head;
+	shell->f_current = shell->f_head;
 	while (shell->f_current)
 	{
 		ft_printf("'%s'\n", shell->f_current->line);
 		ft_printf("%d\n", shell->f_current->cmd);
 		shell->f_current = shell->f_current->next;
 	}
-	exit(1); */
+	exit(1);
 	fix_quotes_space(shell, shell->f_head);
 	clean_empty_and_quotes(shell->f_head);
 	if (check_token_legit(shell, shell->f_head))
