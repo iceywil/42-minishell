@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 02:11:22 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/16 02:11:28 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/16 16:14:00 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,5 @@ void	remove_quotes_two(t_shell *shell, t_first *cur, int pos)
 			+ pos));
 	ft_memmove(cur->line + shell->i - 1, cur->line + shell->i,
 		ft_strlen(cur->line + shell->i - 1));
-	shell->i = shell->i - pos - 1;
+	shell->i = shell->i - 2;
 }

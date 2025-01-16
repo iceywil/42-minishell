@@ -2,15 +2,19 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2024/09/10 14:10:56 by codespace         #+#    #+#             */
 /*   Updated: 2025/01/13 03:43:58 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
 
 void	loop_free_shell(t_shell *shell)
 {
@@ -31,6 +35,8 @@ void	loop_free_shell(t_shell *shell)
 		free_second(shell);
 	if (shell->env_tab)
 		ft_free_double_tab(&shell->env_tab);
+	if (shell->fd2 != -1)
+		close(shell->fd2);
 }
 
 void	free_shell(t_shell *shell)
@@ -38,6 +44,8 @@ void	free_shell(t_shell *shell)
 	loop_free_shell(shell);
 	if (shell->env_head)
 		free_list(shell);
+	if (shell->fd0 != -1)
+		close(shell->fd0);
 }
 
 void	print_err(char *word, char *msg, int flag)
@@ -57,8 +65,8 @@ void	print_err(char *word, char *msg, int flag)
 
 void	free_first(t_first *head)
 {
-	t_first	*current;
-	t_first	*next;
+	t_first *current;
+	t_first *next;
 
 	current = head;
 	while (current)
@@ -75,8 +83,8 @@ void	free_first(t_first *head)
 
 void	free_second(t_shell *shell)
 {
-	t_second	*current;
-	t_second	*next;
+	t_second *current;
+	t_second *next;
 
 	current = shell->s_head;
 	while (current)

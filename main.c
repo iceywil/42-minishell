@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
 /*   Updated: 2025/01/13 03:49:17 by codespace        ###   ########.fr       */
 /*                                                                            */
@@ -12,16 +15,19 @@
 
 #include "minishell.h"
 
-int		g_sig = 0;
+
+int			g_sig = 0;
 
 static int	handle_command(t_shell *shell)
 {
 	if (!shell->line)
 	{
 		free(shell->cwd);
+		shell->excode = 130;
 		return (0);
 	}
-	(free(shell->cwd), catchsignals(shell));
+	free(shell->cwd);
+	catchsignals(shell);
 	if (!check_empty_line(shell))
 	{
 		add_history(shell->line);
@@ -34,11 +40,11 @@ static int	handle_command(t_shell *shell)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_shell	shell;
+	t_shell shell;
 
 	if (argc == 1 && (argv || !argv))
 	{
-		(init_all_start(&shell), ft_signals()), (conf_env(&shell, envp));
+		(init_all_start(&shell), ft_signals(), conf_env(&shell, envp));
 		while (1)
 		{
 			init_all(&shell);
@@ -49,37 +55,35 @@ int	main(int argc, char **argv, char **envp)
 			if (!handle_command(&shell))
 				break ;
 		}
-		return (ft_putstr_fd("exit\n", 1), free_shell(&shell), 0);
+		return (ft_putstr_fd("exit\n", 1), free_shell(&shell), shell.excode);
 	}
-}
-
-int	check_empty_line(t_shell *shell)
-{
-	int	i;
-
-	i = 0;
-	while (shell->line[i])
-	{
-		if (shell->line[i] != ' ' && shell->line[i] != '\t'
-			&& shell->line[i] != '\r' && shell->line[i] != '\v'
-			&& shell->line[i] != '\f')
-			return (0);
-		i++;
-	}
-	return (1);
 }
 
 char	*create_buffer(t_shell *shell)
 {
-	char	*str;
-	char	buffer[PATH_MAX];
-	char	*tmp;
+	char *str;
+	char buffer[PATH_MAX];
+	char *tmp;
 
 	tmp = getcwd(buffer, PATH_MAX);
 	str = ft_strjoin(tmp, "> ");
 	if (!str)
 		return (malloc_error(shell), NULL);
 	return (str);
+}
+
+int	check_empty_line(t_shell *shell)
+{
+	int i;
+
+	i = 0;
+	while (shell->line[i])
+	{
+		if (!ft_isspace(shell->line[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 void	init_all_start(t_shell *shell)
@@ -99,4 +103,6 @@ void	init_all_start(t_shell *shell)
 	shell->s_current = NULL;
 	shell->env_tab = NULL;
 	shell->g_sig = 0;
+	shell->fd2 = -1;
+	shell->fd0 = -1;
 }

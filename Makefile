@@ -6,7 +6,7 @@
 #    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 20:46:06 by codespace         #+#    #+#              #
-#    Updated: 2025/01/14 20:46:32 by codespace        ###   ########.fr        #
+#    Updated: 2025/01/16 15:19:53 by codespace        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,8 +32,8 @@ C_FILES     =   main.c \
 				parsing/first_parsing.c \
 				parsing/handle_dollar.c \
 				parsing/second_parsing.c \
-				exec/parsing.c \
 				exec/handle_delims.c \
+				exec/parsing.c \
 				exec/pipex_one.c \
 				exec/pipex_two.c \
 				exec/pipex_utils_one.c \

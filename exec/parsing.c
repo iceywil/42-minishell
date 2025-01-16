@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+        
+	+:+     */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+      
+	+#+        */
+/*                                                +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2024/09/12 18:44:15 by codespace         #+#    #+#             */
 /*   Updated: 2025/01/13 02:29:43 by codespace        ###   ########.fr       */
 /*                                                                            */
@@ -12,10 +15,11 @@
 
 #include "../minishell.h"
 
+
 void	get_paths(t_shell *shell)
 {
-	char		*first;
-	t_env_list	*current;
+	char *first;
+	t_env_list *current;
 
 	current = shell->env_head;
 	shell->unset = 0;
@@ -40,8 +44,8 @@ void	get_paths(t_shell *shell)
 
 void	parse_paths(t_shell *shell)
 {
-	int			j;
-	t_second	*s_current;
+	int j;
+	t_second *s_current;
 
 	s_current = shell->s_head;
 	while (s_current)
@@ -67,7 +71,7 @@ void	parse_paths(t_shell *shell)
 
 void	join_path(t_shell *shell, t_second *s_current, char *path)
 {
-	char	*part_path;
+	char *part_path;
 
 	part_path = NULL;
 	if (s_current->cmd[0] == '.' || s_current->cmd[0] == '/')
@@ -90,7 +94,8 @@ void	execute(t_shell *shell)
 {
 	get_paths(shell);
 	parse_paths(shell);
-	handle_heredoc(shell, shell->s_head);
+	if (handle_heredoc(shell, shell->s_head))
+		return ;
 	copy_env(shell);
 	shell->s_current = shell->s_head;
 	if (shell->cmd_nbr == 1)

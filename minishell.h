@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/16 00:59:26 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/16 15:52:26 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ typedef struct s_shell
 	int					tmpexcode;
 	int					g_sig;
 	int					last_pid;
+	int					fd2;
+	int					fd0;
 }						t_shell;
 
 extern int				g_sig;
@@ -106,9 +108,9 @@ char					*create_buffer(t_shell *shell);
 void					init_all(t_shell *shell);
 void					init_all_start(t_shell *shell);
 void					execute(t_shell *shell);
-int						check_empty_line(t_shell *shell);
 void					fix_quotes_space(t_shell *shell, t_first *current);
 void					fix_current(t_shell *shell, t_first *current);
+int						check_empty_line(t_shell *shell);
 
 // PARSING
 int						parsing(t_shell *shell);
@@ -183,9 +185,9 @@ void					malloc_fds(t_shell *shell);
 int						open_infile(t_shell *shell);
 int						open_outfile(t_shell *shell);
 int						open_outfile_append(t_shell *shell);
-void					handle_heredoc(t_shell *shell, t_second *current);
+int						handle_heredoc(t_shell *shell, t_second *current);
 int						handle_redirs(t_shell *shell);
-void					here_doc(t_shell *shell, t_first *redir);
+int						here_doc(t_shell *shell, t_first *redir);
 
 // CHECK FILES
 void					check_files(t_shell *shell);
@@ -228,6 +230,6 @@ void					sig_heredoc(int s);
 void					ft_sig_heredoc(void);
 void					ft_signals(void);
 bool					catchsignals(t_shell *shell);
-void					ctrlc(t_shell *shell, int fd, int fd2);
+int						ctrlc(t_shell *shell, int fd);
 
 #endif

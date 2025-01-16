@@ -47,6 +47,7 @@ void	ft_sig_heredoc(void)
 	sig.sa_handler = &sig_heredoc;
 	sigemptyset(&sig.sa_mask);
 	sigaction(SIGINT, &sig, NULL);
+	sigaction(SIGQUIT, &sig, NULL);
 }
 
 void	ft_signals(void)
