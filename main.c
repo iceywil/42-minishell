@@ -2,19 +2,15 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
-	+:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+      
-	+#+        */
-/*                                                +#+#+#+#+#+  
-	+#+           */
-/*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/13 03:49:17 by codespace        ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/16 17:19:16 by codespace         #+#    #+#             */
+/*   Updated: 2025/01/16 17:19:22 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 int			g_sig = 0;
 
@@ -40,7 +36,7 @@ static int	handle_command(t_shell *shell)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_shell shell;
+	t_shell	shell;
 
 	if (argc == 1 && (argv || !argv))
 	{
@@ -61,9 +57,9 @@ int	main(int argc, char **argv, char **envp)
 
 char	*create_buffer(t_shell *shell)
 {
-	char *str;
-	char buffer[PATH_MAX];
-	char *tmp;
+	char	*str;
+	char	buffer[PATH_MAX];
+	char	*tmp;
 
 	tmp = getcwd(buffer, PATH_MAX);
 	str = ft_strjoin(tmp, "> ");
@@ -74,7 +70,7 @@ char	*create_buffer(t_shell *shell)
 
 int	check_empty_line(t_shell *shell)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (shell->line[i])

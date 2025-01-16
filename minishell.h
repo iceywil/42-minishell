@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/16 15:52:26 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/16 16:52:01 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,7 @@ void					close_files(t_shell *shell);
 void					bl_echo(t_shell *shell);
 int						bl_pwd(t_shell *shell);
 int						bl_env(t_shell *shell);
-void					bl_exit(t_shell *shell, char **args);
+int						bl_exit(t_shell *shell, char **args);
 int						bl_unset(t_shell *shell, char **args);
 int						bl_cd(t_shell *shell, char **params);
 

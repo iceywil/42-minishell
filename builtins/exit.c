@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:50:30 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/14 20:07:46 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/16 17:15:59 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ static int	get_exit_status(t_shell *shell, char **args, int *should_exit)
 	int	j;
 
 	*should_exit = 1;
-	i = atoi_exit(args[1], &j);
+	if (!is_empty(args[1]))
+		i = atoi_exit(args[1], &j);
+	else
+		j = 1;
 	if (j)
 	{
 		(ft_putstr_fd("exit\nexit: ", 2), ft_putstr_fd(args[1], 2));
@@ -62,8 +65,8 @@ static int	get_exit_status(t_shell *shell, char **args, int *should_exit)
 	}
 	return (i);
 }
-		
-void	bl_exit(t_shell *shell, char **args)
+
+int	bl_exit(t_shell *shell, char **args)
 {
 	int	exit_status;
 	int	should_exit;
@@ -77,7 +80,8 @@ void	bl_exit(t_shell *shell, char **args)
 	}
 	exit_status = get_exit_status(shell, args, &should_exit);
 	if (!should_exit)
-		return ;
+		return (shell->excode);
 	free_shell(shell);
 	exit(exit_status);
+	return (shell->excode);
 }

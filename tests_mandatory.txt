@@ -6,6 +6,8 @@ valgrind --leak-check=full --show-leak-kinds=all --suppressions=ignore_readline.
 
 valgrind --track-fds=yes ./minishell
  
+ valgrind --track-fds=yes --trace-children=yes --leak-check=full --track-origins=yes --show-leak-kinds=all ./minishell
+
 - 1
 path absolu sans option
 /bin/ls 
