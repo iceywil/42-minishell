@@ -119,7 +119,7 @@ void	builtin_one_cmd(t_shell *shell)
 		return ;
 	close_files(shell);
 	if (!ft_strcmp(shell->s_head->cmd, "exit"))
-		bl_exit(shell, shell->s_head->args);
+		i = bl_exit(shell, shell->s_head->args);
 	else if (!ft_strcmp(shell->s_head->cmd, "cd"))
 		i = bl_cd(shell, shell->s_head->args);
 	else if (!ft_strcmp(shell->s_head->cmd, "export"))

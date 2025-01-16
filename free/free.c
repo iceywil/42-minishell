@@ -2,19 +2,15 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
-	+:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+      
-	+#+        */
-/*                                                +#+#+#+#+#+  
-	+#+           */
-/*   Created: 2024/09/10 14:10:56 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/13 03:43:58 by codespace        ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/16 17:17:51 by codespace         #+#    #+#             */
+/*   Updated: 2025/01/16 17:18:07 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 void	loop_free_shell(t_shell *shell)
 {
@@ -65,8 +61,8 @@ void	print_err(char *word, char *msg, int flag)
 
 void	free_first(t_first *head)
 {
-	t_first *current;
-	t_first *next;
+	t_first	*current;
+	t_first	*next;
 
 	current = head;
 	while (current)
@@ -83,8 +79,8 @@ void	free_first(t_first *head)
 
 void	free_second(t_shell *shell)
 {
-	t_second *current;
-	t_second *next;
+	t_second	*current;
+	t_second	*next;
 
 	current = shell->s_head;
 	while (current)

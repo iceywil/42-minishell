@@ -115,7 +115,7 @@ int	is_empty(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] != ' ')
+		if (!ft_isspace(str[i]))
 			return (0);
 		i++;
 	}
