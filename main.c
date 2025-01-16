@@ -100,4 +100,3 @@ void	init_all_start(t_shell *shell)
 	shell->env_tab = NULL;
 	shell->g_sig = 0;
 }
-

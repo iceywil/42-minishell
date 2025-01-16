@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/15 19:30:55 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/16 00:59:26 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct s_shell
 	int					switch_signal;
 	int					tmpexcode;
 	int					g_sig;
+	int					last_pid;
 }						t_shell;
 
 extern int				g_sig;

@@ -2,14 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2024/09/09 15:56:40 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/12 17:34:26 by codespace        ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/16 02:11:22 by codespace         #+#    #+#             */
+/*   Updated: 2025/01/16 02:11:28 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +21,7 @@ int	is_token(char c)
 
 void	clean_empty_and_quotes(t_shell *shell, t_first *current)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (current)
@@ -45,8 +42,8 @@ void	clean_empty_and_quotes(t_shell *shell, t_first *current)
 
 void	remove_quotes(t_shell *shell, t_first *cur)
 {
-	char quote_char;
-	int pos;
+	char	quote_char;
+	int		pos;
 
 	shell->i = 0;
 	pos = 0;

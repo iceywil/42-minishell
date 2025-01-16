@@ -35,7 +35,7 @@ void	builtin_cmd(t_shell *shell)
 		return ;
 	close(0);
 	close(1);
-	(free_shell(shell), exit(1));
+	(free_shell(shell), exit(shell->excode));
 }
 
 void	exev(t_shell *shell, char **envp)
@@ -63,7 +63,7 @@ void	exev(t_shell *shell, char **envp)
 				envp))
 			print_dup(shell->s_current->cmd, ": command error");
 	}
-	(close(0), close(1), free_shell(shell), exit(0));
+	(close(0), close(1), free_shell(shell), exit(shell->excode));
 }
 
 void	check_access(t_shell *shell)

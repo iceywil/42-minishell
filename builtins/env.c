@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/02 18:53:46 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/02 18:53:52 by codespace        ###   ########.fr       */
+/*   Created: 2025/01/16 02:12:28 by codespace         #+#    #+#             */
+/*   Updated: 2025/01/16 02:12:32 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,5 @@ void	init_all(t_shell *shell)
 	shell->s_current = NULL;
 	shell->env_tab = NULL;
 	shell->tmpexcode = 0;
+	shell->last_pid = -1;
 }
