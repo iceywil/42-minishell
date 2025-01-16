@@ -62,7 +62,7 @@ static int	get_exit_status(t_shell *shell, char **args, int *should_exit)
 	}
 	return (i);
 }
-
+		
 void	bl_exit(t_shell *shell, char **args)
 {
 	int	exit_status;
