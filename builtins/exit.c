@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: wscherre <wscherre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 18:50:30 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/16 17:15:59 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/17 16:01:07 by wscherre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,11 @@ int	bl_exit(t_shell *shell, char **args)
 	int	should_exit;
 
 	should_exit = 0;
+	if (shell->cmd_nbr > 1)
+	{
+		free_shell(shell);
+		exit(0);
+	}
 	if (!args[1])
 	{
 		ft_putstr_fd("exit\n", 2);

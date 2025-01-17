@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: wscherre <wscherre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:38:08 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/14 20:47:44 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/17 15:53:02 by wscherre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	ft_isspace(char c)
 {
-	if (c == ' ' || c == '\t' || c == '\r' || c == '\v' || c == '\f')
+	if (c == ' ' || c == '\t' || c == '\r' || c == '\v' || c == '\f'
+		|| c == '\n')
 		return (1);
 	else
 		return (0);

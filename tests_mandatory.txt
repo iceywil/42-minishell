@@ -8,6 +8,10 @@ valgrind --track-fds=yes ./minishell
  
  valgrind --track-fds=yes --trace-children=yes --leak-check=full --track-origins=yes --show-leak-kinds=all ./minishell
 
+absolu
+
+
+
 - 1
 path absolu sans option
 /bin/ls 

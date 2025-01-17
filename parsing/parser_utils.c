@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: wscherre <wscherre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 02:11:22 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/16 18:07:14 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/17 15:50:21 by wscherre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,17 @@ void	clean_empty_and_quotes(t_shell *shell, t_first *current)
 					ft_strlen(current->line));
 				i++;
 			}
+			while (current->line[i])
+				i++;
+			while (i >= 0 && current->line[--i])
+			{
+				if (ft_isspace(current->line[i]))
+					current->line[i] = '\0';
+				else
+					break ;
+			}
 		}
-		remove_quotes(shell, current);
-		current = current->next;
+		(remove_quotes(shell, current), current = current->next);
 	}
 }
 

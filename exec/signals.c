@@ -36,7 +36,7 @@ void	sig_heredoc(int s)
 {
 	g_sig = s;
 	close(STDIN_FILENO);
-	ft_putendl_fd("^C", 2);
+	ft_putstr_fd("^C", 2);
 }
 
 void	ft_sig_heredoc(void)
@@ -47,7 +47,6 @@ void	ft_sig_heredoc(void)
 	sig.sa_handler = &sig_heredoc;
 	sigemptyset(&sig.sa_mask);
 	sigaction(SIGINT, &sig, NULL);
-	sigaction(SIGQUIT, &sig, NULL);
 }
 
 void	ft_signals(void)
