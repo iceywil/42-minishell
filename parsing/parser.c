@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: wscherre <wscherre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:18:26 by a                 #+#    #+#             */
-/*   Updated: 2025/01/15 19:31:53 by codespace        ###   ########.fr       */
+/*   Updated: 2025/01/17 16:35:25 by wscherre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,13 @@ int	parsing(t_shell *shell)
 	clean_empty_and_quotes(shell, shell->f_head);
 	if (check_token_legit(shell, shell->f_head))
 		return (1);
+	shell->f_current = shell->f_head;
+	while (shell->f_current)
+	{
+		ft_printf("line: '%s'\n", shell->f_current->line);
+		ft_printf("line: '%d'\n", shell->f_current->cmd);
+		shell->f_current = shell->f_current->next;
+	}
 	s_parsing(shell);
 	shell->s_current = shell->s_head;
 	shell->cmd_nbr = 0;
