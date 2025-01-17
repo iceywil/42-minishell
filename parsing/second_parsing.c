@@ -2,19 +2,15 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   second_parsing.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2024/09/09 20:46:19 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/12 16:49:25 by codespace        ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wscherre <wscherre@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/17 16:53:06 by wscherre          #+#    #+#             */
+/*   Updated: 2025/01/17 16:53:19 by wscherre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 void	s_create_node(t_shell *shell, t_second *new_node)
 {
@@ -74,7 +70,7 @@ void	s_parsing(t_shell *shell)
 
 void	s_add_redir(t_shell *shell, t_second *second)
 {
-	t_first *new_node;
+	t_first	*new_node;
 
 	new_node = malloc(sizeof(t_first));
 	if (!new_node)
@@ -100,7 +96,7 @@ void	s_add_redir(t_shell *shell, t_second *second)
 
 void	s_add_arg(t_shell *shell, t_second *second)
 {
-	t_first *new_node;
+	t_first	*new_node;
 
 	new_node = malloc(sizeof(t_first));
 	if (!new_node)

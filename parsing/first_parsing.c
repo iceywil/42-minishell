@@ -6,7 +6,7 @@
 /*   By: wscherre <wscherre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 12:16:14 by codespace         #+#    #+#             */
-/*   Updated: 2025/01/17 16:38:32 by wscherre         ###   ########.fr       */
+/*   Updated: 2025/01/17 16:52:23 by wscherre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	f_if(t_shell *shell, int *start, int inquotes)
 		*start = -1;
 	}
 	else if (!is_token(shell->line[shell->i]) && is_token(shell->line[shell->i
-			+ 1]) && inquotes == 0)
+				+ 1]) && inquotes == 0)
 	{
 		f_add_node(shell, ft_substr(shell->line, *start, shell->i - *start + 1),
 			1);
